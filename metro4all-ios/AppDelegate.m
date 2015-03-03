@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "MFAStoryboardProxy.h"
+#import "MFASelectCityViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,7 +18,24 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    
+    NSDictionary *currentCity = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
+    if (currentCity == nil) {
+        UIViewController *selectCityController = [MFAStoryboardProxy selectCityViewController];
+        window.rootViewController = selectCityController;
+        [window addSubview:selectCityController.view];
+    }
+    else {
+        UIViewController *selectCityController = [MFAStoryboardProxy selectCityViewController];
+        window.rootViewController = selectCityController;
+        [window addSubview:selectCityController.view];
+    }
+    
+    [window makeKeyAndVisible];
+    self.window = window; // store Window object so it's not released
+    
     return YES;
 }
 
