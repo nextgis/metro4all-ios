@@ -46,9 +46,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+//    self.tableView.hidden = YES;
+    
     [[self viewModel] loadCitiesWithCompletion:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
+//            self.viewModel.selectedCity = self.viewModel.cities[0];
         });
     }];
 }

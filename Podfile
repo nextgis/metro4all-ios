@@ -8,8 +8,9 @@ target 'metro4all-ios' do
 pod 'PureLayout'
 pod 'RestKit'
 pod 'SVProgressHUD'
-pod 'SSZipArchive'
 
+pod 'SSZipArchive'
+pod 'CHCSVParser'
 end
 
 target 'metro4all-iosTests' do

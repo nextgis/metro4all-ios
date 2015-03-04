@@ -29,4 +29,9 @@ static UIStoryboard *mainStoryboard = nil;
     return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_selectCityViewController"];
 }
 
++ (UIViewController *)stationsListViewController
+{
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_stationsListViewController"];
+}
+
 @end

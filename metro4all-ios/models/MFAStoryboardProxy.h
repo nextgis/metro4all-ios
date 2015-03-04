@@ -13,5 +13,6 @@
 
 + (UIStoryboard *)mainStoryboard;
 + (UIViewController *)selectCityViewController;
++ (UIViewController *)stationsListViewController;
 
 @end

@@ -16,22 +16,26 @@
 
 @implementation AppDelegate
 
+- (void)setupAppearance
+{
+    [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:50.0/255 green:183.0/255 blue:217.0/255 alpha:1]];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    NSDictionary *currentCity = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
-    if (currentCity == nil) {
+//    NSDictionary *currentCity = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
+//    if (currentCity == nil) {
         UIViewController *selectCityController = [MFAStoryboardProxy selectCityViewController];
         window.rootViewController = selectCityController;
         [window addSubview:selectCityController.view];
-    }
-    else {
-        UIViewController *selectCityController = [MFAStoryboardProxy selectCityViewController];
-        window.rootViewController = selectCityController;
-        [window addSubview:selectCityController.view];
-    }
+//    }
+//    else {
+//        UIViewController *selectCityController = [MFAStoryboardProxy stationsListViewController];
+//        window.rootViewController = selectCityController;
+//        [window addSubview:selectCityController.view];
+//    }
     
     [window makeKeyAndVisible];
     self.window = window; // store Window object so it's not released
