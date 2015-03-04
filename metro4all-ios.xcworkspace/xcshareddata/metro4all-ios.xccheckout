@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>31EE93C5-F942-40F7-8171-3A65DBF2AF06</string>
+	<key>IDESourceControlProjectName</key>
+	<string>metro4all-ios</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6BDE40B615887F84E249F0C31D4E8A9A8F9EE822</key>
+		<string>github.com:nextgis/metro4all-ios.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>metro4all-ios.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6BDE40B615887F84E249F0C31D4E8A9A8F9EE822</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:nextgis/metro4all-ios.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6BDE40B615887F84E249F0C31D4E8A9A8F9EE822</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6BDE40B615887F84E249F0C31D4E8A9A8F9EE822</string>
+			<key>IDESourceControlWCCName</key>
+			<string>metro4all-ios</string>
+		</dict>
+	</array>
+</dict>
+</plist>
