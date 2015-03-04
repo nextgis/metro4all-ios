@@ -38,4 +38,9 @@
     self.lines = [[city.lines allObjects] sortedArrayUsingDescriptors:@[ nameSortDescriptor ]];
 }
 
+- (NSString *)cityName
+{
+    return self.city.name;
+}
+
 @end

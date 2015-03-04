@@ -16,5 +16,6 @@
 
 @property (nonatomic, strong, readonly) NSArray *stations;
 @property (nonatomic, strong, readonly) NSArray *lines;
+@property (nonatomic, readonly) NSString *cityName;
 
 @end

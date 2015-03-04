@@ -37,7 +37,7 @@
     _viewModel = viewModel;
     
     if (viewModel) {
-        self.titleLabel.text = viewModel[@"name"];
+        self.titleLabel.text = viewModel[@"name_ru"];
     }
     else {
         self.titleLabel.text = nil;
