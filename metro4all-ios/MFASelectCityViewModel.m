@@ -15,6 +15,11 @@
 @interface MFASelectCityViewModel () <NSURLSessionDownloadDelegate, SSZipArchiveDelegate, MFACityDataParserDelegate>
 
 @property (nonatomic, strong) MFACityDataParser *parser;
+@property (nonatomic, strong) void (^completionBlock)(void);
+@property (nonatomic, strong) void (^errorBlock)(NSError *);
+
+@property (nonatomic, strong, readwrite) MFACity *selectedCity;
+@property (nonatomic, strong, readwrite) NSDictionary *selectedCityMeta;
 
 @end
 
@@ -54,9 +59,12 @@
     [task resume];
 }
 
-- (void)setSelectedCity:(NSDictionary *)selectedCity
+- (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock
 {
-    _selectedCity = selectedCity;
+    self.selectedCityMeta = selectedCity;
+    
+    self.completionBlock = completionBlock;
+    self.errorBlock = errorBlock;
     
     // download archive with city data
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
@@ -69,26 +77,26 @@
     [[session downloadTaskWithURL:archiveURL] resume];
 }
 
-- (void)showErrorMessage
+- (void)handleError:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                        message:@"Произошла ошибка при загрузке данных. Попробуйте повторить операцию или обратитесь в поддержку"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        
-        [alert show];
     });
+    
+    self.completionBlock = nil;
+    
+    if (!self.errorBlock) {
+        return;
+    }
+    
+    self.errorBlock(error);
 }
 
 #pragma mark - NSURLSession Delegate
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
-    NSLog(@"Successfully loaded zip for %@ to %@", self.selectedCity[@"name"], location);
+    NSLog(@"Successfully loaded zip for %@ to %@", self.selectedCityMeta[@"name"], location);
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -96,7 +104,7 @@
     NSAssert(basePath, @"Cannot get path to Documents directory");
     
     NSURL *pathURL = [NSURL fileURLWithPath:basePath];
-    pathURL = [NSURL URLWithString:[NSString stringWithFormat:@"data/%@", self.selectedCity[@"path"]]
+    pathURL = [NSURL URLWithString:[NSString stringWithFormat:@"data/%@", self.selectedCityMeta[@"path"]]
                      relativeToURL:pathURL];
     
     NSError *error = nil;
@@ -107,7 +115,10 @@
     
     if (error) {
         NSLog(@"Failed to create directory structure: %@", error);
-        [self showErrorMessage];
+        
+        [self handleError:[NSError errorWithDomain:@"ru.metro4all.zipArchiver"
+                                              code:1
+                                          userInfo:@{ NSLocalizedDescriptionKey : @"Failed to create directory structure" }]];
         return;
     }
     
@@ -123,7 +134,10 @@
     
     if (error) {
         NSLog(@"Failed to open zip archive: %@", error);
-        [self showErrorMessage];
+        
+        [self handleError:[NSError errorWithDomain:@"ru.metro4all.zipUnarchiver"
+                                              code:1
+                                          userInfo:@{ NSLocalizedDescriptionKey : @"Failed to open zip archive" }]];
         return;
     }
 }
@@ -152,7 +166,7 @@
 
 - (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo unzippedPath:(NSString *)unzippedPath
 {
-    NSLog(@"Successfully unzipped data for %@ into %@", self.selectedCity[@"name"], unzippedPath);
+    NSLog(@"Successfully unzipped data for %@ into %@", self.selectedCityMeta[@"name"], unzippedPath);
     
 //    dispatch_async(dispatch_get_main_queue(), ^{
 //        [SVProgressHUD dismiss];
@@ -162,7 +176,7 @@
         [[UIApplication sharedApplication].delegate performSelector:@selector(managedObjectContext)];
     
     MFACityDataParser *parser =
-        [[MFACityDataParser alloc] initWithCityMeta:self.selectedCity
+        [[MFACityDataParser alloc] initWithCityMeta:self.selectedCityMeta
                                           pathToCSV:unzippedPath
                                managedObjectContext:moc
                                            delegate:self];
@@ -190,7 +204,11 @@
 
 - (void)cityDataParserDidFail:(MFACityDataParser *)parser
 {
-    [self showErrorMessage];
+    NSLog(@"Failed to process CSV data");
+    
+    [self handleError:[NSError errorWithDomain:@"ru.metro4all.csvParser"
+                                          code:1
+                                      userInfo:@{ NSLocalizedDescriptionKey : @"Failed to process CSV data" }]];
 }
 
 - (void)cityDataParser:(MFACityDataParser *)parser didFinishParsingCity:(MFACity *)city
@@ -200,7 +218,11 @@
         [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
     });
     
+    self.selectedCity = city;
     
+    if (self.completionBlock) {
+        self.completionBlock();
+    }
 }
 
 @end

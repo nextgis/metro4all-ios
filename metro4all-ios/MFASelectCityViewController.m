@@ -10,6 +10,9 @@
 #import "MFASelectCityViewModel.h"
 #import "MFASelectCityTableViewCell.h"
 
+#import "MFAStationsListViewController.h"
+#import "MFAStoryboardProxy.h"
+
 @interface MFASelectCityViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @end
@@ -61,7 +64,29 @@
     NSIndexPath *selectedIndexPath = self.selectedRow;
     NSDictionary *selectedCity = self.viewModel.cities[selectedIndexPath.row];
     
-    self.viewModel.selectedCity = selectedCity;
+    [self.viewModel processCityMeta:selectedCity withCompletion:^{
+        MFAStationsListViewController *stationsList = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
+        stationsList.viewModel = [[MFAStationsListViewModel alloc] initWithCity:self.viewModel.selectedCity];
+        
+        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:stationsList];
+        [self presentViewController:navController animated:YES completion:nil];
+    }
+                              error:^(NSError *error) {
+                                  [self showErrorMessage];
+                              }];
+}
+
+- (void)showErrorMessage
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                                        message:@"Произошла ошибка при загрузке данных. Попробуйте повторить операцию или обратитесь в поддержку"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        
+        [alert show];
+    });
 }
 
 #pragma mark - UITableView Datasource

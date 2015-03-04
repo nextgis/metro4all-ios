@@ -11,6 +11,7 @@ const struct MFACityAttributes MFACityAttributes = {
 
 const struct MFACityRelationships MFACityRelationships = {
 	.lines = @"lines",
+	.stations = @"stations",
 };
 
 @implementation MFACityID
@@ -80,6 +81,17 @@ const struct MFACityRelationships MFACityRelationships = {
 	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"lines"];
 
 	[self didAccessValueForKey:@"lines"];
+	return result;
+}
+
+@dynamic stations;
+
+- (NSMutableSet*)stationsSet {
+	[self willAccessValueForKey:@"stations"];
+
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"stations"];
+
+	[self didAccessValueForKey:@"stations"];
 	return result;
 }
 

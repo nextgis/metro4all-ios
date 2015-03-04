@@ -55,7 +55,7 @@
     
     for (NSArray *linePropertiesArray in parsedLines) {
         MFALine *line = [[MFALine insertInManagedObjectContext:self.managedObjectContext] propertiesFromArray:linePropertiesArray];
-        [city addLinesObject:line];
+        line.city = city;
         
         linesCache[line.lineId] = line;
     }
@@ -71,6 +71,8 @@
     for (NSArray *stationPropertiesArray in parsedStations) {
         MFAStation *station = [[MFAStation insertInManagedObjectContext:self.managedObjectContext] propertiesFromArray:stationPropertiesArray];
         station.line = linesCache[station.lineId];
+        station.city = city;
+        
         stationsCache[station.stationId] = station;
     }
 

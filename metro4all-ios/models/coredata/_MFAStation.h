@@ -12,11 +12,15 @@ extern const struct MFAStationAttributes {
 } MFAStationAttributes;
 
 extern const struct MFAStationRelationships {
-	__unsafe_unretained NSString *interchanges;
+	__unsafe_unretained NSString *city;
+	__unsafe_unretained NSString *interchangesFrom;
+	__unsafe_unretained NSString *interchangesTo;
 	__unsafe_unretained NSString *line;
 	__unsafe_unretained NSString *portals;
 } MFAStationRelationships;
 
+@class MFACity;
+@class MFAInterchange;
 @class MFAInterchange;
 @class MFALine;
 @class MFAPortal;
@@ -66,9 +70,17 @@ extern const struct MFAStationRelationships {
 
 //- (BOOL)validateStationId:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) MFAInterchange *interchanges;
+@property (nonatomic, strong) MFACity *city;
 
-//- (BOOL)validateInterchanges:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateCity:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MFAInterchange *interchangesFrom;
+
+//- (BOOL)validateInterchangesFrom:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MFAInterchange *interchangesTo;
+
+//- (BOOL)validateInterchangesTo:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) MFALine *line;
 
@@ -117,8 +129,14 @@ extern const struct MFAStationRelationships {
 - (int32_t)primitiveStationIdValue;
 - (void)setPrimitiveStationIdValue:(int32_t)value_;
 
-- (MFAInterchange*)primitiveInterchanges;
-- (void)setPrimitiveInterchanges:(MFAInterchange*)value;
+- (MFACity*)primitiveCity;
+- (void)setPrimitiveCity:(MFACity*)value;
+
+- (MFAInterchange*)primitiveInterchangesFrom;
+- (void)setPrimitiveInterchangesFrom:(MFAInterchange*)value;
+
+- (MFAInterchange*)primitiveInterchangesTo;
+- (void)setPrimitiveInterchangesTo:(MFAInterchange*)value;
 
 - (MFALine*)primitiveLine;
 - (void)setPrimitiveLine:(MFALine*)value;

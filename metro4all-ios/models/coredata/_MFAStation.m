@@ -12,7 +12,9 @@ const struct MFAStationAttributes MFAStationAttributes = {
 };
 
 const struct MFAStationRelationships MFAStationRelationships = {
-	.interchanges = @"interchanges",
+	.city = @"city",
+	.interchangesFrom = @"interchangesFrom",
+	.interchangesTo = @"interchangesTo",
 	.line = @"line",
 	.portals = @"portals",
 };
@@ -149,7 +151,11 @@ const struct MFAStationRelationships MFAStationRelationships = {
 	[self setPrimitiveStationId:@(value_)];
 }
 
-@dynamic interchanges;
+@dynamic city;
+
+@dynamic interchangesFrom;
+
+@dynamic interchangesTo;
 
 @dynamic line;
 

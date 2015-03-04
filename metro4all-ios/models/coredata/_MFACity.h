@@ -11,9 +11,11 @@ extern const struct MFACityAttributes {
 
 extern const struct MFACityRelationships {
 	__unsafe_unretained NSString *lines;
+	__unsafe_unretained NSString *stations;
 } MFACityRelationships;
 
 @class MFALine;
+@class MFAStation;
 
 @interface MFACityID : NSManagedObjectID {}
 @end
@@ -44,6 +46,10 @@ extern const struct MFACityRelationships {
 
 - (NSMutableSet*)linesSet;
 
+@property (nonatomic, strong) NSSet *stations;
+
+- (NSMutableSet*)stationsSet;
+
 @end
 
 @interface _MFACity (LinesCoreDataGeneratedAccessors)
@@ -51,6 +57,14 @@ extern const struct MFACityRelationships {
 - (void)removeLines:(NSSet*)value_;
 - (void)addLinesObject:(MFALine*)value_;
 - (void)removeLinesObject:(MFALine*)value_;
+
+@end
+
+@interface _MFACity (StationsCoreDataGeneratedAccessors)
+- (void)addStations:(NSSet*)value_;
+- (void)removeStations:(NSSet*)value_;
+- (void)addStationsObject:(MFAStation*)value_;
+- (void)removeStationsObject:(MFAStation*)value_;
 
 @end
 
@@ -70,5 +84,8 @@ extern const struct MFACityRelationships {
 
 - (NSMutableSet*)primitiveLines;
 - (void)setPrimitiveLines:(NSMutableSet*)value;
+
+- (NSMutableSet*)primitiveStations;
+- (void)setPrimitiveStations:(NSMutableSet*)value;
 
 @end
