@@ -34,4 +34,9 @@ static UIStoryboard *mainStoryboard = nil;
     return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_stationsListViewController"];
 }
 
++ (UIViewController *)stationMapViewController
+{
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_stationMapViewController"];
+}
+
 @end

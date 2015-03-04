@@ -209,6 +209,8 @@
     [self handleError:[NSError errorWithDomain:@"ru.metro4all.csvParser"
                                           code:1
                                       userInfo:@{ NSLocalizedDescriptionKey : @"Failed to process CSV data" }]];
+    
+    self.parser = nil;
 }
 
 - (void)cityDataParser:(MFACityDataParser *)parser didFinishParsingCity:(MFACity *)city
@@ -220,8 +222,11 @@
     
     self.selectedCity = city;
     
+    self.parser = nil;
+    
     if (self.completionBlock) {
         self.completionBlock();
+        self.completionBlock = nil;
     }
 }
 

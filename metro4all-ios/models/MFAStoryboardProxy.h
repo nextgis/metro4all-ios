@@ -12,7 +12,9 @@
 @interface MFAStoryboardProxy : NSObject
 
 + (UIStoryboard *)mainStoryboard;
+
 + (UIViewController *)selectCityViewController;
 + (UIViewController *)stationsListViewController;
++ (UIViewController *)stationMapViewController;
 
 @end

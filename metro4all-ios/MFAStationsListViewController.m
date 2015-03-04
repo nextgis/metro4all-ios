@@ -6,8 +6,14 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import "MFAStoryboardProxy.h"
+
 #import "MFAStationsListViewController.h"
 #import "MFAStationListTableViewCell.h"
+
+#import "MFAStationMapViewController.h"
+#import "MFAStationMapViewModel.h"
+
 #import "MFACity.h"
 
 @interface MFAStationsListViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -50,6 +56,18 @@
     cell.station = self.viewModel.stations[indexPath.row];
     
     return cell;
+}
+
+#pragma mark - UITableView Delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MFAStation *station = self.viewModel.stations[indexPath.row];
+    MFAStationMapViewModel *viewModel = [[MFAStationMapViewModel alloc] initWithStation:station];
+    MFAStationMapViewController *stationMapController = (MFAStationMapViewController *)[MFAStoryboardProxy stationMapViewController];
+    stationMapController.viewModel = viewModel;
+    
+    [self.navigationController pushViewController:stationMapController animated:YES];
 }
 
 @end

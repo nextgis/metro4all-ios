@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */; };
+		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
+		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
 		58B0DA2E1AA5F1E30011A4A4 /* _MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */; };
 		58B0DA2F1AA5F1E30011A4A4 /* _MFAInterchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1D1AA5F1E30011A4A4 /* _MFAInterchange.m */; };
 		58B0DA301AA5F1E30011A4A4 /* _MFALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1F1AA5F1E30011A4A4 /* _MFALine.m */; };
@@ -50,6 +52,10 @@
 		223B3F0B6D4C0D89442A5B81 /* Pods-metro4all-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-metro4all-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-metro4all-ios/Pods-metro4all-ios.release.xcconfig"; sourceTree = "<group>"; };
 		58136E881AA4B4CD00512D29 /* MFASelectCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFASelectCityTableViewCell.h; sourceTree = "<group>"; };
 		58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFASelectCityTableViewCell.m; sourceTree = "<group>"; };
+		583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewModel.h; sourceTree = "<group>"; };
+		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
+		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
+		583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewController.m; sourceTree = "<group>"; };
 		58B0DA1A1AA5F1E30011A4A4 /* _MFACity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFACity.h; path = models/coredata/_MFACity.h; sourceTree = "<group>"; };
 		58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFACity.m; path = models/coredata/_MFACity.m; sourceTree = "<group>"; };
 		58B0DA1C1AA5F1E30011A4A4 /* _MFAInterchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAInterchange.h; path = models/coredata/_MFAInterchange.h; sourceTree = "<group>"; };
@@ -156,6 +162,17 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		583B48F51AA74B8E00138E1F /* Station Map */ = {
+			isa = PBXGroup;
+			children = (
+				583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */,
+				583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */,
+				583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */,
+				583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */,
+			);
+			name = "Station Map";
+			sourceTree = "<group>";
+		};
 		58B0DA3E1AA707CC0011A4A4 /* Select City */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +226,7 @@
 				58F95ECC1AA48FB600E22EF6 /* AppDelegate.m */,
 				58B0DA3E1AA707CC0011A4A4 /* Select City */,
 				58B0DA3F1AA709990011A4A4 /* Stations List */,
+				583B48F51AA74B8E00138E1F /* Station Map */,
 				58F95ED41AA48FB600E22EF6 /* Main.storyboard */,
 				58F95ED71AA48FB600E22EF6 /* Images.xcassets */,
 				58F95ED91AA48FB600E22EF6 /* LaunchScreen.xib */,
@@ -407,6 +425,7 @@
 				58B0DA351AA5F1E30011A4A4 /* MFALine.m in Sources */,
 				58F95EF61AA4A16100E22EF6 /* MFAStoryboardProxy.m in Sources */,
 				58B0DA331AA5F1E30011A4A4 /* MFACity.m in Sources */,
+				583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */,
 				58F95ECD1AA48FB600E22EF6 /* AppDelegate.m in Sources */,
 				58F95EF21AA49C5200E22EF6 /* MFAObjectManager.m in Sources */,
 				58F95ED01AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld in Sources */,
@@ -416,6 +435,7 @@
 				58F95ECA1AA48FB600E22EF6 /* main.m in Sources */,
 				58B0DA451AA70DBB0011A4A4 /* MFAStationsListViewModel.m in Sources */,
 				58B0DA3D1AA707C20011A4A4 /* MFAStationsListViewController.m in Sources */,
+				583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */,
 				58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */,
 				58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */,
 				58B0DA371AA5F1E30011A4A4 /* MFAStation.m in Sources */,
