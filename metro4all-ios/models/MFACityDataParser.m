@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
-#import <CHCSVParser/CHCSVParser.h>
+#import <NTYCSVTable/NTYCSVTable.h>
 
 #import "MFACity.h"
 #import "MFALine.h"
@@ -15,7 +15,7 @@
 
 #import "MFACityDataParser.h"
 
-@interface MFACityDataParser () <CHCSVParserDelegate>
+@interface MFACityDataParser ()
 
 @property (nonatomic, copy) NSDictionary *cityMetadata;
 @property (nonatomic, copy) NSString *csvPath;
@@ -53,8 +53,13 @@
                                                        relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
     NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] initWithCapacity:parsedLines.count];
     
-    for (NSArray *linePropertiesArray in parsedLines) {
-        MFALine *line = [[MFALine insertInManagedObjectContext:self.managedObjectContext] propertiesFromArray:linePropertiesArray];
+    for (NSDictionary *lineProperties in parsedLines) {
+        MFALine *line = [MFALine insertInManagedObjectContext:self.managedObjectContext];
+        
+        line.lineId = lineProperties[@"id_line"];
+        line.name = lineProperties[@"name"];
+        line.color = lineProperties[@"color"];
+        
         line.city = city;
         
         linesCache[line.lineId] = line;
@@ -64,12 +69,22 @@
         [self.delegate cityDataParser:self didProcessFiles:1 ofTotalFiles:totalFiles];
     }
     
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    
     NSArray *parsedStations = [self parseFileAtURL:[NSURL URLWithString:@"stations_ru.csv"
                                                           relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
     NSMutableDictionary *stationsCache = [[NSMutableDictionary alloc] initWithCapacity:parsedStations.count];
  
-    for (NSArray *stationPropertiesArray in parsedStations) {
-        MFAStation *station = [[MFAStation insertInManagedObjectContext:self.managedObjectContext] propertiesFromArray:stationPropertiesArray];
+    for (NSDictionary *stationProperties in parsedStations) {
+        MFAStation *station = [MFAStation insertInManagedObjectContext:self.managedObjectContext];
+        
+        station.stationId = stationProperties[@"id_station"];
+        station.lineId = stationProperties[@"id_line"];
+        station.name = stationProperties[@"name"];
+        station.lat = [f numberFromString:stationProperties[@"lat"]];
+        station.lon = [f numberFromString:stationProperties[@"lon"]];
+        
         station.line = linesCache[station.lineId];
         station.city = city;
         
@@ -83,8 +98,17 @@
     NSArray *parsedPortals = [self parseFileAtURL:[NSURL URLWithString:@"portals_ru.csv"
                                           relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
     
-    for (NSArray *portalPropertiesArray in parsedPortals) {
-        MFAPortal *portal = [[MFAPortal insertInManagedObjectContext:self.managedObjectContext] propertiesFromArray:portalPropertiesArray];
+    for (NSDictionary *portalProperties in parsedPortals) {
+        MFAPortal *portal = [MFAPortal insertInManagedObjectContext:self.managedObjectContext];
+        
+        portal.potralId = portalProperties[@"id_entrance"];
+        portal.portalNumber = portalProperties[@"meetcode"];
+        portal.name = portalProperties[@"name"];
+        portal.stationId = portalProperties[@"id_station"];
+        //    self.directionValue =
+        portal.lat = [f numberFromString:portalProperties[@"lat"]];
+        portal.lon = [f numberFromString:portalProperties[@"lon"]];
+        
         portal.station = stationsCache[portal.stationId];
     }
     
@@ -133,19 +157,11 @@
     return city;
 }
 
-- (NSArray *)parseFileAtURL:(NSURL *)url
+- (NSArray *)parseFileAtURL:(NSURL *)csvURL
 {
-    NSArray *lines = [NSArray arrayWithContentsOfDelimitedURL:[url absoluteURL] delimiter:';'];
+    NTYCSVTable *table = [[NTYCSVTable alloc] initWithContentsOfURL:csvURL columnSeparator:@";"];
     
-    if (lines == nil) {
-        [self.delegate cityDataParserDidFail:self];
-        return nil;
-    }
-    
-    NSMutableArray *mLines = [lines mutableCopy];
-    [mLines removeObjectAtIndex:0]; // drop column titles
-    
-    return [mLines copy];
+    return [table rows];
 }
 
 @end

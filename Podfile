@@ -10,7 +10,8 @@ pod 'RestKit'
 pod 'SVProgressHUD'
 
 pod 'SSZipArchive'
-pod 'CHCSVParser'
+#pod 'CHCSVParser'
+pod 'NTYCSVTable'
 end
 
 target 'metro4all-iosTests' do
