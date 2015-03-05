@@ -82,8 +82,8 @@
         station.stationId = stationProperties[@"id_station"];
         station.lineId = stationProperties[@"id_line"];
         station.name = stationProperties[@"name"];
-        station.lat = [f numberFromString:stationProperties[@"lat"]];
-        station.lon = [f numberFromString:stationProperties[@"lon"]];
+        station.lat = stationProperties[@"lat"];
+        station.lon = stationProperties[@"lon"];
         
         station.line = linesCache[station.lineId];
         station.city = city;
@@ -106,8 +106,8 @@
         portal.name = portalProperties[@"name"];
         portal.stationId = portalProperties[@"id_station"];
         //    self.directionValue =
-        portal.lat = [f numberFromString:portalProperties[@"lat"]];
-        portal.lon = [f numberFromString:portalProperties[@"lon"]];
+        portal.lat = portalProperties[@"lat"];
+        portal.lon = portalProperties[@"lon"];
         
         portal.station = stationsCache[portal.stationId];
     }

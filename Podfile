@@ -11,7 +11,7 @@ pod 'SVProgressHUD'
 
 pod 'SSZipArchive'
 #pod 'CHCSVParser'
-pod 'NTYCSVTable'
+pod 'NTYCSVTable', :git => "https://github.com/marvin-yorke/NTYCSVTable.git"
 end
 
 target 'metro4all-iosTests' do
