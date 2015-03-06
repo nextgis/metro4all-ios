@@ -30,7 +30,6 @@
 		58F95ED31AA48FB600E22EF6 /* MFASelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95ED21AA48FB600E22EF6 /* MFASelectCityViewController.m */; };
 		58F95ED61AA48FB600E22EF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F95ED41AA48FB600E22EF6 /* Main.storyboard */; };
 		58F95ED81AA48FB600E22EF6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58F95ED71AA48FB600E22EF6 /* Images.xcassets */; };
-		58F95EDB1AA48FB600E22EF6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F95ED91AA48FB600E22EF6 /* LaunchScreen.xib */; };
 		58F95EE71AA48FB600E22EF6 /* metro4all_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EE61AA48FB600E22EF6 /* metro4all_iosTests.m */; };
 		58F95EF21AA49C5200E22EF6 /* MFAObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EF11AA49C5200E22EF6 /* MFAObjectManager.m */; };
 		58F95EF61AA4A16100E22EF6 /* MFAStoryboardProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EF51AA4A16100E22EF6 /* MFAStoryboardProxy.m */; };
@@ -94,7 +93,6 @@
 		58F95ED21AA48FB600E22EF6 /* MFASelectCityViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MFASelectCityViewController.m; sourceTree = "<group>"; };
 		58F95ED51AA48FB600E22EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		58F95ED71AA48FB600E22EF6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		58F95EDA1AA48FB600E22EF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		58F95EE01AA48FB600E22EF6 /* metro4all-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "metro4all-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F95EE51AA48FB600E22EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58F95EE61AA48FB600E22EF6 /* metro4all_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = metro4all_iosTests.m; sourceTree = "<group>"; };
@@ -229,7 +227,6 @@
 				583B48F51AA74B8E00138E1F /* Station Map */,
 				58F95ED41AA48FB600E22EF6 /* Main.storyboard */,
 				58F95ED71AA48FB600E22EF6 /* Images.xcassets */,
-				58F95ED91AA48FB600E22EF6 /* LaunchScreen.xib */,
 				58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */,
 				58F95EC71AA48FB600E22EF6 /* Supporting Files */,
 				58F95EF31AA49C5B00E22EF6 /* Models */,
@@ -370,7 +367,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F95ED61AA48FB600E22EF6 /* Main.storyboard in Resources */,
-				58F95EDB1AA48FB600E22EF6 /* LaunchScreen.xib in Resources */,
 				58F95ED81AA48FB600E22EF6 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -476,14 +472,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		58F95ED91AA48FB600E22EF6 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				58F95EDA1AA48FB600E22EF6 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -572,6 +560,7 @@
 			baseConfigurationReference = 9F0CB2A765B00354E4F0D495 /* Pods-metro4all-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "metro4all-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -584,6 +573,7 @@
 			baseConfigurationReference = 223B3F0B6D4C0D89442A5B81 /* Pods-metro4all-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = "metro4all-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
