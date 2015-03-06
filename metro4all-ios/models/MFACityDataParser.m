@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import <NTYCSVTable/NTYCSVTable.h>
 
 #import "MFACity.h"
@@ -14,6 +15,11 @@
 #import "MFAPortal.h"
 
 #import "MFACityDataParser.h"
+
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 \
+                                                 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 \
+                                                  blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0];
+
 
 @interface MFACityDataParser ()
 
@@ -53,12 +59,20 @@
                                                        relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
     NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] initWithCapacity:parsedLines.count];
     
+    
     for (NSDictionary *lineProperties in parsedLines) {
         MFALine *line = [MFALine insertInManagedObjectContext:self.managedObjectContext];
         
         line.lineId = lineProperties[@"id_line"];
         line.name = lineProperties[@"name"];
-        line.color = lineProperties[@"color"];
+        
+        NSScanner *colorScanner = [[NSScanner alloc] initWithString:lineProperties[@"color"]];
+        colorScanner.charactersToBeSkipped = [NSCharacterSet characterSetWithCharactersInString:@"#"];
+        
+        unsigned int intColor = 0;
+        [colorScanner scanHexInt:&intColor];
+        
+        line.color = UIColorFromRGB(intColor)
         
         line.city = city;
         

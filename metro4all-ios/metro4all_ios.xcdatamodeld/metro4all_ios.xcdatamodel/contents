@@ -12,11 +12,11 @@
         <relationship name="toStation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="interchangesFrom" inverseEntity="Station" syncable="YES"/>
     </entity>
     <entity name="Line" representedClassName="MFALine" syncable="YES">
-        <attribute name="color" attributeType="String" syncable="YES"/>
+        <attribute name="color" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="lineId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="lines" inverseEntity="City" syncable="YES"/>
-        <relationship name="stations" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Station" inverseName="line" inverseEntity="Station" syncable="YES"/>
+        <relationship name="stations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Station" inverseName="line" inverseEntity="Station" syncable="YES"/>
     </entity>
     <entity name="Portal" representedClassName="MFAPortal" syncable="YES">
         <attribute name="direction" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -43,7 +43,7 @@
     <elements>
         <element name="City" positionX="-443" positionY="225" width="128" height="120"/>
         <element name="Interchange" positionX="-0" positionY="378" width="128" height="75"/>
-        <element name="Line" positionX="43" positionY="168" width="128" height="120"/>
+        <element name="Line" positionX="43" positionY="168" width="128" height="118"/>
         <element name="Portal" positionX="43" positionY="531" width="128" height="165"/>
         <element name="Station" positionX="-261" positionY="354" width="128" height="195"/>
     </elements>

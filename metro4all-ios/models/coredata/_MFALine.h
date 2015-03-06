@@ -17,6 +17,8 @@ extern const struct MFALineRelationships {
 @class MFACity;
 @class MFAStation;
 
+@class NSObject;
+
 @interface MFALineID : NSManagedObjectID {}
 @end
 
@@ -26,7 +28,7 @@ extern const struct MFALineRelationships {
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) MFALineID* objectID;
 
-@property (nonatomic, strong) NSString* color;
+@property (nonatomic, strong) id color;
 
 //- (BOOL)validateColor:(id*)value_ error:(NSError**)error_;
 
@@ -62,8 +64,8 @@ extern const struct MFALineRelationships {
 
 @interface _MFALine (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveColor;
-- (void)setPrimitiveColor:(NSString*)value;
+- (id)primitiveColor;
+- (void)setPrimitiveColor:(id)value;
 
 - (NSNumber*)primitiveLineId;
 - (void)setPrimitiveLineId:(NSNumber*)value;

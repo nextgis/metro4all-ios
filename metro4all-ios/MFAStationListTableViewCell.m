@@ -8,6 +8,7 @@
 
 #import "MFAStationListTableViewCell.h"
 #import "MFAStation.h"
+#import "MFALine.h"
 
 @interface MFAStationListTableViewCell ()
 
@@ -27,7 +28,7 @@
 {
     _station = station;
     
-//    self.lineColorView.backgroundColor = ;
+    self.lineColorView.backgroundColor = self.station.line.color;
     self.stationTitleLabel.text = self.station.name;
 }
 
