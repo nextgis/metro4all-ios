@@ -18,45 +18,35 @@
 @property (nonatomic, strong) void (^completionBlock)(void);
 @property (nonatomic, strong) void (^errorBlock)(NSError *);
 
+@property (nonatomic, strong, readwrite) NSArray *cities;
 @property (nonatomic, strong, readwrite) MFACity *selectedCity;
 @property (nonatomic, strong, readwrite) NSDictionary *selectedCityMeta;
+
+@property (nonatomic, strong) MFACityArchiveService *archiveService;
 
 @end
 
 @implementation MFASelectCityViewModel
 
-- (void)loadCitiesWithCompletion:(void (^)(void))completionBlock;
+- (instancetype)initWithCityArchiveService:(MFACityArchiveService *)archiveService
 {
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionTask *task =
-    [session dataTaskWithURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/meta.json"]
-           completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-               if (!error) {
-                   NSDictionary *citiesData = [NSJSONSerialization JSONObjectWithData:data
-                                                                              options:0
-                                                                                error:&error];
-                   
-                   _cities = citiesData[@"packages"];
-                   
-                   [[NSUserDefaults standardUserDefaults] setObject:_cities forKey:@"MFA_CITIES_DATA"];
-                   
-                   NSLog(@"Successfully loaded meta.json");
-                   
-                   if (completionBlock) {
-                       completionBlock();
-                   }
-               }
-               else {
-                   NSLog(@"Failed to retreive cities data: %@", error);
-                   _cities = nil;
-                   
-                   if (completionBlock) {
-                       completionBlock();
-                   }
-               }
-           }];
+    self = [super init];
+    if (self) {
+        self.archiveService = archiveService;
+    }
     
-    [task resume];
+    return self;
+}
+
+- (void)loadCitiesWithCompletion:(void (^)(void))completionBlock
+{
+    [self.archiveService loadCitiesWithCompletion:^(NSArray *citiesMeta) {
+        self.cities = citiesMeta;
+        
+        if (completionBlock) {
+            completionBlock();
+        }
+    }];
 }
 
 - (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock

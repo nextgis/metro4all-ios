@@ -10,6 +10,7 @@
 		58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */; };
 		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
 		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
+		588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 588635131AAAE4E60038F924 /* MFACityArchiveService.m */; };
 		58B0DA2E1AA5F1E30011A4A4 /* _MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */; };
 		58B0DA2F1AA5F1E30011A4A4 /* _MFAInterchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1D1AA5F1E30011A4A4 /* _MFAInterchange.m */; };
 		58B0DA301AA5F1E30011A4A4 /* _MFALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1F1AA5F1E30011A4A4 /* _MFALine.m */; };
@@ -55,6 +56,8 @@
 		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
 		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
 		583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewController.m; sourceTree = "<group>"; };
+		588635121AAAE4E60038F924 /* MFACityArchiveService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFACityArchiveService.h; sourceTree = "<group>"; };
+		588635131AAAE4E60038F924 /* MFACityArchiveService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFACityArchiveService.m; sourceTree = "<group>"; };
 		58B0DA1A1AA5F1E30011A4A4 /* _MFACity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFACity.h; path = models/coredata/_MFACity.h; sourceTree = "<group>"; };
 		58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFACity.m; path = models/coredata/_MFACity.m; sourceTree = "<group>"; };
 		58B0DA1C1AA5F1E30011A4A4 /* _MFAInterchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAInterchange.h; path = models/coredata/_MFAInterchange.h; sourceTree = "<group>"; };
@@ -270,6 +273,8 @@
 				58F95EF51AA4A16100E22EF6 /* MFAStoryboardProxy.m */,
 				58B0DA381AA5F26C0011A4A4 /* MFACityDataParser.h */,
 				58B0DA391AA5F26C0011A4A4 /* MFACityDataParser.m */,
+				588635121AAAE4E60038F924 /* MFACityArchiveService.h */,
+				588635131AAAE4E60038F924 /* MFACityArchiveService.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -436,6 +441,7 @@
 				58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */,
 				58B0DA371AA5F1E30011A4A4 /* MFAStation.m in Sources */,
 				58B0DA321AA5F1E30011A4A4 /* _MFAStation.m in Sources */,
+				588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */,
 				58B0DA361AA5F1E30011A4A4 /* MFAPortal.m in Sources */,
 				58B0DA311AA5F1E30011A4A4 /* _MFAPortal.m in Sources */,
 				58B0DA2F1AA5F1E30011A4A4 /* _MFAInterchange.m in Sources */,

@@ -19,8 +19,6 @@
 
 @interface MFASelectCityViewController ()
 
-@property (nonatomic, strong) MFASelectCityViewModel *viewModel;
-
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSIndexPath *selectedRow;
 @property (nonatomic, weak) UIBarButtonItem *doneButton;
@@ -34,7 +32,6 @@
     
     self.title = @"Выберите ваш город";
     
-    self.viewModel = [[MFASelectCityViewModel alloc] init];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
@@ -65,6 +62,8 @@
     NSDictionary *selectedCity = self.viewModel.cities[selectedIndexPath.row];
     
     [self.viewModel processCityMeta:selectedCity withCompletion:^{
+        [[NSUserDefaults standardUserDefaults] setObject:selectedCity forKey:@"MFA_CURRENT_CITY"];
+        
         MFAStationsListViewController *stationsList = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
         stationsList.viewModel = [[MFAStationsListViewModel alloc] initWithCity:self.viewModel.selectedCity];
         

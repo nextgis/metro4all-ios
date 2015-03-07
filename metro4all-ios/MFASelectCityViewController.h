@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class MFASelectCityViewModel;
+
 @interface MFASelectCityViewController : UIViewController
 
+@property (nonatomic, strong) MFASelectCityViewModel *viewModel;
 
 @end
 

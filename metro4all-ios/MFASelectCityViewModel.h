@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MFACityArchiveService.h"
 
 @class MFACity;
 
@@ -15,6 +16,8 @@
 @property (nonatomic, strong, readonly) NSDictionary *selectedCityMeta;
 @property (nonatomic, strong, readonly) NSArray *cities;
 @property (nonatomic, strong, readonly) MFACity *selectedCity;
+
+- (instancetype)initWithCityArchiveService:(MFACityArchiveService *)archiveService;
 
 - (void)loadCitiesWithCompletion:(void(^)(void))completionBlock;
 - (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock;

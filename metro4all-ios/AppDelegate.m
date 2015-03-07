@@ -7,8 +7,16 @@
 //
 
 #import "AppDelegate.h"
+
+#import "MFACityArchiveService.h"
+
 #import "MFAStoryboardProxy.h"
+
 #import "MFASelectCityViewController.h"
+#import "MFASelectCityViewModel.h"
+
+#import "MFAStationsListViewController.h"
+#import "MFAStationsListViewModel.h"
 
 @interface AppDelegate ()
 
@@ -28,25 +36,72 @@
                                                            }];
 }
 
+- (UIViewController *)setupSelectCityController
+{
+    MFACityArchiveService *archiveService =
+    [[MFACityArchiveService alloc] initWithUrl:@"http://metro4all.org/data/v2.7/meta.json"];
+    
+    MFASelectCityViewModel *viewModel =
+    [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];
+    
+    MFASelectCityViewController *selectCityController =
+    (MFASelectCityViewController *)[MFAStoryboardProxy selectCityViewController];
+    
+    selectCityController.viewModel = viewModel;
+    
+    UINavigationController *navController =
+        [[UINavigationController alloc] initWithRootViewController:selectCityController];
+    
+    return navController;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self setupAppearance];
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-//    NSDictionary *currentCity = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
-//    if (currentCity == nil) {
-        UIViewController *selectCityController = [MFAStoryboardProxy selectCityViewController];
-        window.rootViewController = selectCityController;
-        [window addSubview:selectCityController.view];
-//    }
-//    else {
-//        UIViewController *selectCityController = [MFAStoryboardProxy stationsListViewController];
-//        window.rootViewController = selectCityController;
-//        [window addSubview:selectCityController.view];
-//    }
+    NSDictionary *currentCityMeta = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
+    UIViewController *rootViewController = nil;
     
+    if (currentCityMeta == nil) {
+        rootViewController = [self setupSelectCityController];
+    }
+    else {
+        NSManagedObjectContext *context = self.managedObjectContext;
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        fetchRequest.entity = [NSEntityDescription entityForName:@"City"
+                                          inManagedObjectContext:context];
+        
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"path == %@", currentCityMeta[@"path"]];
+        
+        NSError *error = nil;
+        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+        
+        if (fetchedObjects == nil) {
+            rootViewController = [self setupSelectCityController];
+        }
+        else {
+            MFAStationsListViewModel *viewModel =
+                [[MFAStationsListViewModel alloc] initWithCity:[fetchedObjects firstObject]];
+            
+            MFAStationsListViewController *stationsListController =
+                (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
+            
+            stationsListController.viewModel = viewModel;
+            
+            UINavigationController *navController =
+                [[UINavigationController alloc] initWithRootViewController:stationsListController];
+            
+            rootViewController = navController;
+        }
+    }
+    
+    window.rootViewController = rootViewController;
+    [window addSubview:rootViewController.view];
     [window makeKeyAndVisible];
+    
     self.window = window; // store Window object so it's not released
     
     return YES;
