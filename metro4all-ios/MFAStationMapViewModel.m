@@ -6,22 +6,35 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import "AppDelegate.h"
+
 #import "MFAStationMapViewModel.h"
 #import "MFAStation.h"
+#import "MFACity.h"
 
 @interface MFAStationMapViewModel ()
 
 @property (nonatomic, strong) MFAStation *station;
 
+@property (nonatomic, readwrite) CLLocationCoordinate2D stationPos;
+
 @end
 
 @implementation MFAStationMapViewModel
+
+@synthesize stationSchemeImage = _stationSchemeImage;
 
 - (instancetype)initWithStation:(MFAStation *)station
 {
     self = [super init];
     if (self) {
         self.station = station;
+        self.stationPos = CLLocationCoordinate2DMake(self.station.latValue,
+                                                     self.station.lonValue);
+        
+        self.showsMap = YES;
+        self.showsPortals = NO;
+        self.showsObstacles = NO;
     }
     
     return self;
@@ -32,9 +45,24 @@
     return self.station.name;
 }
 
-- (CLLocationCoordinate2D)stationPos
+- (UIImage *)stationSchemeImage
 {
-    return CLLocationCoordinate2DMake(self.station.latValue, self.station.lonValue);
+    if (!_stationSchemeImage) {
+        MFACity *city = self.station.city;
+        
+        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/%ld", city.path, (long)self.station.nodeId.integerValue];
+        
+        NSURL *documentsDirURL = [((AppDelegate *)[UIApplication sharedApplication].delegate) applicationDocumentsDirectory];
+        
+        NSURL *schemeImageURL = [NSURL URLWithString:imageFile
+                                       relativeToURL:documentsDirURL];
+        
+        NSString *schemeFilePath = [schemeImageURL path];
+        
+        _stationSchemeImage = [UIImage imageWithContentsOfFile:schemeFilePath];
+    }
+    
+    return _stationSchemeImage;
 }
 
 @end

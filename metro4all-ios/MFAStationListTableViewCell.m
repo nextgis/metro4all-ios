@@ -33,3 +33,17 @@
 }
 
 @end
+
+@implementation MFAStationListSelectedTableViewCell
+
+- (IBAction)showMap:(id)sender
+{
+    [self.delegate stationCellDidRequestMap:self];
+}
+
+- (IBAction)showScheme:(id)sender
+{
+    [self.delegate stationCellDidRequestScheme:self];
+}
+
+@end

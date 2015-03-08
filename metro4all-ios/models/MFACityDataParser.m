@@ -93,6 +93,7 @@
     for (NSDictionary *stationProperties in parsedStations) {
         MFAStation *station = [MFAStation insertInManagedObjectContext:self.managedObjectContext];
         
+        station.nodeId = stationProperties[@"id_node"];
         station.stationId = stationProperties[@"id_station"];
         station.lineId = stationProperties[@"id_line"];
         station.name = stationProperties[@"name"];

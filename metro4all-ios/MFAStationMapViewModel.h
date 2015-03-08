@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <UIKit/UIKit.h>
 
 @class MFAStation;
 
@@ -17,6 +18,11 @@
 @property (nonatomic, readonly) CLLocationCoordinate2D stationPos;
 
 @property (nonatomic, strong, readonly) NSArray *portals;
+@property (nonatomic, strong, readonly) UIImage *stationSchemeImage;
+
+@property (nonatomic) BOOL showsMap;
+@property (nonatomic) BOOL showsPortals;
+@property (nonatomic) BOOL showsObstacles;
 
 - (instancetype)initWithStation:(MFAStation *)station;
 

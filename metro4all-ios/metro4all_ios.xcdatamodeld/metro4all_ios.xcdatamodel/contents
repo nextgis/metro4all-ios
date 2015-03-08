@@ -29,11 +29,13 @@
         <relationship name="station" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="portals" inverseEntity="Station" syncable="YES"/>
     </entity>
     <entity name="Station" representedClassName="MFAStation" syncable="YES">
-        <attribute name="lat" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="lineId" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="lon" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="stationId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lat" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="lineId" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="lon" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="nodeId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="schemeFilePath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stationId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="stations" inverseEntity="City" syncable="YES"/>
         <relationship name="interchangesFrom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Interchange" inverseName="toStation" inverseEntity="Interchange" syncable="YES"/>
         <relationship name="interchangesTo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Interchange" inverseName="fromStation" inverseEntity="Interchange" syncable="YES"/>
@@ -45,6 +47,6 @@
         <element name="Interchange" positionX="-0" positionY="378" width="128" height="75"/>
         <element name="Line" positionX="43" positionY="168" width="128" height="118"/>
         <element name="Portal" positionX="43" positionY="531" width="128" height="165"/>
-        <element name="Station" positionX="-261" positionY="354" width="128" height="195"/>
+        <element name="Station" positionX="-261" positionY="354" width="128" height="225"/>
     </elements>
 </model>

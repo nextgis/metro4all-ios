@@ -8,6 +8,8 @@ const struct MFAStationAttributes MFAStationAttributes = {
 	.lineId = @"lineId",
 	.lon = @"lon",
 	.name = @"name",
+	.nodeId = @"nodeId",
+	.schemeFilePath = @"schemeFilePath",
 	.stationId = @"stationId",
 };
 
@@ -57,6 +59,11 @@ const struct MFAStationRelationships MFAStationRelationships = {
 	}
 	if ([key isEqualToString:@"lonValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"lon"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"nodeIdValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"nodeId"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -130,6 +137,28 @@ const struct MFAStationRelationships MFAStationRelationships = {
 }
 
 @dynamic name;
+
+@dynamic nodeId;
+
+- (int32_t)nodeIdValue {
+	NSNumber *result = [self nodeId];
+	return [result intValue];
+}
+
+- (void)setNodeIdValue:(int32_t)value_ {
+	[self setNodeId:@(value_)];
+}
+
+- (int32_t)primitiveNodeIdValue {
+	NSNumber *result = [self primitiveNodeId];
+	return [result intValue];
+}
+
+- (void)setPrimitiveNodeIdValue:(int32_t)value_ {
+	[self setPrimitiveNodeId:@(value_)];
+}
+
+@dynamic schemeFilePath;
 
 @dynamic stationId;
 

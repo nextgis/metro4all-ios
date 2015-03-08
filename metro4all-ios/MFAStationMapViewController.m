@@ -12,6 +12,8 @@
 @interface MFAStationMapViewController ()
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
+@property (nonatomic, weak) IBOutlet UIImageView *schemeView;
+@property (nonatomic, weak) IBOutlet UISegmentedControl *modeSwitch;
 
 @end
 
@@ -25,11 +27,11 @@
 {
     [super viewWillAppear:animated];
     
-    self.title = self.viewModel.stationName;
-    
     CLLocationCoordinate2D stationPos = self.viewModel.stationPos;
     MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(stationPos, 500, 500);
     self.mapView.region = mapRegion;
+    
+    [self bindViewModel];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -41,9 +43,27 @@
     [self.mapView addAnnotation:station];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (IBAction)segmentChanged:(UISegmentedControl *)sender
+{
+    if (sender.selectedSegmentIndex == 0) {
+        self.viewModel.showsMap = YES;
+    }
+    else {
+        self.viewModel.showsMap = NO;
+    }
+    
+    [self bindViewModel];
 }
 
+- (void)bindViewModel
+{
+    self.title = self.viewModel.stationName;
+    
+    self.mapView.hidden = !self.viewModel.showsMap;
+    
+    self.schemeView.hidden = self.viewModel.showsMap;
+    self.schemeView.image = self.viewModel.stationSchemeImage;
+    
+    self.modeSwitch.selectedSegmentIndex = self.viewModel.showsMap ? 0 : 1;
+}
 @end

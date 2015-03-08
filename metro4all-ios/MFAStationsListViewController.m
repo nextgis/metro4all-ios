@@ -16,9 +16,12 @@
 
 #import "MFACity.h"
 
-@interface MFAStationsListViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface MFAStationsListViewController () <UITableViewDataSource,
+                                             UITableViewDelegate,
+                                             MFAStationListTableViewCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 @end
 
@@ -50,9 +53,28 @@
     return self.viewModel.stations.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([indexPath isEqual:self.selectedIndexPath]) {
+        return 104.0;
+    }
+    else {
+        return 70.0;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MFAStationListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_stationCell" forIndexPath:indexPath];
+    MFAStationListTableViewCell *cell = nil;
+    
+    if ([indexPath isEqual:self.selectedIndexPath]) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectedStationCell" forIndexPath:indexPath];
+        ((MFAStationListSelectedTableViewCell *)cell).delegate = self;
+    }
+    else {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_stationCell" forIndexPath:indexPath];
+    }
+    
     cell.station = self.viewModel.stations[indexPath.row];
     
     return cell;
@@ -62,7 +84,56 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MFAStation *station = self.viewModel.stations[indexPath.row];
+    if ([self.selectedIndexPath isEqual:indexPath] == NO) {
+        
+        NSArray *indexPaths = nil;
+        
+        if (self.selectedIndexPath) {
+            indexPaths = @[ self.selectedIndexPath, indexPath ];
+        }
+        else {
+            indexPaths = @[ indexPath ];
+        }
+        
+        self.selectedIndexPath = indexPath;
+        
+        // select new row
+        [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.selectedIndexPath = nil;
+    
+    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+#pragma mark - Station List Cell Delegate
+
+- (void)stationCellDidRequestMap:(MFAStationListTableViewCell *)cell
+{
+    [self showMapForStation:cell.station];
+}
+
+- (void)stationCellDidRequestScheme:(MFAStationListTableViewCell *)cell
+{
+    [self showSchemeForStation:cell.station];
+}
+
+- (void)showSchemeForStation:(MFAStation *)station
+{
+    MFAStationMapViewModel *viewModel = [[MFAStationMapViewModel alloc] initWithStation:station];
+    MFAStationMapViewController *stationMapController = (MFAStationMapViewController *)[MFAStoryboardProxy stationMapViewController];
+    
+    viewModel.showsMap = NO;
+    stationMapController.viewModel = viewModel;
+    
+    [self.navigationController pushViewController:stationMapController animated:YES];
+}
+
+- (void)showMapForStation:(MFAStation *)station
+{
     MFAStationMapViewModel *viewModel = [[MFAStationMapViewModel alloc] initWithStation:station];
     MFAStationMapViewController *stationMapController = (MFAStationMapViewController *)[MFAStoryboardProxy stationMapViewController];
     stationMapController.viewModel = viewModel;
