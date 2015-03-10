@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 #import <MapKit/MapKit.h>
 #import "MFAStationMapViewController.h"
 
@@ -15,12 +17,42 @@
 @property (nonatomic, weak) IBOutlet UIImageView *schemeView;
 @property (nonatomic, weak) IBOutlet UISegmentedControl *modeSwitch;
 
+@property (nonatomic, weak) IBOutlet UISwitch *detailsSwitch;
+@property (nonatomic, weak) IBOutlet UILabel *detailsSwitchLabel;
+
 @end
 
 @implementation MFAStationMapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    RAC(self, title) = RACObserve(self.viewModel, stationName);
+    
+    RACSignal *showsMapSignal = RACObserve(self.viewModel, showsMap);
+    
+    RAC(self.mapView, hidden) = [showsMapSignal not];
+    
+    RAC(self.schemeView, hidden) = showsMapSignal;
+    RAC(self.schemeView, image) = RACObserve(self.viewModel, stationSchemeImage);
+    
+    RAC(self.modeSwitch, selectedSegmentIndex) =
+        [RACObserve(self.viewModel, showsMap) map:^id(NSNumber *value) {
+            if (value.boolValue) { return @0; }
+            else { return @1; }
+        }];
+    
+    RAC(self.detailsSwitchLabel, text) = [RACObserve(self.viewModel, showsMap) map:^NSString *(NSNumber *showsMap) {
+        return showsMap.boolValue ? @"Отображать\nвыходы" : @"Отображать\nпрепятствия";
+    }];
+    
+    RAC(self.detailsSwitch, on) =
+        [RACSignal combineLatest:@[ showsMapSignal,
+                                    RACObserve(self.viewModel, showsPortals),
+                                    RACObserve(self.viewModel, showsObstacles) ]
+                          reduce:^NSNumber *(NSNumber *showsMap, NSNumber *showsPortals, NSNumber *showsObstacles) {
+                              return showsMap.boolValue ? showsPortals : showsObstacles;
+                          }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -30,17 +62,22 @@
     CLLocationCoordinate2D stationPos = self.viewModel.stationPos;
     MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(stationPos, 500, 500);
     self.mapView.region = mapRegion;
-    
-    [self bindViewModel];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    MKPlacemark *station = [[MKPlacemark alloc] initWithCoordinate:self.viewModel.stationPos
-                                                 addressDictionary:nil];
-    [self.mapView addAnnotation:station];
+    [RACObserve(self.viewModel, pins) subscribeNext:^(NSArray *pins) {
+        [self.mapView removeAnnotations:self.mapView.annotations];
+        
+        for (NSDictionary *pin in self.viewModel.pins) {
+            MKPlacemark *mark = [[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
+                                                                                                   [pin[@"lon"] doubleValue])
+                                                      addressDictionary:nil];
+            [self.mapView addAnnotation:mark];
+        }
+    }];
 }
 
 - (IBAction)segmentChanged:(UISegmentedControl *)sender
@@ -51,19 +88,16 @@
     else {
         self.viewModel.showsMap = NO;
     }
-    
-    [self bindViewModel];
 }
 
-- (void)bindViewModel
+- (IBAction)detailsSwitchChanged:(UISwitch *)sender
 {
-    self.title = self.viewModel.stationName;
-    
-    self.mapView.hidden = !self.viewModel.showsMap;
-    
-    self.schemeView.hidden = self.viewModel.showsMap;
-    self.schemeView.image = self.viewModel.stationSchemeImage;
-    
-    self.modeSwitch.selectedSegmentIndex = self.viewModel.showsMap ? 0 : 1;
+    if (self.viewModel.showsMap) {
+        self.viewModel.showsPortals = sender.isOn;
+    }
+    else {
+        self.viewModel.showsObstacles = sender.isOn;
+    }
 }
+
 @end

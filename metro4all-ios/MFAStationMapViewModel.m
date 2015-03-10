@@ -11,12 +11,14 @@
 #import "MFAStationMapViewModel.h"
 #import "MFAStation.h"
 #import "MFACity.h"
+#import "MFAPortal.h"
 
 @interface MFAStationMapViewModel ()
 
 @property (nonatomic, strong) MFAStation *station;
 
 @property (nonatomic, readwrite) CLLocationCoordinate2D stationPos;
+@property (nonatomic, strong, readwrite) NSArray *pins;
 
 @end
 
@@ -63,6 +65,27 @@
     }
     
     return _stationSchemeImage;
+}
+
+- (void)setShowsPortals:(BOOL)showsPortals
+{
+    _showsPortals = showsPortals;
+    
+    NSMutableArray *pins = [NSMutableArray new];
+    
+    if (showsPortals) {
+        for (MFAPortal *portal in self.station.portals) {
+            [pins addObject:@{ @"name" : portal.name,
+                              @"lat" : portal.lat,
+                              @"lon" : portal.lon }];
+        }
+    }
+    
+    [pins addObject:@{ @"name" : self.station.name,
+                       @"lat" : self.station.lat,
+                       @"lon" : self.station.lon }];
+    
+    self.pins = pins;
 }
 
 @end

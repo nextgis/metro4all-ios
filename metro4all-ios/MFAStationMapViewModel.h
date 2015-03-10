@@ -26,4 +26,6 @@
 
 - (instancetype)initWithStation:(MFAStation *)station;
 
+@property (nonatomic, strong, readonly) NSArray *pins;
+
 @end

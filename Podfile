@@ -8,6 +8,7 @@ target 'metro4all-ios' do
 pod 'PureLayout'
 pod 'RestKit'
 pod 'SVProgressHUD'
+pod 'ReactiveCocoa', '~> 2.0'
 
 pod 'SSZipArchive'
 #pod 'CHCSVParser'
