@@ -14,11 +14,17 @@
 @interface MFAStationMapViewController ()
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
+
+@property (nonatomic, weak) IBOutlet UIScrollView *schemeScrollView;
 @property (nonatomic, weak) IBOutlet UIImageView *schemeView;
+@property (nonatomic, weak) IBOutlet UIImageView *schemeOverlayView;
+
 @property (nonatomic, weak) IBOutlet UISegmentedControl *modeSwitch;
 
 @property (nonatomic, weak) IBOutlet UISwitch *detailsSwitch;
 @property (nonatomic, weak) IBOutlet UILabel *detailsSwitchLabel;
+
+@property (nonatomic, strong) NSArray *imageSizeConstraints;
 
 @end
 
@@ -35,6 +41,9 @@
     
     RAC(self.schemeView, hidden) = showsMapSignal;
     RAC(self.schemeView, image) = RACObserve(self.viewModel, stationSchemeImage);
+    
+    RAC(self.schemeOverlayView, image) = RACObserve(self.viewModel, stationSchemeOverlayImage);
+    RAC(self.schemeOverlayView, hidden) = [RACObserve(self.viewModel, showsObstacles) not];
     
     RAC(self.modeSwitch, selectedSegmentIndex) =
         [RACObserve(self.viewModel, showsMap) map:^id(NSNumber *value) {

@@ -25,6 +25,7 @@
 @implementation MFAStationMapViewModel
 
 @synthesize stationSchemeImage = _stationSchemeImage;
+@synthesize stationSchemeOverlayImage = _stationSchemeOverlayImage;
 
 - (instancetype)initWithStation:(MFAStation *)station
 {
@@ -65,6 +66,26 @@
     }
     
     return _stationSchemeImage;
+}
+
+- (UIImage *)stationSchemeOverlayImage
+{
+    if (!_stationSchemeOverlayImage) {
+        MFACity *city = self.station.city;
+        
+        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/numbers/%ld", city.path, (long)self.station.nodeId.integerValue];
+        
+        NSURL *documentsDirURL = [((AppDelegate *)[UIApplication sharedApplication].delegate) applicationDocumentsDirectory];
+        
+        NSURL *schemeImageURL = [NSURL URLWithString:imageFile
+                                       relativeToURL:documentsDirURL];
+        
+        NSString *schemeFilePath = [schemeImageURL path];
+        
+        _stationSchemeOverlayImage = [UIImage imageWithContentsOfFile:schemeFilePath];
+    }
+    
+    return _stationSchemeOverlayImage;
 }
 
 - (void)setShowsPortals:(BOOL)showsPortals

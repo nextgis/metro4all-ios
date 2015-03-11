@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong, readonly) NSArray *portals;
 @property (nonatomic, strong, readonly) UIImage *stationSchemeImage;
+@property (nonatomic, strong, readonly) UIImage *stationSchemeOverlayImage;
 
 @property (nonatomic) BOOL showsMap;
 @property (nonatomic) BOOL showsPortals;

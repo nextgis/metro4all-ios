@@ -207,9 +207,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Lhg-qo-8oq">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rWF-gb-iWO">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                            </imageView>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Lhg-qo-8oq">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="504" placeholder="YES" id="ApV-wz-C4V"/>
+                                            <constraint firstAttribute="width" constant="320" placeholder="YES" id="ieG-aE-hg2"/>
+                                        </constraints>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VbP-Zd-L5R" userLabel="Overlay Image View">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="Lhg-qo-8oq" firstAttribute="top" secondItem="rWF-gb-iWO" secondAttribute="top" id="5Bp-oI-e5K"/>
+                                    <constraint firstItem="Lhg-qo-8oq" firstAttribute="bottom" secondItem="VbP-Zd-L5R" secondAttribute="bottom" id="D5O-YZ-fIi"/>
+                                    <constraint firstAttribute="centerY" secondItem="Lhg-qo-8oq" secondAttribute="centerY" id="Dc3-AI-dwE"/>
+                                    <constraint firstAttribute="trailing" secondItem="Lhg-qo-8oq" secondAttribute="trailing" id="PPQ-k9-myE"/>
+                                    <constraint firstAttribute="centerX" secondItem="Lhg-qo-8oq" secondAttribute="centerX" id="QN8-8b-aqo"/>
+                                    <constraint firstItem="Lhg-qo-8oq" firstAttribute="top" secondItem="VbP-Zd-L5R" secondAttribute="top" id="Tok-cC-vNF"/>
+                                    <constraint firstItem="Lhg-qo-8oq" firstAttribute="trailing" secondItem="VbP-Zd-L5R" secondAttribute="trailing" id="ibl-N1-lSO"/>
+                                    <constraint firstItem="Lhg-qo-8oq" firstAttribute="leading" secondItem="rWF-gb-iWO" secondAttribute="leading" id="jxG-zC-4aW"/>
+                                    <constraint firstItem="Lhg-qo-8oq" firstAttribute="leading" secondItem="VbP-Zd-L5R" secondAttribute="leading" id="kQ2-Ep-ZzJ"/>
+                                    <constraint firstAttribute="bottom" secondItem="Lhg-qo-8oq" secondAttribute="bottom" id="wci-dQ-e8h"/>
+                                </constraints>
+                            </scrollView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="O2F-D0-1Za">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                             </mapView>
@@ -255,16 +279,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="Lhg-qo-8oq" secondAttribute="trailing" id="TGC-SV-30m"/>
+                            <constraint firstItem="rWF-gb-iWO" firstAttribute="leading" secondItem="8St-vE-zv1" secondAttribute="leading" id="Jej-Mv-AxM"/>
                             <constraint firstItem="O2F-D0-1Za" firstAttribute="top" secondItem="9fQ-xf-rgB" secondAttribute="bottom" id="ZBa-MK-AHR"/>
                             <constraint firstItem="O2F-D0-1Za" firstAttribute="leading" secondItem="8St-vE-zv1" secondAttribute="leading" id="ZwD-q4-awW"/>
-                            <constraint firstItem="u9K-qO-X1q" firstAttribute="top" secondItem="Lhg-qo-8oq" secondAttribute="bottom" id="cgL-Aq-05G"/>
                             <constraint firstItem="mMt-h0-OHM" firstAttribute="leading" secondItem="8St-vE-zv1" secondAttribute="leading" constant="16" id="hI7-1g-wkH"/>
-                            <constraint firstItem="Lhg-qo-8oq" firstAttribute="top" secondItem="9fQ-xf-rgB" secondAttribute="bottom" id="in7-NM-vSf"/>
                             <constraint firstAttribute="trailing" secondItem="O2F-D0-1Za" secondAttribute="trailing" id="kze-IY-7uL"/>
+                            <constraint firstItem="u9K-qO-X1q" firstAttribute="top" secondItem="rWF-gb-iWO" secondAttribute="bottom" id="pTE-KO-Ezt"/>
                             <constraint firstAttribute="trailing" secondItem="mMt-h0-OHM" secondAttribute="trailing" constant="16" id="q0v-8P-BhJ"/>
+                            <constraint firstAttribute="trailing" secondItem="rWF-gb-iWO" secondAttribute="trailing" id="riZ-3g-q6O"/>
                             <constraint firstItem="u9K-qO-X1q" firstAttribute="top" secondItem="O2F-D0-1Za" secondAttribute="bottom" id="sCv-Cw-h1b"/>
-                            <constraint firstItem="Lhg-qo-8oq" firstAttribute="leading" secondItem="8St-vE-zv1" secondAttribute="leading" id="vuC-4J-oBi"/>
+                            <constraint firstItem="rWF-gb-iWO" firstAttribute="top" secondItem="9fQ-xf-rgB" secondAttribute="bottom" id="sNK-53-G53"/>
                             <constraint firstItem="u9K-qO-X1q" firstAttribute="top" secondItem="mMt-h0-OHM" secondAttribute="bottom" constant="16" id="zRV-t1-MGD"/>
                         </constraints>
                     </view>
@@ -275,6 +299,8 @@
                         <outlet property="detailsSwitchLabel" destination="mU5-5z-f6C" id="zTS-m5-mlZ"/>
                         <outlet property="mapView" destination="O2F-D0-1Za" id="zW6-oF-W95"/>
                         <outlet property="modeSwitch" destination="oDE-mg-tHb" id="8bv-gl-FX3"/>
+                        <outlet property="schemeOverlayView" destination="VbP-Zd-L5R" id="1il-dw-pnF"/>
+                        <outlet property="schemeScrollView" destination="rWF-gb-iWO" id="4RD-s8-coP"/>
                         <outlet property="schemeView" destination="Lhg-qo-8oq" id="WJF-MM-aDA"/>
                     </connections>
                 </viewController>
