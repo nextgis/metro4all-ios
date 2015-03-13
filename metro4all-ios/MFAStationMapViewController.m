@@ -9,11 +9,14 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 #import <MapKit/MapKit.h>
+#import <MBXRasterTileRenderer.h>
+
 #import "MFAStationMapViewController.h"
 
-@interface MFAStationMapViewController ()
+@interface MFAStationMapViewController () <UIScrollViewDelegate, MKMapViewDelegate>
 
 @property (nonatomic, weak) IBOutlet MKMapView *mapView;
+@property (nonatomic, strong) MKTileOverlay *tileOverlay;
 
 @property (nonatomic, weak) IBOutlet UIScrollView *schemeScrollView;
 @property (nonatomic, weak) UIView *containerView;
@@ -74,6 +77,16 @@
     [self.schemeScrollView addGestureRecognizer:pinch];
 
     self.schemeScrollView.delegate = self;
+    
+    // use online overlay
+    NSString *urlTemplate = @"http://c.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    
+    self.tileOverlay = [[MKTileOverlay alloc] initWithURLTemplate:urlTemplate];
+    self.tileOverlay.canReplaceMapContent = YES;
+    
+    [self.mapView addOverlay:self.tileOverlay level:MKOverlayLevelAboveLabels];
+    
+    self.mapView.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -217,6 +230,8 @@
     [self centerScrollViewContents];
 }
 
+#pragma mark - Rotation
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
     [self setMinimumZoomScale];
@@ -227,7 +242,7 @@
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     
     //The device has already rotated, that's why this method is being called.
-    UIInterfaceOrientation toOrientation   = [[UIDevice currentDevice] orientation];
+    UIInterfaceOrientation toOrientation = [[UIDevice currentDevice] orientation];
     
     //fixes orientation mismatch (between UIDeviceOrientation and UIInterfaceOrientation)
     if (toOrientation == UIInterfaceOrientationLandscapeRight) toOrientation = UIInterfaceOrientationLandscapeLeft;
@@ -242,6 +257,15 @@
         [self didRotateFromInterfaceOrientation:fromOrientation];
     }];
     
+}
+
+#pragma mark - Map View Delegate
+
+- (MKOverlayRenderer *)mapView:(MKMapView *)mapView rendererForOverlay:(id<MKOverlay>)overlay {
+    
+    MBXRasterTileRenderer *renderer = [[MBXRasterTileRenderer alloc] initWithTileOverlay:overlay];
+    
+    return renderer;
 }
 
 @end
