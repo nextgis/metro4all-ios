@@ -12,6 +12,7 @@
 #import <MBXRasterTileRenderer.h>
 
 #import "MFAStationMapViewController.h"
+#import "MFAPortalAnnotationView.h"
 
 @interface MFAStationMapViewController () <UIScrollViewDelegate, MKMapViewDelegate>
 
@@ -131,10 +132,13 @@
         [self.mapView removeAnnotations:self.mapView.annotations];
         
         for (NSDictionary *pin in self.viewModel.pins) {
-            MKPlacemark *mark = [[MKPlacemark alloc] initWithCoordinate:CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
-                                                                                                   [pin[@"lon"] doubleValue])
-                                                      addressDictionary:nil];
-            [self.mapView addAnnotation:mark];
+            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+            annotation.coordinate = CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
+                                                               [pin[@"lon"] doubleValue]);
+            annotation.title = pin[@"title"];
+            annotation.subtitle = pin[@"subtitle"];
+            
+            [self.mapView addAnnotation:annotation];
         }
     }];
 }
@@ -266,6 +270,25 @@
     MBXRasterTileRenderer *renderer = [[MBXRasterTileRenderer alloc] initWithTileOverlay:overlay];
     
     return renderer;
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation
+{
+    static NSString *identifier = @"PortalView";
+    
+    MFAPortalAnnotationView *annotationView = (MFAPortalAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:identifier];
+    
+    if (annotationView == nil) {
+        annotationView = [[MFAPortalAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:identifier];
+        annotationView.enabled = YES;
+        annotationView.canShowCallout = YES;
+    }
+    else {
+        annotationView.annotation = annotation;
+        [annotationView setNeedsDisplay];
+    }
+    
+    return annotationView;
 }
 
 @end

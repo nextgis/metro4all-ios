@@ -94,17 +94,12 @@
     
     NSMutableArray *pins = [NSMutableArray new];
     
-    if (showsPortals) {
-        for (MFAPortal *portal in self.station.portals) {
-            [pins addObject:@{ @"name" : portal.name,
-                              @"lat" : portal.lat,
-                              @"lon" : portal.lon }];
-        }
+    for (MFAPortal *portal in self.station.portals) {
+        [pins addObject:@{ @"title" : [portal.portalNumber stringValue],
+                           @"subtitle" : portal.name,
+                           @"lat" : portal.lat,
+                           @"lon" : portal.lon }];
     }
-    
-    [pins addObject:@{ @"name" : self.station.name,
-                       @"lat" : self.station.lat,
-                       @"lon" : self.station.lon }];
     
     self.pins = pins;
 }

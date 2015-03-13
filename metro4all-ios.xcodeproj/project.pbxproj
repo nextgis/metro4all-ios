@@ -11,6 +11,7 @@
 		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
 		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
 		588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 588635131AAAE4E60038F924 /* MFACityArchiveService.m */; };
+		58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */; };
 		58B0DA2E1AA5F1E30011A4A4 /* _MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */; };
 		58B0DA2F1AA5F1E30011A4A4 /* _MFAInterchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1D1AA5F1E30011A4A4 /* _MFAInterchange.m */; };
 		58B0DA301AA5F1E30011A4A4 /* _MFALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1F1AA5F1E30011A4A4 /* _MFALine.m */; };
@@ -58,6 +59,8 @@
 		583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewController.m; sourceTree = "<group>"; };
 		588635121AAAE4E60038F924 /* MFACityArchiveService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFACityArchiveService.h; sourceTree = "<group>"; };
 		588635131AAAE4E60038F924 /* MFACityArchiveService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFACityArchiveService.m; sourceTree = "<group>"; };
+		58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPortalAnnotationView.h; sourceTree = "<group>"; };
+		58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAPortalAnnotationView.m; sourceTree = "<group>"; };
 		58B0DA1A1AA5F1E30011A4A4 /* _MFACity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFACity.h; path = models/coredata/_MFACity.h; sourceTree = "<group>"; };
 		58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFACity.m; path = models/coredata/_MFACity.m; sourceTree = "<group>"; };
 		58B0DA1C1AA5F1E30011A4A4 /* _MFAInterchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAInterchange.h; path = models/coredata/_MFAInterchange.h; sourceTree = "<group>"; };
@@ -166,6 +169,8 @@
 		583B48F51AA74B8E00138E1F /* Station Map */ = {
 			isa = PBXGroup;
 			children = (
+				58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */,
+				58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */,
 				583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */,
 				583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */,
 				583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */,
@@ -432,6 +437,7 @@
 				58F95EF21AA49C5200E22EF6 /* MFAObjectManager.m in Sources */,
 				58F95ED01AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld in Sources */,
 				58B0DA341AA5F1E30011A4A4 /* MFAInterchange.m in Sources */,
+				58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */,
 				58B0DA301AA5F1E30011A4A4 /* _MFALine.m in Sources */,
 				58F95ED31AA48FB600E22EF6 /* MFASelectCityViewController.m in Sources */,
 				58F95ECA1AA48FB600E22EF6 /* main.m in Sources */,
