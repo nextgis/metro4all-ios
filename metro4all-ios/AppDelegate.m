@@ -79,7 +79,7 @@
         NSError *error = nil;
         NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
         
-        if (fetchedObjects == nil) {
+        if (fetchedObjects.count == 0) {
             rootViewController = [self setupSelectCityController];
         }
         else {

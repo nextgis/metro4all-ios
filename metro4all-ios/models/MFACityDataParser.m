@@ -61,6 +61,7 @@
     
     NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
     f.numberStyle = NSNumberFormatterDecimalStyle;
+    f.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
     
     for (NSDictionary *lineProperties in parsedLines) {
         MFALine *line = [MFALine insertInManagedObjectContext:self.managedObjectContext];
