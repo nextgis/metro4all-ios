@@ -59,6 +59,8 @@
                                                        relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
     NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] initWithCapacity:parsedLines.count];
     
+    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
     
     for (NSDictionary *lineProperties in parsedLines) {
         MFALine *line = [MFALine insertInManagedObjectContext:self.managedObjectContext];
@@ -83,9 +85,6 @@
         [self.delegate cityDataParser:self didProcessFiles:1 ofTotalFiles:totalFiles];
     }
     
-    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-    f.numberStyle = NSNumberFormatterDecimalStyle;
-    
     NSArray *parsedStations = [self parseFileAtURL:[NSURL URLWithString:@"stations_ru.csv"
                                                           relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
     NSMutableDictionary *stationsCache = [[NSMutableDictionary alloc] initWithCapacity:parsedStations.count];
@@ -97,8 +96,8 @@
         station.stationId = stationProperties[@"id_station"];
         station.lineId = stationProperties[@"id_line"];
         station.name = stationProperties[@"name"];
-        station.lat = stationProperties[@"lat"];
-        station.lon = stationProperties[@"lon"];
+        station.lat = [f numberFromString:stationProperties[@"lat"]];
+        station.lon = [f numberFromString:stationProperties[@"lon"]];
         
         station.line = linesCache[station.lineId];
         station.city = city;
@@ -121,8 +120,8 @@
         portal.name = portalProperties[@"name"];
         portal.stationId = portalProperties[@"id_station"];
         //    self.directionValue =
-        portal.lat = portalProperties[@"lat"];
-        portal.lon = portalProperties[@"lon"];
+        portal.lat = [f numberFromString:portalProperties[@"lat"]];
+        portal.lon = [f numberFromString:portalProperties[@"lon"]];
         
         portal.station = stationsCache[portal.stationId];
     }
