@@ -109,8 +109,6 @@
     
     [self.schemeScrollView addSubview:container];
     self.schemeScrollView.contentSize = container.frame.size;
-
-    self.schemeScrollView.contentInset = UIEdgeInsetsMake(0, 0, 64, 0);
     
     self.containerView = container;
     self.schemeOverlayView = overlayView;

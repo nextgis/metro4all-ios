@@ -208,12 +208,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rWF-gb-iWO">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="428"/>
                             </scrollView>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2F-D0-1Za">
                                 <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                             </mapView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMt-h0-OHM">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMt-h0-OHM" userLabel="Controls view">
                                 <rect key="frame" x="16" y="504" width="288" height="48"/>
                                 <subviews>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KhZ-YN-swL">
@@ -258,6 +258,7 @@
                             <constraint firstItem="rWF-gb-iWO" firstAttribute="leading" secondItem="8St-vE-zv1" secondAttribute="leading" id="Jej-Mv-AxM"/>
                             <constraint firstItem="O2F-D0-1Za" firstAttribute="top" secondItem="9fQ-xf-rgB" secondAttribute="bottom" id="ZBa-MK-AHR"/>
                             <constraint firstItem="O2F-D0-1Za" firstAttribute="leading" secondItem="8St-vE-zv1" secondAttribute="leading" id="ZwD-q4-awW"/>
+                            <constraint firstItem="mMt-h0-OHM" firstAttribute="top" secondItem="rWF-gb-iWO" secondAttribute="bottom" constant="12" id="e9f-Hj-vfG"/>
                             <constraint firstItem="mMt-h0-OHM" firstAttribute="leading" secondItem="8St-vE-zv1" secondAttribute="leading" constant="16" id="hI7-1g-wkH"/>
                             <constraint firstAttribute="trailing" secondItem="O2F-D0-1Za" secondAttribute="trailing" id="kze-IY-7uL"/>
                             <constraint firstItem="u9K-qO-X1q" firstAttribute="top" secondItem="rWF-gb-iWO" secondAttribute="bottom" id="pTE-KO-Ezt"/>
@@ -267,6 +268,11 @@
                             <constraint firstItem="rWF-gb-iWO" firstAttribute="top" secondItem="9fQ-xf-rgB" secondAttribute="bottom" id="sNK-53-G53"/>
                             <constraint firstItem="u9K-qO-X1q" firstAttribute="top" secondItem="mMt-h0-OHM" secondAttribute="bottom" constant="16" id="zRV-t1-MGD"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="pTE-KO-Ezt"/>
+                            </mask>
+                        </variation>
                     </view>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
