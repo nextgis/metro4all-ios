@@ -135,11 +135,15 @@
             MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
             annotation.coordinate = CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
                                                                [pin[@"lon"] doubleValue]);
+            
             annotation.title = pin[@"title"];
             annotation.subtitle = pin[@"subtitle"];
             
             [self.mapView addAnnotation:annotation];
         }
+        
+        MKCoordinateRegion reg = [self regionForAnnotations:self.mapView.annotations];
+        self.mapView.region = reg;
     }];
 }
 
@@ -173,6 +177,29 @@
     else {
         self.viewModel.showsObstacles = sender.isOn;
     }
+}
+
+/**
+ * Return a region covering all the annotations in the given array.
+ * @param annotations Array of objects conforming to the <MKAnnotation> protocol.
+ */
+- (MKCoordinateRegion)regionForAnnotations:(NSArray *)annotations
+{
+    double minLat=90.0f, maxLat=-90.0f;
+    double minLon=180.0f, maxLon=-180.0f;
+    
+    for (id<MKAnnotation> mka in annotations) {
+        if ( mka.coordinate.latitude  < minLat ) minLat = mka.coordinate.latitude;
+        if ( mka.coordinate.latitude  > maxLat ) maxLat = mka.coordinate.latitude;
+        if ( mka.coordinate.longitude < minLon ) minLon = mka.coordinate.longitude;
+        if ( mka.coordinate.longitude > maxLon ) maxLon = mka.coordinate.longitude;
+    }
+    
+    CLLocationCoordinate2D center = CLLocationCoordinate2DMake((minLat+maxLat)/2.0, (minLon+maxLon)/2.0);
+    MKCoordinateSpan span = MKCoordinateSpanMake((maxLat-minLat) * 1.2, (maxLon-minLon) * 1.2);
+    MKCoordinateRegion region = MKCoordinateRegionMake (center, span);
+    
+    return region;
 }
 
 - (void)zoomImage:(UIGestureRecognizer *)recognizer
