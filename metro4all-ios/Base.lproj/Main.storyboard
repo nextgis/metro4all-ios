@@ -210,9 +210,6 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rWF-gb-iWO">
                                 <rect key="frame" x="0.0" y="64" width="320" height="428"/>
                             </scrollView>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2F-D0-1Za">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                            </mapView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mMt-h0-OHM" userLabel="Controls view">
                                 <rect key="frame" x="16" y="504" width="288" height="48"/>
                                 <subviews>
@@ -232,6 +229,9 @@
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oDE-mg-tHb">
                                         <rect key="frame" x="8" y="10" width="111" height="29"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="111" id="eUt-JB-Xiu"/>
+                                        </constraints>
                                         <segments>
                                             <segment title="Карта"/>
                                             <segment title="Схема"/>
@@ -249,9 +249,13 @@
                                     <constraint firstAttribute="centerY" secondItem="mU5-5z-f6C" secondAttribute="centerY" id="PkL-gH-1aj"/>
                                     <constraint firstAttribute="trailing" secondItem="mU5-5z-f6C" secondAttribute="trailing" constant="8" id="XAD-JQ-pvv"/>
                                     <constraint firstItem="KhZ-YN-swL" firstAttribute="centerY" secondItem="mU5-5z-f6C" secondAttribute="centerY" constant="-0.5" id="qEk-Xu-ybP"/>
+                                    <constraint firstAttribute="trailing" secondItem="oDE-mg-tHb" secondAttribute="trailing" priority="750" constant="8" id="rbc-NE-KMK"/>
                                     <constraint firstItem="mU5-5z-f6C" firstAttribute="leading" secondItem="KhZ-YN-swL" secondAttribute="trailing" constant="8" id="tD4-r2-6f5"/>
                                 </constraints>
                             </view>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" pitchEnabled="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2F-D0-1Za">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -277,6 +281,8 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="controlsPinRightConstraint" destination="q0v-8P-BhJ" id="TfP-3w-LVJ"/>
+                        <outlet property="controlsView" destination="mMt-h0-OHM" id="6Gl-cV-Xj3"/>
                         <outlet property="detailsSwitch" destination="KhZ-YN-swL" id="hMY-Ka-zNw"/>
                         <outlet property="detailsSwitchLabel" destination="mU5-5z-f6C" id="zTS-m5-mlZ"/>
                         <outlet property="mapView" destination="O2F-D0-1Za" id="zW6-oF-W95"/>

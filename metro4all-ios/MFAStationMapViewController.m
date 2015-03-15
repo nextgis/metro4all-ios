@@ -30,6 +30,10 @@
 
 @property (nonatomic, strong) NSArray *imageSizeConstraints;
 
+@property (nonatomic, weak) IBOutlet UIView *controlsView;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *controlsPinRightConstraint;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *controlsWidthConstraint;
+
 @end
 
 @implementation MFAStationMapViewController
@@ -51,17 +55,8 @@
             else { return @1; }
         }];
     
-    RAC(self.detailsSwitchLabel, text) = [RACObserve(self.viewModel, showsMap) map:^NSString *(NSNumber *showsMap) {
-        return showsMap.boolValue ? @"Отображать\nвыходы" : @"Отображать\nпрепятствия";
-    }];
-    
-    RAC(self.detailsSwitch, on) =
-        [RACSignal combineLatest:@[ showsMapSignal,
-                                    RACObserve(self.viewModel, showsPortals),
-                                    RACObserve(self.viewModel, showsObstacles) ]
-                          reduce:^NSNumber *(NSNumber *showsMap, NSNumber *showsPortals, NSNumber *showsObstacles) {
-                              return showsMap.boolValue ? showsPortals : showsObstacles;
-                          }];
+    self.detailsSwitchLabel.text = @"Отображать\nпрепятствия";
+    RAC(self.detailsSwitch, on) = RACObserve(self.viewModel, showsObstacles);
     
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                 action:@selector(zoomImage:)];
@@ -88,6 +83,8 @@
     [self.mapView addOverlay:self.tileOverlay level:MKOverlayLevelAboveLabels];
     
     self.mapView.delegate = self;
+    
+    self.controlsView.layer.cornerRadius = 4.0f;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -120,6 +117,10 @@
     [self setMinimumZoomScale];
     
     [self centerScrollViewContents];
+    
+    [RACObserve(self.viewModel, showsMap) subscribeNext:^(NSNumber *showsMap) {
+        [self adjustControlsForMap:self.viewModel.showsMap animated:YES];
+    }];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -143,6 +144,55 @@
         MKCoordinateRegion reg = [self regionForAnnotations:self.mapView.annotations];
         self.mapView.region = reg;
     }];
+}
+
+- (void)adjustControlsForMap:(BOOL)showsMap animated:(BOOL)animated
+{
+    [self.view layoutIfNeeded];
+    
+    if (animated) {
+        [UIView animateWithDuration:0.3f animations:^{
+            if (showsMap) {
+                [self.view removeConstraint:self.controlsPinRightConstraint];
+                self.detailsSwitch.alpha = 0;
+                self.detailsSwitchLabel.alpha = 0;
+            }
+            else {
+                [self.view addConstraint:self.controlsPinRightConstraint];
+                self.detailsSwitch.alpha = 1;
+                self.detailsSwitch.hidden = NO;
+                self.detailsSwitchLabel.alpha = 1;
+                self.detailsSwitchLabel.hidden = NO;
+            }
+            
+            [self.view layoutIfNeeded];
+            [self.view bringSubviewToFront:self.controlsView];
+        } completion:^(BOOL finished) {
+            if (showsMap) {
+                self.detailsSwitch.hidden = NO;
+                self.detailsSwitchLabel.hidden = NO;
+            }
+        }];
+    }
+    else {
+        if (showsMap) {
+            [self.view removeConstraint:self.controlsPinRightConstraint];
+            self.detailsSwitch.alpha = 0;
+            self.detailsSwitchLabel.alpha = 0;
+            self.detailsSwitch.hidden = NO;
+            self.detailsSwitchLabel.hidden = NO;
+        }
+        else {
+            [self.view addConstraint:self.controlsPinRightConstraint];
+            self.detailsSwitch.alpha = 1;
+            self.detailsSwitch.hidden = NO;
+            self.detailsSwitchLabel.alpha = 1;
+            self.detailsSwitchLabel.hidden = NO;
+        }
+        
+        [self.view layoutIfNeeded];
+        [self.view bringSubviewToFront:self.controlsView];
+    }
 }
 
 - (void)setMinimumZoomScale
