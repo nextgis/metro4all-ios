@@ -10,6 +10,10 @@
 		58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */; };
 		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
 		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
+		586061931AB6C7F700E1F565 /* legend_pl.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061901AB6C7F700E1F565 /* legend_pl.png */; };
+		586061941AB6C7F700E1F565 /* legend_ru.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061911AB6C7F700E1F565 /* legend_ru.png */; };
+		586061951AB6C7F700E1F565 /* legend_en.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061921AB6C7F700E1F565 /* legend_en.png */; };
+		586061981AB6C83E00E1F565 /* MFALegendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 586061971AB6C83E00E1F565 /* MFALegendViewController.m */; };
 		588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 588635131AAAE4E60038F924 /* MFACityArchiveService.m */; };
 		58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */; };
 		58B0DA2E1AA5F1E30011A4A4 /* _MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */; };
@@ -57,6 +61,11 @@
 		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
 		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
 		583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewController.m; sourceTree = "<group>"; };
+		586061901AB6C7F700E1F565 /* legend_pl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legend_pl.png; sourceTree = "<group>"; };
+		586061911AB6C7F700E1F565 /* legend_ru.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legend_ru.png; sourceTree = "<group>"; };
+		586061921AB6C7F700E1F565 /* legend_en.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legend_en.png; sourceTree = "<group>"; };
+		586061961AB6C83E00E1F565 /* MFALegendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFALegendViewController.h; path = controllers/MFALegendViewController.h; sourceTree = "<group>"; };
+		586061971AB6C83E00E1F565 /* MFALegendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFALegendViewController.m; path = controllers/MFALegendViewController.m; sourceTree = "<group>"; };
 		588635121AAAE4E60038F924 /* MFACityArchiveService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFACityArchiveService.h; sourceTree = "<group>"; };
 		588635131AAAE4E60038F924 /* MFACityArchiveService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFACityArchiveService.m; sourceTree = "<group>"; };
 		58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPortalAnnotationView.h; sourceTree = "<group>"; };
@@ -179,6 +188,18 @@
 			name = "Station Map";
 			sourceTree = "<group>";
 		};
+		5860618F1AB6C7E100E1F565 /* Scheme Legend */ = {
+			isa = PBXGroup;
+			children = (
+				586061901AB6C7F700E1F565 /* legend_pl.png */,
+				586061911AB6C7F700E1F565 /* legend_ru.png */,
+				586061921AB6C7F700E1F565 /* legend_en.png */,
+				586061961AB6C83E00E1F565 /* MFALegendViewController.h */,
+				586061971AB6C83E00E1F565 /* MFALegendViewController.m */,
+			);
+			name = "Scheme Legend";
+			sourceTree = "<group>";
+		};
 		58B0DA3E1AA707CC0011A4A4 /* Select City */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +254,7 @@
 				58B0DA3E1AA707CC0011A4A4 /* Select City */,
 				58B0DA3F1AA709990011A4A4 /* Stations List */,
 				583B48F51AA74B8E00138E1F /* Station Map */,
+				5860618F1AB6C7E100E1F565 /* Scheme Legend */,
 				58F95ED41AA48FB600E22EF6 /* Main.storyboard */,
 				58F95ED71AA48FB600E22EF6 /* Images.xcassets */,
 				58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */,
@@ -377,8 +399,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				586061941AB6C7F700E1F565 /* legend_ru.png in Resources */,
 				58F95ED61AA48FB600E22EF6 /* Main.storyboard in Resources */,
+				586061931AB6C7F700E1F565 /* legend_pl.png in Resources */,
 				58F95ED81AA48FB600E22EF6 /* Images.xcassets in Resources */,
+				586061951AB6C7F700E1F565 /* legend_en.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				586061981AB6C83E00E1F565 /* MFALegendViewController.m in Sources */,
 				58B0DA351AA5F1E30011A4A4 /* MFALine.m in Sources */,
 				58F95EF61AA4A16100E22EF6 /* MFAStoryboardProxy.m in Sources */,
 				58B0DA331AA5F1E30011A4A4 /* MFACity.m in Sources */,
@@ -576,7 +602,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = "metro4all-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -594,7 +620,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				INFOPLIST_FILE = "metro4all-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -128,16 +128,18 @@
         
         RAC(self.schemeOverlayView, hidden) = [RACObserve(self.viewModel, showsObstacles) not];
         
-        // 5
         self.schemeScrollView.maximumZoomScale = 1.0f;
-        [self setMinimumZoomScale];
-        
-        [self centerScrollViewContents];
     }
     
     [RACObserve(self.viewModel, showsMap) subscribeNext:^(NSNumber *showsMap) {
         [self adjustControlsForMap:self.viewModel.showsMap animated:YES];
     }];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [self setMinimumZoomScale];
+    [self centerScrollViewContents];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -212,6 +214,8 @@
 
 - (void)setMinimumZoomScale
 {
+    self.schemeScrollView.zoomScale = 1;
+    
     CGRect scrollViewFrame = self.schemeScrollView.frame;
     
     CGFloat scaleWidth = scrollViewFrame.size.width / self.schemeScrollView.contentSize.width;
@@ -334,6 +338,9 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    //reset zoomScale back to 1 so that contentSize can be modified correctly
+    self.schemeScrollView.zoomScale = 1;
+    
     [self setMinimumZoomScale];
 }
 

@@ -76,13 +76,19 @@
         
         // 5
         self.scrollView.maximumZoomScale = 1.0f;
-        [self setMinimumZoomScale];
-        [self centerScrollViewContents];
-    }    
+    }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [self setMinimumZoomScale];
+    [self centerScrollViewContents];
 }
 
 - (void)setMinimumZoomScale
 {
+    self.scrollView.zoomScale = 1;
+    
     CGRect scrollViewFrame = self.scrollView.frame;
     
     CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
@@ -103,7 +109,7 @@
     newZoomScale = MIN(newZoomScale, self.scrollView.maximumZoomScale);
     
     // 3
-    CGSize scrollViewSize = self.scrollView.bounds.size;
+    CGSize scrollViewSize = self.scrollView.frame.size;
     
     CGFloat w = scrollViewSize.width / newZoomScale;
     CGFloat h = scrollViewSize.height / newZoomScale;
@@ -117,7 +123,7 @@
 }
 
 - (void)centerScrollViewContents {
-    CGSize boundsSize = self.scrollView.bounds.size;
+    CGSize boundsSize = self.scrollView.frame.size;
     CGRect contentsFrame = self.containerView.frame;
     
     if (contentsFrame.size.width < boundsSize.width) {
