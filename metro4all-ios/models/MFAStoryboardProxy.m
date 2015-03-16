@@ -39,4 +39,9 @@ static UIStoryboard *mainStoryboard = nil;
     return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_stationMapViewController"];
 }
 
++ (UIViewController *)legendViewController
+{
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_legendViewController"];
+}
+
 @end

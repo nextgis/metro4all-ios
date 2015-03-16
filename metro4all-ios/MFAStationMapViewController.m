@@ -11,6 +11,7 @@
 #import <MapKit/MapKit.h>
 #import <MBXRasterTileRenderer.h>
 
+#import "MFAStoryboardProxy.h"
 #import "MFAStationMapViewController.h"
 #import "MFAPortalAnnotationView.h"
 
@@ -85,6 +86,20 @@
     self.mapView.delegate = self;
     
     self.controlsView.layer.cornerRadius = 4.0f;
+    
+    UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"InfoIcon"]
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(infoButtonClick:)];
+    
+    [[showsMapSignal not] subscribeNext:^(NSNumber *showsScheme) {
+        if (showsScheme.boolValue == YES) {
+            self.navigationItem.rightBarButtonItem = infoButton;
+        }
+        else {
+            self.navigationItem.rightBarButtonItem = nil;
+        }
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -95,28 +110,30 @@
     MKCoordinateRegion mapRegion = MKCoordinateRegionMakeWithDistance(stationPos, 500, 500);
     self.mapView.region = mapRegion;
     
-    UIImage *schemeImage = self.viewModel.stationSchemeImage;
-    UIImageView *schemeView = [[UIImageView alloc] initWithImage:schemeImage];
-    UIImageView *overlayView = [[UIImageView alloc] initWithImage:self.viewModel.stationSchemeOverlayImage];
-    
-    UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, schemeImage.size.width, schemeImage.size.height)];
-    
-    [container addSubview:schemeView];
-    [container addSubview:overlayView];
-    
-    [self.schemeScrollView addSubview:container];
-    self.schemeScrollView.contentSize = container.frame.size;
-    
-    self.containerView = container;
-    self.schemeOverlayView = overlayView;
-    
-    RAC(self.schemeOverlayView, hidden) = [RACObserve(self.viewModel, showsObstacles) not];
-    
-    // 5
-    self.schemeScrollView.maximumZoomScale = 1.0f;
-    [self setMinimumZoomScale];
-    
-    [self centerScrollViewContents];
+    if (self.containerView == nil) {
+        UIImage *schemeImage = self.viewModel.stationSchemeImage;
+        UIImageView *schemeView = [[UIImageView alloc] initWithImage:schemeImage];
+        UIImageView *overlayView = [[UIImageView alloc] initWithImage:self.viewModel.stationSchemeOverlayImage];
+        
+        UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, schemeImage.size.width, schemeImage.size.height)];
+        
+        [container addSubview:schemeView];
+        [container addSubview:overlayView];
+        
+        [self.schemeScrollView addSubview:container];
+        self.schemeScrollView.contentSize = container.frame.size;
+        
+        self.containerView = container;
+        self.schemeOverlayView = overlayView;
+        
+        RAC(self.schemeOverlayView, hidden) = [RACObserve(self.viewModel, showsObstacles) not];
+        
+        // 5
+        self.schemeScrollView.maximumZoomScale = 1.0f;
+        [self setMinimumZoomScale];
+        
+        [self centerScrollViewContents];
+    }
     
     [RACObserve(self.viewModel, showsMap) subscribeNext:^(NSNumber *showsMap) {
         [self adjustControlsForMap:self.viewModel.showsMap animated:YES];
@@ -127,23 +144,21 @@
 {
     [super viewDidAppear:animated];
     
-    [RACObserve(self.viewModel, pins) subscribeNext:^(NSArray *pins) {
-        [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    
+    for (NSDictionary *pin in self.viewModel.pins) {
+        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        annotation.coordinate = CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
+                                                           [pin[@"lon"] doubleValue]);
         
-        for (NSDictionary *pin in self.viewModel.pins) {
-            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-            annotation.coordinate = CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
-                                                               [pin[@"lon"] doubleValue]);
-            
-            annotation.title = pin[@"title"];
-            annotation.subtitle = pin[@"subtitle"];
-            
-            [self.mapView addAnnotation:annotation];
-        }
+        annotation.title = pin[@"title"];
+        annotation.subtitle = pin[@"subtitle"];
         
-        MKCoordinateRegion reg = [self regionForAnnotations:self.mapView.annotations];
-        self.mapView.region = reg;
-    }];
+        [self.mapView addAnnotation:annotation];
+    }
+    
+    MKCoordinateRegion reg = [self regionForAnnotations:self.mapView.annotations];
+    self.mapView.region = reg;
 }
 
 - (void)adjustControlsForMap:(BOOL)showsMap animated:(BOOL)animated
@@ -227,6 +242,12 @@
     }
 }
 
+- (IBAction)infoButtonClick:(id)sender
+{
+    [self.navigationController pushViewController:[MFAStoryboardProxy legendViewController]
+                                         animated:YES];
+}
+
 /**
  * Return a region covering all the annotations in the given array.
  * @param annotations Array of objects conforming to the <MKAnnotation> protocol.
@@ -260,7 +281,7 @@
     newZoomScale = MIN(newZoomScale, self.schemeScrollView.maximumZoomScale);
     
     // 3
-    CGSize scrollViewSize = self.schemeScrollView.bounds.size;
+    CGSize scrollViewSize = self.schemeScrollView.frame.size;
     
     CGFloat w = scrollViewSize.width / newZoomScale;
     CGFloat h = scrollViewSize.height / newZoomScale;
@@ -274,7 +295,7 @@
 }
 
 - (void)centerScrollViewContents {
-    CGSize boundsSize = self.schemeScrollView.bounds.size;
+    CGSize boundsSize = self.schemeScrollView.frame.size;
     CGRect contentsFrame = self.containerView.frame;
     
     if (contentsFrame.size.width < boundsSize.width) {
