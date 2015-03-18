@@ -10,6 +10,7 @@ pod 'RestKit'
 pod 'SVProgressHUD'
 pod 'ReactiveCocoa', '~> 2.0'
 pod 'MBXMapKit'
+pod 'Reachability'
 
 pod 'SSZipArchive'
 #pod 'CHCSVParser'

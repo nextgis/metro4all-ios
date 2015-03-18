@@ -14,8 +14,11 @@
 
 - (instancetype)initWithCity:(MFACity *)city;
 
-@property (nonatomic, strong, readonly) NSArray *stations;
-@property (nonatomic, strong, readonly) NSArray *lines;
-@property (nonatomic, readonly) NSString *cityName;
+@property (nonatomic, copy) NSString *searchString;
+@property (nonatomic, strong, readonly) NSArray *searchResults;
+
+@property (nonatomic, strong, readonly) NSArray *allStations;
+
+@property (nonatomic, readonly) NSString *screenTitle;
 
 @end

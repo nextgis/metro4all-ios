@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 #import "MFAStoryboardProxy.h"
 
 #import "MFAStationsListViewController.h"
@@ -18,6 +20,7 @@
 
 @interface MFAStationsListViewController () <UITableViewDataSource,
                                              UITableViewDelegate,
+                                             UISearchDisplayDelegate,
                                              MFAStationListTableViewCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
@@ -32,13 +35,20 @@
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+
+    self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    self.title = self.viewModel.cityName;
+    self.title = self.viewModel.screenTitle;
+    
+    [RACObserve(self.viewModel, searchResults) subscribeNext:^(NSArray *stations) {
+        [self.searchDisplayController.searchResultsTableView reloadData];
+        self.selectedIndexPath = nil;
+    }];
 }
 
 #pragma mark - UITableView Datasource
@@ -50,7 +60,12 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.viewModel.stations.count;
+    if (tableView == self.tableView) {
+        return self.viewModel.allStations.count;
+    }
+    else {
+        return self.viewModel.searchResults.count;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -68,14 +83,20 @@
     MFAStationListTableViewCell *cell = nil;
     
     if ([indexPath isEqual:self.selectedIndexPath]) {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectedStationCell" forIndexPath:indexPath];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"MFA_selectedStationCell"];
         ((MFAStationListSelectedTableViewCell *)cell).delegate = self;
     }
     else {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_stationCell" forIndexPath:indexPath];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"MFA_stationCell"];
     }
+
     
-    cell.station = self.viewModel.stations[indexPath.row];
+    if (tableView == self.tableView) {
+        cell.station = self.viewModel.allStations[indexPath.row];
+    }
+    else {
+        cell.station = self.viewModel.searchResults[indexPath.row];
+    }
     
     return cell;
 }
@@ -107,6 +128,22 @@
     self.selectedIndexPath = nil;
     
     [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
+{
+    [controller.searchResultsTableView reloadData];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    self.viewModel.searchString = searchString;
+    return NO; // will be reloaded once ready
+}
+
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
+{
+    self.viewModel.searchString = nil;
 }
 
 #pragma mark - Station List Cell Delegate

@@ -68,6 +68,14 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="UG6-3X-5fl">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <searchBar key="tableHeaderView" contentMode="redraw" id="XAH-pS-Y3d">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="V3W-Xb-RhE" id="nI2-BK-Lne"/>
+                                            </connections>
+                                        </searchBar>
                                         <prototypes>
                                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="MFA_stationCell" rowHeight="70" id="uSm-wz-bbW" customClass="MFAStationListTableViewCell">
                                                 <autoresizingMask key="autoresizingMask"/>
@@ -188,10 +196,20 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="searchDisplayController" destination="VVn-ga-6me" id="Wfd-lM-Ugw"/>
                         <outlet property="tableView" destination="UG6-3X-5fl" id="z8b-vl-nyN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bpp-Qx-pXq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="VVn-ga-6me">
+                    <connections>
+                        <outlet property="delegate" destination="V3W-Xb-RhE" id="AdJ-sn-icR"/>
+                        <outlet property="searchBar" destination="XAH-pS-Y3d" id="vrH-IA-5Yt"/>
+                        <outlet property="searchContentsController" destination="V3W-Xb-RhE" id="vWh-8V-iiN"/>
+                        <outlet property="searchResultsDataSource" destination="V3W-Xb-RhE" id="FGs-o9-3xH"/>
+                        <outlet property="searchResultsDelegate" destination="V3W-Xb-RhE" id="MC6-ZH-sGj"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="-354" y="-241"/>
         </scene>

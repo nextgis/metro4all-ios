@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
+
 #import "MFACityArchiveService.h"
 
 @class MFACity;
@@ -16,6 +18,8 @@
 @property (nonatomic, strong, readonly) NSDictionary *selectedCityMeta;
 @property (nonatomic, strong, readonly) NSArray *cities;
 @property (nonatomic, strong, readonly) MFACity *selectedCity;
+
+@property (nonatomic, strong, readonly) RACCommand *loadMetaFromServerCommand;
 
 - (instancetype)initWithCityArchiveService:(MFACityArchiveService *)archiveService;
 

@@ -27,6 +27,7 @@
 @end
 
 @implementation MFASelectCityViewModel
+@synthesize loadMetaFromServerCommand = _loadMetaFromServerCommand;
 
 - (instancetype)initWithCityArchiveService:(MFACityArchiveService *)archiveService
 {
@@ -36,6 +37,31 @@
     }
     
     return self;
+}
+
+- (RACCommand *)loadMetaFromServerCommand
+{
+    if (!_loadMetaFromServerCommand) {
+        _loadMetaFromServerCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
+            RACSignal *loadMetaSignal = [RACSignal startEagerlyWithScheduler:[RACScheduler mainThreadScheduler]
+                                                                       block:^(id<RACSubscriber> subscriber) {
+                [self loadCitiesWithCompletion:^{
+                    if (self.cities.count == 0) {
+                        [subscriber sendError:[NSError errorWithDomain:@"org.metro4all.metro4all-ios"
+                                                                  code:1
+                                                              userInfo:@{ NSLocalizedDescriptionKey : @"Failed to get list of available cities" }]];
+                    }
+                    else {
+                        [subscriber sendCompleted];
+                    }
+                }];
+            }];
+            
+            return loadMetaSignal;
+        }];
+    }
+    
+    return _loadMetaFromServerCommand;
 }
 
 - (void)loadCitiesWithCompletion:(void (^)(void))completionBlock

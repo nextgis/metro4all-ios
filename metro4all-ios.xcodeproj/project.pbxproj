@@ -216,12 +216,12 @@
 		58B0DA3F1AA709990011A4A4 /* Stations List */ = {
 			isa = PBXGroup;
 			children = (
-				58B0DA3B1AA707C20011A4A4 /* MFAStationsListViewController.h */,
-				58B0DA3C1AA707C20011A4A4 /* MFAStationsListViewController.m */,
 				58B0DA401AA709C80011A4A4 /* MFAStationListTableViewCell.h */,
 				58B0DA411AA709C80011A4A4 /* MFAStationListTableViewCell.m */,
 				58B0DA431AA70DBB0011A4A4 /* MFAStationsListViewModel.h */,
 				58B0DA441AA70DBB0011A4A4 /* MFAStationsListViewModel.m */,
+				58B0DA3B1AA707C20011A4A4 /* MFAStationsListViewController.h */,
+				58B0DA3C1AA707C20011A4A4 /* MFAStationsListViewController.m */,
 			);
 			name = "Stations List";
 			sourceTree = "<group>";
@@ -602,7 +602,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INFOPLIST_FILE = "metro4all-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -620,7 +620,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 17;
 				INFOPLIST_FILE = "metro4all-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

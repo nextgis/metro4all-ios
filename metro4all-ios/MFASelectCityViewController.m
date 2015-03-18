@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import <SVProgressHUD/SVProgressHUD.h>
+#import <Reachability/Reachability.h>
+
 #import "MFASelectCityViewController.h"
 #import "MFASelectCityViewModel.h"
 #import "MFASelectCityTableViewCell.h"
@@ -48,12 +51,22 @@
 {
 //    self.tableView.hidden = YES;
     
-    [[self viewModel] loadCitiesWithCompletion:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
+    if ([Reachability reachabilityForInternetConnection]) {
+        [[[[self.viewModel.loadMetaFromServerCommand execute:nil] initially:^{
+            [SVProgressHUD showWithStatus:@"Загружаю список городов" maskType:SVProgressHUDMaskTypeBlack];
+        }] finally:^{
+            [SVProgressHUD dismiss];
+        }] subscribeCompleted:^{
             [self.tableView reloadData];
-//            self.viewModel.selectedCity = self.viewModel.cities[0];
-        });
-    }];
+        }];
+    }
+    else {
+        [[[UIAlertView alloc] initWithTitle:@"Отсутствует соединение с интернетом"
+                                    message:@"Приложение «Метро для всех» требует для работы соединение с интернетом. Проверьте настройки или повторите запрос позднее"
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    }
 }
 
 - (IBAction)selectionDone:(id)sender

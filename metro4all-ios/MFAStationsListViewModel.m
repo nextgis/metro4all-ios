@@ -12,8 +12,10 @@
 @interface MFAStationsListViewModel ()
 
 @property (nonatomic, strong) MFACity *city;
-@property (nonatomic, strong, readwrite) NSArray *stations;
-@property (nonatomic, strong, readwrite) NSArray *lines;
+
+@property (nonatomic, strong, readwrite) NSArray *searchResults;
+
+@property (nonatomic, strong, readwrite) NSArray *allStations;
 
 @end
 
@@ -24,23 +26,46 @@
     self = [super init];
     if (self) {
         self.city = city;
+        self.allStations = [self fetchStationsForCity:city searchString:nil];
+        self.searchResults = self.allStations;
     }
     
     return self;
 }
 
-- (void)setCity:(MFACity *)city
+- (NSArray *)fetchStationsForCity:(MFACity *)city searchString:(NSString *)searchString
 {
-    _city = city;
-    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"Station" inManagedObjectContext:city.managedObjectContext];
+
+    if (searchString) {
+        // case-insensitive, diacritic-insensitive contain
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString];
+    }
+
     NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-    self.stations = [[city.stations allObjects] sortedArrayUsingDescriptors:@[ nameSortDescriptor ]];
-    self.lines = [[city.lines allObjects] sortedArrayUsingDescriptors:@[ nameSortDescriptor ]];
+    [fetchRequest setSortDescriptors:@[ nameSortDescriptor ]];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [city.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    return fetchedObjects;
 }
 
-- (NSString *)cityName
+- (NSString *)screenTitle
 {
     return self.city.name;
+}
+
+- (void)setSearchString:(NSString *)searchString
+{
+    _searchString = searchString;
+    
+    if (searchString.length == 0) {
+        self.searchResults = self.allStations;
+    }
+    
+    self.searchResults = [self fetchStationsForCity:self.city searchString:searchString];
 }
 
 @end
