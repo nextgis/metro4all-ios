@@ -23,7 +23,6 @@
                                              UISearchDisplayDelegate,
                                              MFAStationListTableViewCellDelegate>
 
-@property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
 
 @end
@@ -106,7 +105,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.selectedIndexPath isEqual:indexPath] == NO) {
-        
         NSArray *indexPaths = nil;
         
         if (self.selectedIndexPath) {
