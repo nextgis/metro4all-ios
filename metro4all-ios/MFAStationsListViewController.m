@@ -46,7 +46,6 @@
     
     [RACObserve(self.viewModel, searchResults) subscribeNext:^(NSArray *stations) {
         [self.searchDisplayController.searchResultsTableView reloadData];
-        self.selectedIndexPath = nil;
     }];
 }
 
@@ -104,6 +103,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.view endEditing:YES];
+    
     if ([self.selectedIndexPath isEqual:indexPath] == NO) {
         NSArray *indexPaths = nil;
         
@@ -130,6 +131,7 @@
 
 - (void)searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller
 {
+    self.selectedIndexPath = nil;
     [controller.searchResultsTableView reloadData];
 }
 
@@ -142,6 +144,9 @@
 - (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
 {
     self.viewModel.searchString = nil;
+    
+    self.selectedIndexPath = nil;
+    [self.tableView reloadData];
 }
 
 #pragma mark - Station List Cell Delegate
