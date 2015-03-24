@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+
+#import "AppDelegate.h"
 #import "MFAStationsListViewModel.h"
 #import "MFACity.h"
 
@@ -28,6 +31,9 @@
         self.city = city;
         self.allStations = [self fetchStationsForCity:city searchString:nil];
         self.searchResults = self.allStations;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCity:)
+                                                     name:@"MFA_CHANGE_CITY" object:nil];
     }
     
     return self;
@@ -40,7 +46,10 @@
 
     if (searchString) {
         // case-insensitive, diacritic-insensitive contain
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString];
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"city.path == %@ AND name CONTAINS[cd] %@", city.path, searchString];
+    }
+    else {
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"city.path == %@", city.path];
     }
 
     NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
@@ -68,4 +77,33 @@
     self.searchResults = [self fetchStationsForCity:self.city searchString:searchString];
 }
 
+- (UIViewController *)selectCityViewController
+{
+    return [((AppDelegate *)[UIApplication sharedApplication].delegate) setupSelectCityController];
+}
+
+- (void)changeCity:(NSNotification *)note
+{
+    NSDictionary *currentCityMeta = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
+    
+    NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    fetchRequest.entity = [NSEntityDescription entityForName:@"City"
+                                      inManagedObjectContext:context];
+    
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"path == %@", currentCityMeta[@"path"]];
+    
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+    
+    if (fetchedObjects.count == 0) {
+        
+    }
+    else {
+        self.city = [fetchedObjects firstObject];
+        self.allStations = [self fetchStationsForCity:self.city searchString:nil];
+        self.searchResults = self.allStations;
+    }
+}
 @end

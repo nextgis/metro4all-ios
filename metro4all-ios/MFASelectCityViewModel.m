@@ -234,16 +234,18 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [SVProgressHUD dismiss];
         [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
+        
+        self.selectedCity = city;
+        self.parser = nil;
+
+        [[NSUserDefaults standardUserDefaults] setObject:parser.cityMetadata forKey:@"MFA_CURRENT_CITY"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MFA_CHANGE_CITY" object:nil];
+
+        if (self.completionBlock) {
+            self.completionBlock();
+            self.completionBlock = nil;
+        }
     });
-    
-    self.selectedCity = city;
-    
-    self.parser = nil;
-    
-    if (self.completionBlock) {
-        self.completionBlock();
-        self.completionBlock = nil;
-    }
 }
 
 @end

@@ -82,7 +82,7 @@
 - (void)viewDidLayoutSubviews
 {
     [self setMinimumZoomScale];
-    [self centerScrollViewContents];
+//    [self centerScrollViewContents];
 }
 
 - (void)setMinimumZoomScale
@@ -124,21 +124,21 @@
 
 - (void)centerScrollViewContents {
     CGSize boundsSize = self.scrollView.frame.size;
-    CGRect contentsFrame = self.containerView.frame;
+    CGPoint contentsOffset = self.scrollView.contentOffset;
     
-    if (contentsFrame.size.width < boundsSize.width) {
-        contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0f;
+    if (self.scrollView.contentSize.width < boundsSize.width) {
+        contentsOffset.x = (boundsSize.width - self.scrollView.contentSize.width) / 2.0f;
     } else {
-        contentsFrame.origin.x = 0.0f;
+        contentsOffset.x = 0.0f;
     }
     
-    if (contentsFrame.size.height < boundsSize.height) {
-        contentsFrame.origin.y = (boundsSize.height - contentsFrame.size.height) / 2.0f;
+    if (self.scrollView.contentSize.height < boundsSize.height) {
+        contentsOffset.y = (boundsSize.height - self.scrollView.contentSize.height) / 2.0f;
     } else {
-        contentsFrame.origin.y = 0.0f;
+        contentsOffset.y = 0.0f;
     }
     
-    self.containerView.frame = contentsFrame;
+    self.scrollView.contentOffset = contentsOffset;
 }
 
 - (void)scrollViewTwoFingerTapped:(UITapGestureRecognizer *)recognizer {

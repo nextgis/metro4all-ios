@@ -36,6 +36,13 @@
     self.tableView.dataSource = self;
 
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
+    
+    UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:@"Город"
+                                                                         style:UIBarButtonItemStylePlain
+                                                                        target:self
+                                                                        action:@selector(changeCity:)];
+    
+    self.navigationItem.rightBarButtonItem = changeCityButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -46,6 +53,10 @@
     
     [RACObserve(self.viewModel, searchResults) subscribeNext:^(NSArray *stations) {
         [self.searchDisplayController.searchResultsTableView reloadData];
+    }];
+    
+    [RACObserve(self.viewModel, allStations) subscribeNext:^(id x) {
+        [self.tableView reloadData];
     }];
 }
 
@@ -181,4 +192,9 @@
     [self.navigationController pushViewController:stationMapController animated:YES];
 }
 
+- (IBAction)changeCity:(id)sender
+{
+    UIViewController *selectCityViewController = self.viewModel.selectCityViewController;
+    [self presentViewController:selectCityViewController animated:YES completion:nil];
+}
 @end

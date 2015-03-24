@@ -75,13 +75,16 @@
     NSDictionary *selectedCity = self.viewModel.cities[selectedIndexPath.row];
     
     [self.viewModel processCityMeta:selectedCity withCompletion:^{
-        [[NSUserDefaults standardUserDefaults] setObject:selectedCity forKey:@"MFA_CURRENT_CITY"];
-        
-        MFAStationsListViewController *stationsList = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
-        stationsList.viewModel = [[MFAStationsListViewModel alloc] initWithCity:self.viewModel.selectedCity];
-        
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:stationsList];
-        [self presentViewController:navController animated:YES completion:nil];
+        if (self.presentingViewController) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        else {
+            MFAStationsListViewController *stationsList = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
+            stationsList.viewModel = [[MFAStationsListViewModel alloc] initWithCity:self.viewModel.selectedCity];
+            
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:stationsList];
+            [self presentViewController:navController animated:YES completion:nil];
+        }
     }
                               error:^(NSError *error) {
                                   [self showErrorMessage];

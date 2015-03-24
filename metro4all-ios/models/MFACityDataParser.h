@@ -28,6 +28,7 @@
             managedObjectContext:(NSManagedObjectContext *)moc delegate:(id<MFACityDataParserDelegate>)delegate;
 
 @property (nonatomic, weak) id<MFACityDataParserDelegate> delegate;
+@property (nonatomic, copy, readonly) NSDictionary *cityMetadata;
 
 - (void)start;
 

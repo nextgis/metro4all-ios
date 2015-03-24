@@ -23,7 +23,7 @@
 
 @interface MFACityDataParser ()
 
-@property (nonatomic, copy) NSDictionary *cityMetadata;
+@property (nonatomic, copy, readwrite) NSDictionary *cityMetadata;
 @property (nonatomic, copy) NSString *csvPath;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
@@ -131,7 +131,9 @@
         [self.delegate cityDataParser:self didProcessFiles:3 ofTotalFiles:totalFiles];
     }
 
-    [self.managedObjectContext save:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.managedObjectContext save:nil];
+    });
     
     [self.delegate cityDataParser:self didFinishParsingCity:city];
 }
