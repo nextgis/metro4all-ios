@@ -11,7 +11,7 @@
 @interface MFALegendViewController () <UIScrollViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIImage *legendImage;
 @property (nonatomic, weak) IBOutlet UIView *containerView;
 
 @end
@@ -39,15 +39,14 @@
         image = [UIImage imageNamed:@"legend_ru"];
     }
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-    self.imageView = imageView;
+    self.legendImage = image;
     
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                action:@selector(zoomImage:)];
-    doubleTap.numberOfTapsRequired = 2;
-    doubleTap.numberOfTouchesRequired = 1;
-    
-    [self.scrollView addGestureRecognizer:doubleTap];
+//    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+//                                                                                action:@selector(zoomImage:)];
+//    doubleTap.numberOfTapsRequired = 2;
+//    doubleTap.numberOfTouchesRequired = 1;
+//    
+//    [self.scrollView addGestureRecognizer:doubleTap];
     
     UITapGestureRecognizer *pinch = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                             action:@selector(scrollViewTwoFingerTapped:)];
@@ -56,47 +55,36 @@
     
     [self.scrollView addGestureRecognizer:pinch];
     
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:self.legendImage];
+    [self.scrollView addSubview:imageView];
+    
+    self.containerView = imageView;
+    
+    self.scrollView.contentSize = self.legendImage.size;
+    self.scrollView.maximumZoomScale = 1.0f;
     self.scrollView.delegate = self;
+    self.scrollView.minimumZoomScale = [self minimumZoomScale];
+    
+    // fit image into screen
+    self.scrollView.zoomScale = [self minimumZoomScale];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    if (self.containerView == nil) {
-        UIImage *image = self.imageView.image;
-        UIView *container = [[UIView alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-        
-        [container addSubview:self.imageView];
-        
-        [self.scrollView addSubview:container];
-        self.scrollView.contentSize = container.frame.size;
-        
-        self.containerView = container;
-        
-        // 5
-        self.scrollView.maximumZoomScale = 1.0f;
-    }
+    [self centerScrollViewContents];
 }
 
-- (void)viewDidLayoutSubviews
+- (CGFloat)minimumZoomScale
 {
-    [self setMinimumZoomScale];
-//    [self centerScrollViewContents];
-}
-
-- (void)setMinimumZoomScale
-{
-    self.scrollView.zoomScale = 1;
-    
     CGRect scrollViewFrame = self.scrollView.frame;
     
     CGFloat scaleWidth = scrollViewFrame.size.width / self.scrollView.contentSize.width;
     CGFloat scaleHeight = scrollViewFrame.size.height / self.scrollView.contentSize.height;
     CGFloat minScale = MIN(scaleWidth, scaleHeight);
     
-    self.scrollView.minimumZoomScale = minScale;
-    self.scrollView.zoomScale = minScale;
+    return minScale;
 }
 
 - (void)zoomImage:(UIGestureRecognizer *)recognizer
@@ -123,22 +111,18 @@
 }
 
 - (void)centerScrollViewContents {
-    CGSize boundsSize = self.scrollView.frame.size;
-    CGPoint contentsOffset = self.scrollView.contentOffset;
+    CGSize boundsSize = self.scrollView.bounds.size;
+    CGRect contentsFrame = self.containerView.frame;
     
-    if (self.scrollView.contentSize.width < boundsSize.width) {
-        contentsOffset.x = (boundsSize.width - self.scrollView.contentSize.width) / 2.0f;
+    if (contentsFrame.size.width < boundsSize.width) {
+        contentsFrame.origin.x = (boundsSize.width - contentsFrame.size.width) / 2.0f;
     } else {
-        contentsOffset.x = 0.0f;
+        contentsFrame.origin.x = 0.0f;
     }
     
-    if (self.scrollView.contentSize.height < boundsSize.height) {
-        contentsOffset.y = (boundsSize.height - self.scrollView.contentSize.height) / 2.0f;
-    } else {
-        contentsOffset.y = 0.0f;
-    }
+    contentsFrame.origin.y = 0.0f;
     
-    self.scrollView.contentOffset = contentsOffset;
+    self.containerView.frame = contentsFrame;
 }
 
 - (void)scrollViewTwoFingerTapped:(UITapGestureRecognizer *)recognizer {
@@ -150,7 +134,7 @@
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
     // Return the view that you want to zoom
-    return self.scrollView.subviews[0];
+    return self.containerView;
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
@@ -162,7 +146,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    [self setMinimumZoomScale];
+    [self centerScrollViewContents];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator

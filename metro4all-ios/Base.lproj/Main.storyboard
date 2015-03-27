@@ -296,21 +296,34 @@
                         <viewControllerLayoutGuide type="bottom" id="etG-uR-63V"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="a3S-fe-ZVW">
-                        <rect key="frame" x="0.0" y="64" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmV-Le-OJA">
-                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
-                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dq0-Qn-280">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <subviews>
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hmV-Le-OJA">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                    </scrollView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="hmV-Le-OJA" firstAttribute="leading" secondItem="dq0-Qn-280" secondAttribute="leading" id="GOr-7C-Q8k"/>
+                                    <constraint firstAttribute="trailing" secondItem="hmV-Le-OJA" secondAttribute="trailing" id="dAF-WN-6tc"/>
+                                    <constraint firstItem="hmV-Le-OJA" firstAttribute="top" secondItem="dq0-Qn-280" secondAttribute="top" id="qmy-wD-VdF"/>
+                                    <constraint firstAttribute="bottom" secondItem="hmV-Le-OJA" secondAttribute="bottom" id="xok-Er-C14"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hmV-Le-OJA" firstAttribute="leading" secondItem="a3S-fe-ZVW" secondAttribute="leading" id="k0e-Fy-tAA"/>
-                            <constraint firstItem="etG-uR-63V" firstAttribute="top" secondItem="hmV-Le-OJA" secondAttribute="bottom" id="mq5-Ta-YLu"/>
-                            <constraint firstItem="hmV-Le-OJA" firstAttribute="top" secondItem="gs0-xQ-39o" secondAttribute="bottom" id="nCy-bi-wJs"/>
-                            <constraint firstAttribute="trailing" secondItem="hmV-Le-OJA" secondAttribute="trailing" id="oed-B5-QK3"/>
+                            <constraint firstItem="etG-uR-63V" firstAttribute="top" secondItem="dq0-Qn-280" secondAttribute="bottom" id="4Pk-xE-XqA"/>
+                            <constraint firstItem="dq0-Qn-280" firstAttribute="top" secondItem="gs0-xQ-39o" secondAttribute="bottom" id="hJy-YK-wmR"/>
+                            <constraint firstItem="dq0-Qn-280" firstAttribute="leading" secondItem="a3S-fe-ZVW" secondAttribute="leading" id="sws-DJ-aus"/>
+                            <constraint firstAttribute="trailing" secondItem="dq0-Qn-280" secondAttribute="trailing" id="xzC-id-i3d"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
