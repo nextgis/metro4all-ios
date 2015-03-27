@@ -95,7 +95,8 @@
     NSMutableArray *pins = [NSMutableArray new];
     
     for (MFAPortal *portal in self.station.portals) {
-        [pins addObject:@{ @"title" : [portal.portalNumber stringValue],
+        [pins addObject:@{ @"portalNumber" : portal.portalNumber,
+                           @"title" : [NSString stringWithFormat:@"Выход #%@", [portal.portalNumber stringValue]],
                            @"subtitle" : portal.name,
                            @"lat" : portal.lat,
                            @"lon" : portal.lon }];

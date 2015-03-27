@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import "MFAPortalAnnotation.h"
 #import "MFAPortalAnnotationView.h"
 
 const CGFloat annotationSize = 24.0f;
@@ -24,6 +25,10 @@ const CGFloat annotationSize = 24.0f;
     if (self) {
         self.frame = CGRectMake(0, 0, annotationSize, annotationSize);
         self.backgroundColor = [UIColor clearColor];
+        
+        if ([annotation isKindOfClass:[MFAPortalAnnotation class]]) {
+            self.portalNumber = ((MFAPortalAnnotation *)annotation).portalNumber;
+        }
     }
     
     return self;
@@ -32,10 +37,11 @@ const CGFloat annotationSize = 24.0f;
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
-    [self drawPortalAnnotationWithPortalNumber:self.annotation.title annotationSize:annotationSize];
+    [self drawPortalAnnotationWithPortalNumber:[self.portalNumber stringValue]
+                                annotationSize:annotationSize];
 }
 
-- (void)drawPortalAnnotationWithPortalNumber: (NSString*)portalNumber annotationSize: (CGFloat)annotationSize;
+- (void)drawPortalAnnotationWithPortalNumber:(NSString*)portalNumber annotationSize:(CGFloat)annotationSize;
 {
     
     //// Variable Declarations

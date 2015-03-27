@@ -13,7 +13,9 @@
 
 #import "MFAStoryboardProxy.h"
 #import "MFAStationMapViewController.h"
+
 #import "MFAPortalAnnotationView.h"
+#import "MFAPortalAnnotation.h"
 
 @interface MFAStationMapViewController () <UIScrollViewDelegate, MKMapViewDelegate>
 
@@ -149,12 +151,13 @@
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (NSDictionary *pin in self.viewModel.pins) {
-        MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+        MFAPortalAnnotation *annotation = [[MFAPortalAnnotation alloc] init];
         annotation.coordinate = CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
                                                            [pin[@"lon"] doubleValue]);
         
         annotation.title = pin[@"title"];
         annotation.subtitle = pin[@"subtitle"];
+        annotation.portalNumber = pin[@"portalNumber"];
         
         [self.mapView addAnnotation:annotation];
     }
