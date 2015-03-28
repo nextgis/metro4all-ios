@@ -24,7 +24,7 @@ end
 
 lane :beta do
   sigh({ adhoc: true })
-  sh "./testfairy-upload-ios.sh" 
+  #sh "./testfairy-upload-ios.sh" 
 end
 
 lane :deploy do

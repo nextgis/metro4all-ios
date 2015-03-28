@@ -53,7 +53,7 @@
     if (!_stationSchemeImage) {
         MFACity *city = self.station.city;
         
-        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/%ld", city.path, (long)self.station.nodeId.integerValue];
+        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/%ld.png", city.path, (long)self.station.nodeId.integerValue];
         
         NSURL *documentsDirURL = [((AppDelegate *)[UIApplication sharedApplication].delegate) applicationDocumentsDirectory];
         
@@ -73,7 +73,7 @@
     if (!_stationSchemeOverlayImage) {
         MFACity *city = self.station.city;
         
-        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/numbers/%ld", city.path, (long)self.station.nodeId.integerValue];
+        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/numbers/%ld.png", city.path, (long)self.station.nodeId.integerValue];
         
         NSURL *documentsDirURL = [((AppDelegate *)[UIApplication sharedApplication].delegate) applicationDocumentsDirectory];
         
