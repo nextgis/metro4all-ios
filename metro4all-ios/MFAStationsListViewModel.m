@@ -44,21 +44,19 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"Station" inManagedObjectContext:city.managedObjectContext];
 
-    if (searchString) {
-        // case-insensitive, diacritic-insensitive contain
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"city.path == %@ AND name CONTAINS[cd] %@", city.path, searchString];
-    }
-    else {
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"city.path == %@", city.path];
-    }
-
-    NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-    [fetchRequest setSortDescriptors:@[ nameSortDescriptor ]];
-    
     NSError *error = nil;
     NSArray *fetchedObjects = [city.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
-    return fetchedObjects;
+    NSArray *filtered = nil;
+    if (searchString) {
+        filtered = [fetchedObjects filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"nameString CONTAINS[cd] %@", searchString]];
+    }
+    else {
+        filtered = fetchedObjects;
+    }
+    
+    NSArray *sorted = [filtered sortedArrayUsingDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"nameString" ascending:YES]]];
+    return sorted;
 }
 
 - (NSString *)screenTitle
