@@ -37,7 +37,19 @@
     _viewModel = viewModel;
     
     if (viewModel) {
-        self.titleLabel.text = viewModel[@"name_ru"];
+        NSString *name = nil;
+        for (NSString *lang in [NSLocale preferredLanguages]) {
+            name = self.viewModel[[@"name_" stringByAppendingString:lang]];
+            
+            if (name != nil) {
+                self.titleLabel.text = name;
+                break;
+            }
+        }
+        
+        if (name == nil) {
+            self.titleLabel.text = self.viewModel[@"name_ru"];
+        }
     }
     else {
         self.titleLabel.text = nil;

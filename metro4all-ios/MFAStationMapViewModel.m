@@ -36,7 +36,7 @@
                                                      self.station.lonValue);
         
         self.showsMap = YES;
-        self.showsPortals = NO;
+        self.showsPortals = YES;
         self.showsObstacles = NO;
     }
     
@@ -45,7 +45,7 @@
 
 - (NSString *)stationName
 {
-    return self.station.name;
+    return self.station.nameString;
 }
 
 - (UIImage *)stationSchemeImage
@@ -97,7 +97,7 @@
     for (MFAPortal *portal in self.station.portals) {
         [pins addObject:@{ @"portalNumber" : portal.portalNumber,
                            @"title" : [NSString stringWithFormat:@"Выход #%@", [portal.portalNumber stringValue]],
-                           @"subtitle" : portal.name,
+                           @"subtitle" : portal.nameString,
                            @"lat" : portal.lat,
                            @"lon" : portal.lon }];
     }

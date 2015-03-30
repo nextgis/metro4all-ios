@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14D87h" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="City" representedClassName="MFACity" syncable="YES">
-        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="Transformable" syncable="YES"/>
         <attribute name="path" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="version" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="lines" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Line" inverseName="city" inverseEntity="Line" syncable="YES"/>
@@ -14,7 +14,7 @@
     <entity name="Line" representedClassName="MFALine" syncable="YES">
         <attribute name="color" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
         <attribute name="lineId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="Transformable" syncable="YES"/>
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="lines" inverseEntity="City" syncable="YES"/>
         <relationship name="stations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Station" inverseName="line" inverseEntity="Station" syncable="YES"/>
     </entity>
@@ -22,7 +22,7 @@
         <attribute name="direction" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="lat" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="lon" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="Transformable" syncable="YES"/>
         <attribute name="portalNumber" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="potralId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="stationId" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -32,7 +32,7 @@
         <attribute name="lat" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="lineId" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="lon" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="name" attributeType="String" syncable="YES"/>
+        <attribute name="name" attributeType="Transformable" syncable="YES"/>
         <attribute name="nodeId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="schemeFilePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stationId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -45,7 +45,7 @@
     <elements>
         <element name="City" positionX="-443" positionY="225" width="128" height="120"/>
         <element name="Interchange" positionX="-0" positionY="378" width="128" height="75"/>
-        <element name="Line" positionX="43" positionY="168" width="128" height="118"/>
+        <element name="Line" positionX="43" positionY="168" width="128" height="120"/>
         <element name="Portal" positionX="43" positionY="531" width="128" height="165"/>
         <element name="Station" positionX="-261" positionY="354" width="128" height="225"/>
     </elements>

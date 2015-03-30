@@ -63,7 +63,7 @@
 
 - (NSString *)screenTitle
 {
-    return self.city.name;
+    return self.city.nameString;
 }
 
 - (void)setSearchString:(NSString *)searchString

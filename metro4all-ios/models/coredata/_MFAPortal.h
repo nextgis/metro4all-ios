@@ -19,6 +19,8 @@ extern const struct MFAPortalRelationships {
 
 @class MFAStation;
 
+@class NSObject;
+
 @interface MFAPortalID : NSManagedObjectID {}
 @end
 
@@ -52,7 +54,7 @@ extern const struct MFAPortalRelationships {
 
 //- (BOOL)validateLon:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) id name;
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
 
@@ -106,8 +108,8 @@ extern const struct MFAPortalRelationships {
 - (float)primitiveLonValue;
 - (void)setPrimitiveLonValue:(float)value_;
 
-- (NSString*)primitiveName;
-- (void)setPrimitiveName:(NSString*)value;
+- (id)primitiveName;
+- (void)setPrimitiveName:(id)value;
 
 - (NSNumber*)primitivePortalNumber;
 - (void)setPrimitivePortalNumber:(NSNumber*)value;

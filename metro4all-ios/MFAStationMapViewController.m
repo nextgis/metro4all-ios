@@ -162,8 +162,14 @@
         [self.mapView addAnnotation:annotation];
     }
     
-    MKCoordinateRegion reg = [self regionForAnnotations:self.mapView.annotations];
-    self.mapView.region = reg;
+    if (self.mapView.annotations.count == 0) {
+        MKCoordinateRegion reg = MKCoordinateRegionMakeWithDistance(self.viewModel.stationPos, 500, 500);
+        self.mapView.region = reg;
+    }
+    else {
+        MKCoordinateRegion reg = [self regionForAnnotations:self.mapView.annotations];
+        self.mapView.region = reg;
+    }
 }
 
 - (void)adjustControlsForMap:(BOOL)showsMap animated:(BOOL)animated

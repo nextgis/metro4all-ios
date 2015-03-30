@@ -29,7 +29,7 @@
     _station = station;
     
     self.lineColorView.backgroundColor = self.station.line.color;
-    self.stationTitleLabel.text = self.station.name;
+    self.stationTitleLabel.text = self.station.nameString;
 }
 
 @end

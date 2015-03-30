@@ -17,6 +17,8 @@ extern const struct MFACityRelationships {
 @class MFALine;
 @class MFAStation;
 
+@class NSObject;
+
 @interface MFACityID : NSManagedObjectID {}
 @end
 
@@ -26,7 +28,7 @@ extern const struct MFACityRelationships {
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) MFACityID* objectID;
 
-@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) id name;
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
 
@@ -70,8 +72,8 @@ extern const struct MFACityRelationships {
 
 @interface _MFACity (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveName;
-- (void)setPrimitiveName:(NSString*)value;
+- (id)primitiveName;
+- (void)setPrimitiveName:(id)value;
 
 - (NSString*)primitivePath;
 - (void)setPrimitivePath:(NSString*)value;

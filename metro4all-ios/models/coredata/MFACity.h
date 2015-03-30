@@ -1,5 +1,8 @@
 #import "_MFACity.h"
 
 @interface MFACity : _MFACity {}
-// Custom logic goes here.
+
+@property (nonatomic, strong) NSDictionary *name;
+@property (nonatomic, strong, readonly) NSString *nameString;
+
 @end

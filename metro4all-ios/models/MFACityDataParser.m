@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <NTYCSVTable/NTYCSVTable.h>
 
+#import "NSString+Utils.h"
+
 #import "MFACity.h"
 #import "MFALine.h"
 #import "MFAStation.h"
@@ -26,6 +28,7 @@
 @property (nonatomic, copy, readwrite) NSDictionary *cityMetadata;
 @property (nonatomic, copy) NSString *csvPath;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong) NSNumberFormatter *numberFormatter;
 
 @end
 
@@ -49,93 +52,207 @@
     return self;
 }
 
+- (NSNumberFormatter *)numberFormatter
+{
+    if (_numberFormatter == nil) {
+        NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
+        f.numberStyle = NSNumberFormatterDecimalStyle;
+        f.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+        
+        _numberFormatter = f;
+    }
+    
+    return _numberFormatter;
+}
+
 - (void)start
 {
-    const NSUInteger totalFiles = 3;
-    
     MFACity *city = [self configureCity];
     
-    NSArray *parsedLines = [self parseFileAtURL:[NSURL URLWithString:@"lines_ru.csv"
-                                                       relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
-    NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] initWithCapacity:parsedLines.count];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.csvPath error:nil];
+    const NSUInteger totalFiles = files.count;
+    NSUInteger processedFiles = 0;
     
-    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-    f.numberStyle = NSNumberFormatterDecimalStyle;
-    f.locale = [NSLocale localeWithLocaleIdentifier:@"en_US"];
+    NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *stationsCache = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *portalsCache = [[NSMutableDictionary alloc] init];
     
-    for (NSDictionary *lineProperties in parsedLines) {
-        MFALine *line = [MFALine insertInManagedObjectContext:self.managedObjectContext];
+    files = [files filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        if ([evaluatedObject startsWithString:@"lines"] ||
+            [evaluatedObject startsWithString:@"portals"] ||
+            [evaluatedObject startsWithString:@"stations"]) {
+            
+            return YES;
+        }
         
-        line.lineId = lineProperties[@"id_line"];
-        line.name = lineProperties[@"name"];
+        return NO;
+    }]];
+    
+    files = [files sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+        NSNumber *rep1 = nil, *rep2 = nil;
+        if ([obj1 startsWithString:@"lines"]) {
+            rep1 = @0;
+        }
+        else if ([obj1 startsWithString:@"stations"]) {
+            rep1 = @1;
+        }
+        else {
+            rep1 = @2;
+        }
         
-        NSScanner *colorScanner = [[NSScanner alloc] initWithString:lineProperties[@"color"]];
-        colorScanner.charactersToBeSkipped = [NSCharacterSet characterSetWithCharactersInString:@"#"];
+        if ([obj2 startsWithString:@"lines"]) {
+            rep2 = @0;
+        }
+        else if ([obj2 startsWithString:@"stations"]) {
+            rep2 = @1;
+        }
+        else {
+            rep2 = @2;
+        }
         
-        unsigned int intColor = 0;
-        [colorScanner scanHexInt:&intColor];
+        return [rep1 compare:rep2];
+    }];
+    
+    for (NSString *filePath in files) {
+        if ([filePath startsWithString:@"lines"]) {
+            [self parseLinesFromFile:filePath
+                          linesCache:linesCache];
+        }
+        else if ([filePath startsWithString:@"stations"]) {
+            [self parseStationsFromFile:filePath
+                             linesCache:linesCache
+                          stationsCache:stationsCache];
+        }
+        else if ([filePath startsWithString:@"portals"]) {
+            [self parsePortalsFromFile:filePath
+                         stationsCache:stationsCache
+                          portalsCache:portalsCache];
+        }
         
-        line.color = UIColorFromRGB(intColor)
-        
-        line.city = city;
-        
-        linesCache[line.lineId] = line;
+        if ([self.delegate respondsToSelector:@selector(cityDataParser:didProcessFiles:ofTotalFiles:)]) {
+            [self.delegate cityDataParser:self didProcessFiles:++processedFiles ofTotalFiles:totalFiles];
+        }
     }
     
-    if ([self.delegate respondsToSelector:@selector(cityDataParser:didProcessFiles:ofTotalFiles:)]) {
-        [self.delegate cityDataParser:self didProcessFiles:1 ofTotalFiles:totalFiles];
+    for (id key in linesCache) {
+        [linesCache[key] setCity:city];
     }
     
-    NSArray *parsedStations = [self parseFileAtURL:[NSURL URLWithString:@"stations_ru.csv"
-                                                          relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
-    NSMutableDictionary *stationsCache = [[NSMutableDictionary alloc] initWithCapacity:parsedStations.count];
- 
-    for (NSDictionary *stationProperties in parsedStations) {
-        MFAStation *station = [MFAStation insertInManagedObjectContext:self.managedObjectContext];
-        
-        station.nodeId = stationProperties[@"id_node"];
-        station.stationId = stationProperties[@"id_station"];
-        station.lineId = stationProperties[@"id_line"];
-        station.name = stationProperties[@"name"];
-        station.lat = [f numberFromString:stationProperties[@"lat"]];
-        station.lon = [f numberFromString:stationProperties[@"lon"]];
-        
-        station.line = linesCache[station.lineId];
-        station.city = city;
-        
-        stationsCache[station.stationId] = station;
-    }
-
-    if ([self.delegate respondsToSelector:@selector(cityDataParser:didProcessFiles:ofTotalFiles:)]) {
-        [self.delegate cityDataParser:self didProcessFiles:2 ofTotalFiles:totalFiles];
-    }
-
-    NSArray *parsedPortals = [self parseFileAtURL:[NSURL URLWithString:@"portals_ru.csv"
-                                          relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
-    
-    for (NSDictionary *portalProperties in parsedPortals) {
-        MFAPortal *portal = [MFAPortal insertInManagedObjectContext:self.managedObjectContext];
-        
-        portal.potralId = portalProperties[@"id_entrance"];
-        portal.portalNumber = portalProperties[@"meetcode"];
-        portal.name = portalProperties[@"name"];
-        portal.stationId = portalProperties[@"id_station"];
-        //    self.directionValue =
-        portal.lat = [f numberFromString:portalProperties[@"lat"]];
-        portal.lon = [f numberFromString:portalProperties[@"lon"]];
-        
-        portal.station = stationsCache[portal.stationId];
-    }
-    
-    if ([self.delegate respondsToSelector:@selector(cityDataParser:didProcessFiles:ofTotalFiles:)]) {
-        [self.delegate cityDataParser:self didProcessFiles:3 ofTotalFiles:totalFiles];
+    for (id key in stationsCache) {
+        [stationsCache[key] setCity:city];
     }
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.managedObjectContext save:nil];
+        NSError *error = nil;
+        [self.managedObjectContext save:&error];
+        
     });
     
     [self.delegate cityDataParser:self didFinishParsingCity:city];
+}
+
+- (void)parseLinesFromFile:(NSString *)filePath linesCache:(NSMutableDictionary *)linesCache
+{
+    NSArray *parsedLines = [self parseFileAtURL:[NSURL URLWithString:filePath
+                                                       relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+    
+    NSString *lang = [filePath substringWithRange:NSMakeRange(6, 2)];
+    
+    for (NSDictionary *lineProperties in parsedLines) {
+        NSNumber *lineId = lineProperties[@"id_line"];
+        
+        if (linesCache[lineId] == nil) {
+            MFALine *line = [MFALine insertInManagedObjectContext:self.managedObjectContext];
+        
+            line.lineId = lineId;
+            line.name = @{ lang : lineProperties[@"name"] };
+            
+            NSScanner *colorScanner = [[NSScanner alloc] initWithString:lineProperties[@"color"]];
+            colorScanner.charactersToBeSkipped = [NSCharacterSet characterSetWithCharactersInString:@"#"];
+            
+            unsigned int intColor = 0;
+            [colorScanner scanHexInt:&intColor];
+            
+            line.color = UIColorFromRGB(intColor)
+            
+            linesCache[lineId] = line;
+        }
+        else {
+            MFALine *line = linesCache[lineId];
+            NSMutableDictionary *names = [line.name mutableCopy];
+            names[lang] = lineProperties[@"name"];
+            line.name = [names copy];
+        }
+    }
+}
+
+- (void)parseStationsFromFile:(NSString *)filePath
+                   linesCache:(NSMutableDictionary *)linesCache
+                stationsCache:(NSMutableDictionary *)stationsCache
+{
+    NSArray *parsedStations = [self parseFileAtURL:[NSURL URLWithString:filePath
+                                                          relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+    
+    NSString *lang = [filePath substringWithRange:NSMakeRange(9, 2)];
+    
+    for (NSDictionary *stationProperties in parsedStations) {
+        NSNumber *stationId = stationProperties[@"id_station"];
+        
+        if (stationsCache[stationId] == nil) {
+            MFAStation *station = [MFAStation insertInManagedObjectContext:self.managedObjectContext];
+            
+            station.nodeId = stationProperties[@"id_node"];
+            station.stationId = stationId;
+            station.lineId = stationProperties[@"id_line"];
+            station.name = @{ lang : stationProperties[@"name"] };
+            station.lat = [self.numberFormatter numberFromString:stationProperties[@"lat"]];
+            station.lon = [self.numberFormatter numberFromString:stationProperties[@"lon"]];
+        
+            station.line = linesCache[station.lineId];
+            stationsCache[stationId] = station;
+        }
+        else {
+            MFAStation *station = stationsCache[stationId];
+            NSMutableDictionary *names = [station.name mutableCopy];
+            names[lang] = stationProperties[@"name"];
+            station.name = [names copy];
+        }
+    }
+}
+
+- (void)parsePortalsFromFile:(NSString *)filePath
+               stationsCache:(NSMutableDictionary *)stationsCache
+                portalsCache:(NSMutableDictionary *)portalsCache
+{
+    NSArray *parsedPortals = [self parseFileAtURL:[NSURL URLWithString:filePath
+                                                         relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+    
+    NSString *lang = [filePath substringWithRange:NSMakeRange(8, 2)];
+    
+    for (NSDictionary *portalProperties in parsedPortals) {
+        NSNumber *portalId = portalProperties[@"id_entrance"];
+        
+        if (portalsCache[portalId] == nil) {
+            MFAPortal *portal = [MFAPortal insertInManagedObjectContext:self.managedObjectContext];
+        
+            portal.potralId = portalId;
+            portal.portalNumber = portalProperties[@"meetcode"];
+            portal.name = @{ lang : portalProperties[@"name"] };
+            portal.stationId = portalProperties[@"id_station"];
+            //    self.directionValue =
+            portal.lat = [self.numberFormatter numberFromString:portalProperties[@"lat"]];
+            portal.lon = [self.numberFormatter numberFromString:portalProperties[@"lon"]];
+        
+            portal.station = stationsCache[portal.stationId];
+            portalsCache[portalId] = portal;
+        }
+        else {
+            MFAPortal *portal = portalsCache[portalId];
+            NSMutableDictionary *names = [portal.name mutableCopy];
+            names[lang] = portalProperties[@"name"];
+            portal.name = [names copy];
+        }
+    }
 }
 
 - (MFACity *)configureCity
@@ -167,7 +284,19 @@
     
     // create new city
     city = [MFACity insertInManagedObjectContext:self.managedObjectContext];
-    city.name = self.cityMetadata[@"name_ru"];
+    
+    // extract names in different languages into Dictionary
+    NSMutableDictionary *names = [NSMutableDictionary new];
+    for (NSString *key in self.cityMetadata.allKeys) {
+        if (key.length < 7) { continue; }
+        
+        if ([[key substringToIndex:4] isEqualToString:@"name"]) {
+            NSString *lang = [key substringFromIndex:5];
+            names[lang] = self.cityMetadata[key];
+        }
+    }
+    
+    city.name = [names copy];
     city.version = self.cityMetadata[@"ver"];
     city.path = self.cityMetadata[@"path"];
     

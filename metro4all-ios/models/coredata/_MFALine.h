@@ -19,6 +19,8 @@ extern const struct MFALineRelationships {
 
 @class NSObject;
 
+@class NSObject;
+
 @interface MFALineID : NSManagedObjectID {}
 @end
 
@@ -40,7 +42,7 @@ extern const struct MFALineRelationships {
 
 //- (BOOL)validateLineId:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSString* name;
+@property (nonatomic, strong) id name;
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
 
@@ -73,8 +75,8 @@ extern const struct MFALineRelationships {
 - (int32_t)primitiveLineIdValue;
 - (void)setPrimitiveLineIdValue:(int32_t)value_;
 
-- (NSString*)primitiveName;
-- (void)setPrimitiveName:(NSString*)value;
+- (id)primitiveName;
+- (void)setPrimitiveName:(id)value;
 
 - (MFACity*)primitiveCity;
 - (void)setPrimitiveCity:(MFACity*)value;
