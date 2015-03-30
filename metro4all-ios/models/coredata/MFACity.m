@@ -21,7 +21,7 @@
     }
     
     if (name == nil) {
-        name = self.name[@"ru"];
+        name = self.name[@"en"];
     }
     
     return name;

@@ -48,7 +48,7 @@
         }
         
         if (name == nil) {
-            self.titleLabel.text = self.viewModel[@"name_ru"];
+            self.titleLabel.text = self.viewModel[@"name"];
         }
     }
     else {

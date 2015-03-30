@@ -288,10 +288,15 @@
     // extract names in different languages into Dictionary
     NSMutableDictionary *names = [NSMutableDictionary new];
     for (NSString *key in self.cityMetadata.allKeys) {
-        if (key.length < 7) { continue; }
-        
-        if ([[key substringToIndex:4] isEqualToString:@"name"]) {
-            NSString *lang = [key substringFromIndex:5];
+        if ([key startsWithString:@"name"]) {
+            NSString *lang = nil;
+            if (key.length < 5) {
+                lang = @"en";
+            }
+            else {
+                lang = [key substringFromIndex:5];
+            }
+            
             names[lang] = self.cityMetadata[key];
         }
     }
