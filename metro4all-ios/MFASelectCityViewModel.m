@@ -82,15 +82,32 @@
     self.completionBlock = completionBlock;
     self.errorBlock = errorBlock;
     
-    // download archive with city data
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                          delegate:self
-                                                     delegateQueue:[[NSOperationQueue alloc] init]];
-    
-    NSURL *archiveURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://metro4all.org/data/v2.7/%@.zip", selectedCity[@"path"]]];
-    
-    [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
-    [[session downloadTaskWithURL:archiveURL] resume];
+    NSURL *unzippedPath = [self directoryForUnzippingCity:selectedCity[@"path"] metaVersion:selectedCity[@"ver"]];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:unzippedPath.path]) {
+        // download archive with city data
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                              delegate:self
+                                                         delegateQueue:[[NSOperationQueue alloc] init]];
+        
+        NSURL *archiveURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://metro4all.org/data/v2.7/%@.zip", selectedCity[@"path"]]];
+        
+        [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
+        [[session downloadTaskWithURL:archiveURL] resume];
+    }
+    else {
+        // don't download data again
+        NSManagedObjectContext *moc =
+        [[UIApplication sharedApplication].delegate performSelector:@selector(managedObjectContext)];
+        
+        MFACityDataParser *parser =
+        [[MFACityDataParser alloc] initWithCityMeta:self.selectedCityMeta
+                                          pathToCSV:unzippedPath.path
+                               managedObjectContext:moc
+                                           delegate:self];
+        
+        self.parser = parser;
+        [parser start];
+    }
 }
 
 - (void)handleError:(NSError *)error
@@ -110,18 +127,25 @@
 
 #pragma mark - NSURLSession Delegate
 
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+- (NSURL *)directoryForUnzippingCity:(NSString *)cityIdentifier metaVersion:(NSNumber *)version
 {
-    NSLog(@"Successfully loaded zip for %@ to %@", self.selectedCityMeta[@"name"], location);
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     
     NSAssert(basePath, @"Cannot get path to Documents directory");
     
     NSURL *pathURL = [NSURL fileURLWithPath:basePath];
-    pathURL = [NSURL URLWithString:[NSString stringWithFormat:@"data/%@", self.selectedCityMeta[@"path"]]
+    pathURL = [NSURL URLWithString:[NSString stringWithFormat:@"data/%@_%@", cityIdentifier, version]
                      relativeToURL:pathURL];
+    
+    return pathURL;
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+{
+    NSLog(@"Successfully loaded zip for %@ to %@", self.selectedCityMeta[@"name"], location);
+    
+    NSURL *pathURL = [self directoryForUnzippingCity:self.selectedCityMeta[@"path"] metaVersion:self.selectedCityMeta[@"ver"]];
     
     NSError *error = nil;
     [[NSFileManager defaultManager] createDirectoryAtPath:[[[pathURL filePathURL] absoluteURL] path]
@@ -132,7 +156,7 @@
     if (error) {
         NSLog(@"Failed to create directory structure: %@", error);
         
-        [self handleError:[NSError errorWithDomain:@"ru.metro4all.zipArchiver"
+        [self handleError:[NSError errorWithDomain:@"ru.metro4all.zipUnarchiver"
                                               code:1
                                           userInfo:@{ NSLocalizedDescriptionKey : @"Failed to create directory structure" }]];
         return;

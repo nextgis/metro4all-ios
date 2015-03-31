@@ -44,6 +44,8 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"Station" inManagedObjectContext:city.managedObjectContext];
 
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"city == %@", city];
+    
     NSError *error = nil;
     NSArray *fetchedObjects = [city.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
