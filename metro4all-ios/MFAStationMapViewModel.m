@@ -1,3 +1,4 @@
+
 //
 //  MFAStationMapViewModel.m
 //  metro4all-ios
@@ -9,9 +10,12 @@
 #import "AppDelegate.h"
 
 #import "MFAStationMapViewModel.h"
+#import "MFAPortalAnnotation.h"
+
 #import "MFAStation.h"
 #import "MFACity.h"
 #import "MFAPortal.h"
+#import "MFANode.h"
 
 @interface MFAStationMapViewModel ()
 
@@ -36,8 +40,38 @@
                                                      self.station.lonValue);
         
         self.showsMap = YES;
-        self.showsPortals = YES;
         self.showsObstacles = NO;
+        
+        NSSet *nodePortals = [self.station.node.stations valueForKeyPath:@"@distinctUnionOfSets.portals"];
+        NSMutableDictionary *portalsCache = [NSMutableDictionary new];
+        
+        for (MFAPortal *portal in nodePortals) {
+            if (portalsCache[portal.portalNumber]) {
+                continue;
+            }
+
+            MFAPortalAnnotation *annotation = [[MFAPortalAnnotation alloc] init];
+            
+            annotation.coordinate = CLLocationCoordinate2DMake(portal.lat.doubleValue,
+                                                               portal.lon.doubleValue);
+            
+            annotation.title = [NSString stringWithFormat:@"Выход #%@", [portal.portalNumber stringValue]];
+            
+            NSUInteger count = [[self.station.portals objectsPassingTest:^BOOL(id obj, BOOL *stop) {
+                return [[obj portalNumber] isEqualToNumber:portal.portalNumber];
+            }] count];
+            
+            if (count == 0) {
+                annotation.nodePortal = YES;
+            }
+            
+            annotation.subtitle = portal.nameString;
+            annotation.portalNumber = portal.portalNumber;
+            
+            portalsCache[portal.portalNumber] = annotation;
+        }
+        
+        self.pins = [portalsCache allValues];
     }
     
     return self;
@@ -54,7 +88,7 @@
         MFACity *city = self.station.city;
         
         NSURL *dataURL = [city.dataDirectory.absoluteURL copy];
-        NSURL *schemeURL = [NSURL URLWithString:[NSString stringWithFormat:@"schemes/%ld.png", (long)self.station.nodeId.integerValue]
+        NSURL *schemeURL = [NSURL URLWithString:[NSString stringWithFormat:@"schemes/%ld.png", (long)self.station.node.nodeId.integerValue]
                                                              relativeToURL:dataURL];
         NSString *schemeFilePath = [schemeURL path];
         
@@ -70,32 +104,14 @@
         MFACity *city = self.station.city;
         
         NSURL *dataURL = [city.dataDirectory.absoluteURL copy];
-        NSURL *schemeURL = [NSURL URLWithString:[NSString stringWithFormat:@"schemes/numbers/%ld.png", (long)self.station.nodeId.integerValue]
+        NSURL *schemeURL = [NSURL URLWithString:[NSString stringWithFormat:@"schemes/numbers/%ld.png", (long)self.station.node.nodeId.integerValue]
                                   relativeToURL:dataURL];
         NSString *schemeFilePath = [schemeURL path];
 
-        
         _stationSchemeOverlayImage = [UIImage imageWithContentsOfFile:schemeFilePath];
     }
     
     return _stationSchemeOverlayImage;
-}
-
-- (void)setShowsPortals:(BOOL)showsPortals
-{
-    _showsPortals = showsPortals;
-    
-    NSMutableArray *pins = [NSMutableArray new];
-    
-    for (MFAPortal *portal in self.station.portals) {
-        [pins addObject:@{ @"portalNumber" : portal.portalNumber,
-                           @"title" : [NSString stringWithFormat:@"Выход #%@", [portal.portalNumber stringValue]],
-                           @"subtitle" : portal.nameString,
-                           @"lat" : portal.lat,
-                           @"lon" : portal.lon }];
-    }
-    
-    self.pins = pins;
 }
 
 @end

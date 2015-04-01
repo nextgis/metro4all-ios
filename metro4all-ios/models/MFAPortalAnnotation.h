@@ -11,5 +11,10 @@
 @interface MFAPortalAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) NSNumber *portalNumber;
+@property (nonatomic, copy) NSString *stationName;
+
+/// YES if portal belongs to station in the same interchange node,
+/// but not the station itself
+@property (nonatomic, assign) BOOL nodePortal;
 
 @end

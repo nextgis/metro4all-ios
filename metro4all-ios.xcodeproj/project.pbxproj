@@ -16,16 +16,6 @@
 		586061981AB6C83E00E1F565 /* MFALegendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 586061971AB6C83E00E1F565 /* MFALegendViewController.m */; };
 		588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 588635131AAAE4E60038F924 /* MFACityArchiveService.m */; };
 		58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */; };
-		58B0DA2E1AA5F1E30011A4A4 /* _MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */; };
-		58B0DA2F1AA5F1E30011A4A4 /* _MFAInterchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1D1AA5F1E30011A4A4 /* _MFAInterchange.m */; };
-		58B0DA301AA5F1E30011A4A4 /* _MFALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA1F1AA5F1E30011A4A4 /* _MFALine.m */; };
-		58B0DA311AA5F1E30011A4A4 /* _MFAPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA211AA5F1E30011A4A4 /* _MFAPortal.m */; };
-		58B0DA321AA5F1E30011A4A4 /* _MFAStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA231AA5F1E30011A4A4 /* _MFAStation.m */; };
-		58B0DA331AA5F1E30011A4A4 /* MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA251AA5F1E30011A4A4 /* MFACity.m */; };
-		58B0DA341AA5F1E30011A4A4 /* MFAInterchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA271AA5F1E30011A4A4 /* MFAInterchange.m */; };
-		58B0DA351AA5F1E30011A4A4 /* MFALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA291AA5F1E30011A4A4 /* MFALine.m */; };
-		58B0DA361AA5F1E30011A4A4 /* MFAPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA2B1AA5F1E30011A4A4 /* MFAPortal.m */; };
-		58B0DA371AA5F1E30011A4A4 /* MFAStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA2D1AA5F1E30011A4A4 /* MFAStation.m */; };
 		58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA391AA5F26C0011A4A4 /* MFACityDataParser.m */; };
 		58B0DA3D1AA707C20011A4A4 /* MFAStationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA3C1AA707C20011A4A4 /* MFAStationsListViewController.m */; };
 		58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA411AA709C80011A4A4 /* MFAStationListTableViewCell.m */; };
@@ -33,6 +23,18 @@
 		58CA3DB91AC577EA00205567 /* MFAPortalAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DB81AC577EA00205567 /* MFAPortalAnnotation.m */; };
 		58CA3DE61AC936F000205567 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DE51AC936F000205567 /* NSString+Utils.m */; };
 		58CA3DE81AC9376200205567 /* NSStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DE71AC9376200205567 /* NSStringUtilsTests.m */; };
+		58CF18311ACBD5DD0042F898 /* _MFAStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF181A1ACBD5DD0042F898 /* _MFAStation.m */; };
+		58CF18321ACBD5DD0042F898 /* MFAStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF181C1ACBD5DD0042F898 /* MFAStation.m */; };
+		58CF18331ACBD5DD0042F898 /* _MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF181E1ACBD5DD0042F898 /* _MFACity.m */; };
+		58CF18341ACBD5DD0042F898 /* _MFAInterchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF18201ACBD5DD0042F898 /* _MFAInterchange.m */; };
+		58CF18351ACBD5DD0042F898 /* _MFALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF18221ACBD5DD0042F898 /* _MFALine.m */; };
+		58CF18361ACBD5DD0042F898 /* _MFANode.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF18241ACBD5DD0042F898 /* _MFANode.m */; };
+		58CF18371ACBD5DD0042F898 /* _MFAPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF18261ACBD5DD0042F898 /* _MFAPortal.m */; };
+		58CF18381ACBD5DD0042F898 /* MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF18281ACBD5DD0042F898 /* MFACity.m */; };
+		58CF18391ACBD5DD0042F898 /* MFAInterchange.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF182A1ACBD5DD0042F898 /* MFAInterchange.m */; };
+		58CF183A1ACBD5DD0042F898 /* MFALine.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF182C1ACBD5DD0042F898 /* MFALine.m */; };
+		58CF183B1ACBD5DD0042F898 /* MFANode.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF182E1ACBD5DD0042F898 /* MFANode.m */; };
+		58CF183C1ACBD5DD0042F898 /* MFAPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF18301ACBD5DD0042F898 /* MFAPortal.m */; };
 		58F95ECA1AA48FB600E22EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EC91AA48FB600E22EF6 /* main.m */; };
 		58F95ECD1AA48FB600E22EF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95ECC1AA48FB600E22EF6 /* AppDelegate.m */; };
 		58F95ED01AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */; };
@@ -73,26 +75,6 @@
 		588635131AAAE4E60038F924 /* MFACityArchiveService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFACityArchiveService.m; sourceTree = "<group>"; };
 		58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPortalAnnotationView.h; sourceTree = "<group>"; };
 		58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAPortalAnnotationView.m; sourceTree = "<group>"; };
-		58B0DA1A1AA5F1E30011A4A4 /* _MFACity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFACity.h; path = models/coredata/_MFACity.h; sourceTree = "<group>"; };
-		58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFACity.m; path = models/coredata/_MFACity.m; sourceTree = "<group>"; };
-		58B0DA1C1AA5F1E30011A4A4 /* _MFAInterchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAInterchange.h; path = models/coredata/_MFAInterchange.h; sourceTree = "<group>"; };
-		58B0DA1D1AA5F1E30011A4A4 /* _MFAInterchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFAInterchange.m; path = models/coredata/_MFAInterchange.m; sourceTree = "<group>"; };
-		58B0DA1E1AA5F1E30011A4A4 /* _MFALine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFALine.h; path = models/coredata/_MFALine.h; sourceTree = "<group>"; };
-		58B0DA1F1AA5F1E30011A4A4 /* _MFALine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFALine.m; path = models/coredata/_MFALine.m; sourceTree = "<group>"; };
-		58B0DA201AA5F1E30011A4A4 /* _MFAPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAPortal.h; path = models/coredata/_MFAPortal.h; sourceTree = "<group>"; };
-		58B0DA211AA5F1E30011A4A4 /* _MFAPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFAPortal.m; path = models/coredata/_MFAPortal.m; sourceTree = "<group>"; };
-		58B0DA221AA5F1E30011A4A4 /* _MFAStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAStation.h; path = models/coredata/_MFAStation.h; sourceTree = "<group>"; };
-		58B0DA231AA5F1E30011A4A4 /* _MFAStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFAStation.m; path = models/coredata/_MFAStation.m; sourceTree = "<group>"; };
-		58B0DA241AA5F1E30011A4A4 /* MFACity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFACity.h; path = models/coredata/MFACity.h; sourceTree = "<group>"; };
-		58B0DA251AA5F1E30011A4A4 /* MFACity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFACity.m; path = models/coredata/MFACity.m; sourceTree = "<group>"; };
-		58B0DA261AA5F1E30011A4A4 /* MFAInterchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAInterchange.h; path = models/coredata/MFAInterchange.h; sourceTree = "<group>"; };
-		58B0DA271AA5F1E30011A4A4 /* MFAInterchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAInterchange.m; path = models/coredata/MFAInterchange.m; sourceTree = "<group>"; };
-		58B0DA281AA5F1E30011A4A4 /* MFALine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFALine.h; path = models/coredata/MFALine.h; sourceTree = "<group>"; };
-		58B0DA291AA5F1E30011A4A4 /* MFALine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFALine.m; path = models/coredata/MFALine.m; sourceTree = "<group>"; };
-		58B0DA2A1AA5F1E30011A4A4 /* MFAPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAPortal.h; path = models/coredata/MFAPortal.h; sourceTree = "<group>"; };
-		58B0DA2B1AA5F1E30011A4A4 /* MFAPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAPortal.m; path = models/coredata/MFAPortal.m; sourceTree = "<group>"; };
-		58B0DA2C1AA5F1E30011A4A4 /* MFAStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAStation.h; path = models/coredata/MFAStation.h; sourceTree = "<group>"; };
-		58B0DA2D1AA5F1E30011A4A4 /* MFAStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAStation.m; path = models/coredata/MFAStation.m; sourceTree = "<group>"; };
 		58B0DA381AA5F26C0011A4A4 /* MFACityDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFACityDataParser.h; path = models/MFACityDataParser.h; sourceTree = "<group>"; };
 		58B0DA391AA5F26C0011A4A4 /* MFACityDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFACityDataParser.m; path = models/MFACityDataParser.m; sourceTree = "<group>"; };
 		58B0DA3B1AA707C20011A4A4 /* MFAStationsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationsListViewController.h; sourceTree = "<group>"; };
@@ -106,6 +88,30 @@
 		58CA3DE41AC936EF00205567 /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
 		58CA3DE51AC936F000205567 /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
 		58CA3DE71AC9376200205567 /* NSStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringUtilsTests.m; sourceTree = "<group>"; };
+		58CF18191ACBD5DD0042F898 /* _MFAStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAStation.h; path = models/coredata/_MFAStation.h; sourceTree = "<group>"; };
+		58CF181A1ACBD5DD0042F898 /* _MFAStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFAStation.m; path = models/coredata/_MFAStation.m; sourceTree = "<group>"; };
+		58CF181B1ACBD5DD0042F898 /* MFAStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAStation.h; path = models/coredata/MFAStation.h; sourceTree = "<group>"; };
+		58CF181C1ACBD5DD0042F898 /* MFAStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAStation.m; path = models/coredata/MFAStation.m; sourceTree = "<group>"; };
+		58CF181D1ACBD5DD0042F898 /* _MFACity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFACity.h; path = models/coredata/_MFACity.h; sourceTree = "<group>"; };
+		58CF181E1ACBD5DD0042F898 /* _MFACity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFACity.m; path = models/coredata/_MFACity.m; sourceTree = "<group>"; };
+		58CF181F1ACBD5DD0042F898 /* _MFAInterchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAInterchange.h; path = models/coredata/_MFAInterchange.h; sourceTree = "<group>"; };
+		58CF18201ACBD5DD0042F898 /* _MFAInterchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFAInterchange.m; path = models/coredata/_MFAInterchange.m; sourceTree = "<group>"; };
+		58CF18211ACBD5DD0042F898 /* _MFALine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFALine.h; path = models/coredata/_MFALine.h; sourceTree = "<group>"; };
+		58CF18221ACBD5DD0042F898 /* _MFALine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFALine.m; path = models/coredata/_MFALine.m; sourceTree = "<group>"; };
+		58CF18231ACBD5DD0042F898 /* _MFANode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFANode.h; path = models/coredata/_MFANode.h; sourceTree = "<group>"; };
+		58CF18241ACBD5DD0042F898 /* _MFANode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFANode.m; path = models/coredata/_MFANode.m; sourceTree = "<group>"; };
+		58CF18251ACBD5DD0042F898 /* _MFAPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAPortal.h; path = models/coredata/_MFAPortal.h; sourceTree = "<group>"; };
+		58CF18261ACBD5DD0042F898 /* _MFAPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFAPortal.m; path = models/coredata/_MFAPortal.m; sourceTree = "<group>"; };
+		58CF18271ACBD5DD0042F898 /* MFACity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFACity.h; path = models/coredata/MFACity.h; sourceTree = "<group>"; };
+		58CF18281ACBD5DD0042F898 /* MFACity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFACity.m; path = models/coredata/MFACity.m; sourceTree = "<group>"; };
+		58CF18291ACBD5DD0042F898 /* MFAInterchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAInterchange.h; path = models/coredata/MFAInterchange.h; sourceTree = "<group>"; };
+		58CF182A1ACBD5DD0042F898 /* MFAInterchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAInterchange.m; path = models/coredata/MFAInterchange.m; sourceTree = "<group>"; };
+		58CF182B1ACBD5DD0042F898 /* MFALine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFALine.h; path = models/coredata/MFALine.h; sourceTree = "<group>"; };
+		58CF182C1ACBD5DD0042F898 /* MFALine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFALine.m; path = models/coredata/MFALine.m; sourceTree = "<group>"; };
+		58CF182D1ACBD5DD0042F898 /* MFANode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFANode.h; path = models/coredata/MFANode.h; sourceTree = "<group>"; };
+		58CF182E1ACBD5DD0042F898 /* MFANode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFANode.m; path = models/coredata/MFANode.m; sourceTree = "<group>"; };
+		58CF182F1ACBD5DD0042F898 /* MFAPortal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAPortal.h; path = models/coredata/MFAPortal.h; sourceTree = "<group>"; };
+		58CF18301ACBD5DD0042F898 /* MFAPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAPortal.m; path = models/coredata/MFAPortal.m; sourceTree = "<group>"; };
 		58F95EC41AA48FB600E22EF6 /* metro4all-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "metro4all-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F95EC81AA48FB600E22EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58F95EC91AA48FB600E22EF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -159,26 +165,30 @@
 		58136E8B1AA5F1B600512D29 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				58B0DA1A1AA5F1E30011A4A4 /* _MFACity.h */,
-				58B0DA1B1AA5F1E30011A4A4 /* _MFACity.m */,
-				58B0DA1C1AA5F1E30011A4A4 /* _MFAInterchange.h */,
-				58B0DA1D1AA5F1E30011A4A4 /* _MFAInterchange.m */,
-				58B0DA1E1AA5F1E30011A4A4 /* _MFALine.h */,
-				58B0DA1F1AA5F1E30011A4A4 /* _MFALine.m */,
-				58B0DA201AA5F1E30011A4A4 /* _MFAPortal.h */,
-				58B0DA211AA5F1E30011A4A4 /* _MFAPortal.m */,
-				58B0DA221AA5F1E30011A4A4 /* _MFAStation.h */,
-				58B0DA231AA5F1E30011A4A4 /* _MFAStation.m */,
-				58B0DA241AA5F1E30011A4A4 /* MFACity.h */,
-				58B0DA251AA5F1E30011A4A4 /* MFACity.m */,
-				58B0DA261AA5F1E30011A4A4 /* MFAInterchange.h */,
-				58B0DA271AA5F1E30011A4A4 /* MFAInterchange.m */,
-				58B0DA281AA5F1E30011A4A4 /* MFALine.h */,
-				58B0DA291AA5F1E30011A4A4 /* MFALine.m */,
-				58B0DA2A1AA5F1E30011A4A4 /* MFAPortal.h */,
-				58B0DA2B1AA5F1E30011A4A4 /* MFAPortal.m */,
-				58B0DA2C1AA5F1E30011A4A4 /* MFAStation.h */,
-				58B0DA2D1AA5F1E30011A4A4 /* MFAStation.m */,
+				58CF181D1ACBD5DD0042F898 /* _MFACity.h */,
+				58CF181E1ACBD5DD0042F898 /* _MFACity.m */,
+				58CF181F1ACBD5DD0042F898 /* _MFAInterchange.h */,
+				58CF18201ACBD5DD0042F898 /* _MFAInterchange.m */,
+				58CF18211ACBD5DD0042F898 /* _MFALine.h */,
+				58CF18221ACBD5DD0042F898 /* _MFALine.m */,
+				58CF18231ACBD5DD0042F898 /* _MFANode.h */,
+				58CF18241ACBD5DD0042F898 /* _MFANode.m */,
+				58CF18251ACBD5DD0042F898 /* _MFAPortal.h */,
+				58CF18261ACBD5DD0042F898 /* _MFAPortal.m */,
+				58CF18191ACBD5DD0042F898 /* _MFAStation.h */,
+				58CF181A1ACBD5DD0042F898 /* _MFAStation.m */,
+				58CF18271ACBD5DD0042F898 /* MFACity.h */,
+				58CF18281ACBD5DD0042F898 /* MFACity.m */,
+				58CF18291ACBD5DD0042F898 /* MFAInterchange.h */,
+				58CF182A1ACBD5DD0042F898 /* MFAInterchange.m */,
+				58CF182B1ACBD5DD0042F898 /* MFALine.h */,
+				58CF182C1ACBD5DD0042F898 /* MFALine.m */,
+				58CF182D1ACBD5DD0042F898 /* MFANode.h */,
+				58CF182E1ACBD5DD0042F898 /* MFANode.m */,
+				58CF182F1ACBD5DD0042F898 /* MFAPortal.h */,
+				58CF18301ACBD5DD0042F898 /* MFAPortal.m */,
+				58CF181B1ACBD5DD0042F898 /* MFAStation.h */,
+				58CF181C1ACBD5DD0042F898 /* MFAStation.m */,
 			);
 			name = CoreData;
 			sourceTree = "<group>";
@@ -469,33 +479,35 @@
 			files = (
 				586061981AB6C83E00E1F565 /* MFALegendViewController.m in Sources */,
 				58CA3DB91AC577EA00205567 /* MFAPortalAnnotation.m in Sources */,
-				58B0DA351AA5F1E30011A4A4 /* MFALine.m in Sources */,
 				58F95EF61AA4A16100E22EF6 /* MFAStoryboardProxy.m in Sources */,
-				58B0DA331AA5F1E30011A4A4 /* MFACity.m in Sources */,
 				583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */,
+				58CF18371ACBD5DD0042F898 /* _MFAPortal.m in Sources */,
+				58CF183C1ACBD5DD0042F898 /* MFAPortal.m in Sources */,
 				58F95ECD1AA48FB600E22EF6 /* AppDelegate.m in Sources */,
+				58CF18311ACBD5DD0042F898 /* _MFAStation.m in Sources */,
 				58CA3DE61AC936F000205567 /* NSString+Utils.m in Sources */,
+				58CF183B1ACBD5DD0042F898 /* MFANode.m in Sources */,
 				58F95EF21AA49C5200E22EF6 /* MFAObjectManager.m in Sources */,
+				58CF18321ACBD5DD0042F898 /* MFAStation.m in Sources */,
+				58CF183A1ACBD5DD0042F898 /* MFALine.m in Sources */,
 				58F95ED01AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld in Sources */,
-				58B0DA341AA5F1E30011A4A4 /* MFAInterchange.m in Sources */,
 				58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */,
-				58B0DA301AA5F1E30011A4A4 /* _MFALine.m in Sources */,
 				58F95ED31AA48FB600E22EF6 /* MFASelectCityViewController.m in Sources */,
 				58F95ECA1AA48FB600E22EF6 /* main.m in Sources */,
+				58CF18381ACBD5DD0042F898 /* MFACity.m in Sources */,
 				58B0DA451AA70DBB0011A4A4 /* MFAStationsListViewModel.m in Sources */,
+				58CF18361ACBD5DD0042F898 /* _MFANode.m in Sources */,
 				58B0DA3D1AA707C20011A4A4 /* MFAStationsListViewController.m in Sources */,
+				58CF18341ACBD5DD0042F898 /* _MFAInterchange.m in Sources */,
+				58CF18351ACBD5DD0042F898 /* _MFALine.m in Sources */,
 				583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */,
 				58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */,
 				58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */,
-				58B0DA371AA5F1E30011A4A4 /* MFAStation.m in Sources */,
-				58B0DA321AA5F1E30011A4A4 /* _MFAStation.m in Sources */,
 				588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */,
-				58B0DA361AA5F1E30011A4A4 /* MFAPortal.m in Sources */,
-				58B0DA311AA5F1E30011A4A4 /* _MFAPortal.m in Sources */,
-				58B0DA2F1AA5F1E30011A4A4 /* _MFAInterchange.m in Sources */,
+				58CF18331ACBD5DD0042F898 /* _MFACity.m in Sources */,
 				58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */,
 				58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */,
-				58B0DA2E1AA5F1E30011A4A4 /* _MFACity.m in Sources */,
+				58CF18391ACBD5DD0042F898 /* MFAInterchange.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

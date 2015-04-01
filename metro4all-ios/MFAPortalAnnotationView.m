@@ -28,6 +28,9 @@ const CGFloat annotationSize = 24.0f;
         
         if ([annotation isKindOfClass:[MFAPortalAnnotation class]]) {
             self.portalNumber = ((MFAPortalAnnotation *)annotation).portalNumber;
+            if ([(MFAPortalAnnotation *)annotation nodePortal]) {
+                self.alpha = 0.75f; // 
+            }
         }
     }
     

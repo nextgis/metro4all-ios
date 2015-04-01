@@ -11,6 +11,7 @@
 
 #import "NSString+Utils.h"
 
+#import "MFANode.h"
 #import "MFACity.h"
 #import "MFALine.h"
 #import "MFAStation.h"
@@ -76,6 +77,7 @@
     NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *stationsCache = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *portalsCache = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *nodesCache = [[NSMutableDictionary alloc] init];
     
     files = [files filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         if ([evaluatedObject startsWithString:@"lines"] ||
@@ -121,7 +123,8 @@
         else if ([filePath startsWithString:@"stations"]) {
             [self parseStationsFromFile:filePath
                              linesCache:linesCache
-                          stationsCache:stationsCache];
+                          stationsCache:stationsCache
+                             nodesCache:nodesCache];
         }
         else if ([filePath startsWithString:@"portals"]) {
             [self parsePortalsFromFile:filePath
@@ -189,6 +192,7 @@
 - (void)parseStationsFromFile:(NSString *)filePath
                    linesCache:(NSMutableDictionary *)linesCache
                 stationsCache:(NSMutableDictionary *)stationsCache
+                   nodesCache:(NSMutableDictionary *)nodesCache
 {
     NSArray *parsedStations = [self parseFileAtURL:[NSURL URLWithString:filePath
                                                           relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
@@ -201,8 +205,19 @@
         if (stationsCache[stationId] == nil) {
             MFAStation *station = [MFAStation insertInManagedObjectContext:self.managedObjectContext];
             
-            station.nodeId = stationProperties[@"id_node"];
             station.stationId = stationId;
+            
+            NSNumber *nodeId = stationProperties[@"id_node"];
+            if (nodesCache[nodeId]) {
+                station.node = nodesCache[nodeId];
+            }
+            else {
+                MFANode *node = [MFANode insertInManagedObjectContext:self.managedObjectContext];
+                node.nodeId = nodeId;
+                station.node = node;
+                nodesCache[nodeId] = node;
+            }
+            
             station.lineId = stationProperties[@"id_line"];
             station.name = @{ lang : stationProperties[@"name"] };
             station.lat = [self.numberFormatter numberFromString:stationProperties[@"lat"]];

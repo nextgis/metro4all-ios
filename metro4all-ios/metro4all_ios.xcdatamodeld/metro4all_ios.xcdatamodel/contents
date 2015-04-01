@@ -18,6 +18,10 @@
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="lines" inverseEntity="City" syncable="YES"/>
         <relationship name="stations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Station" inverseName="line" inverseEntity="Station" syncable="YES"/>
     </entity>
+    <entity name="Node" representedClassName="MFANode" syncable="YES">
+        <attribute name="nodeId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="stations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Station" inverseName="node" inverseEntity="Station" syncable="YES"/>
+    </entity>
     <entity name="Portal" representedClassName="MFAPortal" syncable="YES">
         <attribute name="direction" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="lat" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -33,19 +37,20 @@
         <attribute name="lineId" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="lon" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" attributeType="Transformable" syncable="YES"/>
-        <attribute name="nodeId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="schemeFilePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stationId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="stations" inverseEntity="City" syncable="YES"/>
         <relationship name="interchangesFrom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Interchange" inverseName="toStation" inverseEntity="Interchange" syncable="YES"/>
         <relationship name="interchangesTo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Interchange" inverseName="fromStation" inverseEntity="Interchange" syncable="YES"/>
         <relationship name="line" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Line" inverseName="stations" inverseEntity="Line" syncable="YES"/>
+        <relationship name="node" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Node" inverseName="stations" inverseEntity="Node" syncable="YES"/>
         <relationship name="portals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Portal" inverseName="station" inverseEntity="Portal" syncable="YES"/>
     </entity>
     <elements>
         <element name="City" positionX="-443" positionY="225" width="128" height="120"/>
         <element name="Interchange" positionX="-0" positionY="378" width="128" height="75"/>
         <element name="Line" positionX="43" positionY="168" width="128" height="120"/>
+        <element name="Node" positionX="-243" positionY="315" width="128" height="73"/>
         <element name="Portal" positionX="43" positionY="531" width="128" height="165"/>
         <element name="Station" positionX="-261" positionY="354" width="128" height="225"/>
     </elements>

@@ -150,16 +150,8 @@
     
     [self.mapView removeAnnotations:self.mapView.annotations];
     
-    for (NSDictionary *pin in self.viewModel.pins) {
-        MFAPortalAnnotation *annotation = [[MFAPortalAnnotation alloc] init];
-        annotation.coordinate = CLLocationCoordinate2DMake([pin[@"lat"] doubleValue],
-                                                           [pin[@"lon"] doubleValue]);
-        
-        annotation.title = pin[@"title"];
-        annotation.subtitle = pin[@"subtitle"];
-        annotation.portalNumber = pin[@"portalNumber"];
-        
-        [self.mapView addAnnotation:annotation];
+    for (MFAPortalAnnotation *pin in self.viewModel.pins) {
+        [self.mapView addAnnotation:pin];
     }
     
     if (self.mapView.annotations.count == 0) {

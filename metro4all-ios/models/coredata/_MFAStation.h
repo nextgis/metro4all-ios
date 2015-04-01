@@ -8,7 +8,6 @@ extern const struct MFAStationAttributes {
 	__unsafe_unretained NSString *lineId;
 	__unsafe_unretained NSString *lon;
 	__unsafe_unretained NSString *name;
-	__unsafe_unretained NSString *nodeId;
 	__unsafe_unretained NSString *schemeFilePath;
 	__unsafe_unretained NSString *stationId;
 } MFAStationAttributes;
@@ -18,6 +17,7 @@ extern const struct MFAStationRelationships {
 	__unsafe_unretained NSString *interchangesFrom;
 	__unsafe_unretained NSString *interchangesTo;
 	__unsafe_unretained NSString *line;
+	__unsafe_unretained NSString *node;
 	__unsafe_unretained NSString *portals;
 } MFAStationRelationships;
 
@@ -25,9 +25,8 @@ extern const struct MFAStationRelationships {
 @class MFAInterchange;
 @class MFAInterchange;
 @class MFALine;
+@class MFANode;
 @class MFAPortal;
-
-@class NSObject;
 
 @interface MFAStationID : NSManagedObjectID {}
 @end
@@ -62,17 +61,9 @@ extern const struct MFAStationRelationships {
 
 //- (BOOL)validateLon:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) id name;
+@property (nonatomic, strong) NSString* name;
 
 //- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSNumber* nodeId;
-
-@property (atomic) int32_t nodeIdValue;
-- (int32_t)nodeIdValue;
-- (void)setNodeIdValue:(int32_t)value_;
-
-//- (BOOL)validateNodeId:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSString* schemeFilePath;
 
@@ -101,6 +92,10 @@ extern const struct MFAStationRelationships {
 @property (nonatomic, strong) MFALine *line;
 
 //- (BOOL)validateLine:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) MFANode *node;
+
+//- (BOOL)validateNode:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSSet *portals;
 
@@ -136,14 +131,8 @@ extern const struct MFAStationRelationships {
 - (float)primitiveLonValue;
 - (void)setPrimitiveLonValue:(float)value_;
 
-- (id)primitiveName;
-- (void)setPrimitiveName:(id)value;
-
-- (NSNumber*)primitiveNodeId;
-- (void)setPrimitiveNodeId:(NSNumber*)value;
-
-- (int32_t)primitiveNodeIdValue;
-- (void)setPrimitiveNodeIdValue:(int32_t)value_;
+- (NSString*)primitiveName;
+- (void)setPrimitiveName:(NSString*)value;
 
 - (NSString*)primitiveSchemeFilePath;
 - (void)setPrimitiveSchemeFilePath:(NSString*)value;
@@ -165,6 +154,9 @@ extern const struct MFAStationRelationships {
 
 - (MFALine*)primitiveLine;
 - (void)setPrimitiveLine:(MFALine*)value;
+
+- (MFANode*)primitiveNode;
+- (void)setPrimitiveNode:(MFANode*)value;
 
 - (NSMutableSet*)primitivePortals;
 - (void)setPrimitivePortals:(NSMutableSet*)value;
