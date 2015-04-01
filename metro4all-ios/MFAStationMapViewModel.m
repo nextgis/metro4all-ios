@@ -53,14 +53,10 @@
     if (!_stationSchemeImage) {
         MFACity *city = self.station.city;
         
-        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/%ld.png", city.path, (long)self.station.nodeId.integerValue];
-        
-        NSURL *documentsDirURL = [((AppDelegate *)[UIApplication sharedApplication].delegate) applicationDocumentsDirectory];
-        
-        NSURL *schemeImageURL = [NSURL URLWithString:imageFile
-                                       relativeToURL:documentsDirURL];
-        
-        NSString *schemeFilePath = [schemeImageURL path];
+        NSURL *dataURL = [city.dataDirectory.absoluteURL copy];
+        NSURL *schemeURL = [NSURL URLWithString:[NSString stringWithFormat:@"schemes/%ld.png", (long)self.station.nodeId.integerValue]
+                                                             relativeToURL:dataURL];
+        NSString *schemeFilePath = [schemeURL path];
         
         _stationSchemeImage = [UIImage imageWithContentsOfFile:schemeFilePath];
     }
@@ -73,14 +69,11 @@
     if (!_stationSchemeOverlayImage) {
         MFACity *city = self.station.city;
         
-        NSString *imageFile = [NSString stringWithFormat:@"data/%@/schemes/numbers/%ld.png", city.path, (long)self.station.nodeId.integerValue];
-        
-        NSURL *documentsDirURL = [((AppDelegate *)[UIApplication sharedApplication].delegate) applicationDocumentsDirectory];
-        
-        NSURL *schemeImageURL = [NSURL URLWithString:imageFile
-                                       relativeToURL:documentsDirURL];
-        
-        NSString *schemeFilePath = [schemeImageURL path];
+        NSURL *dataURL = [city.dataDirectory.absoluteURL copy];
+        NSURL *schemeURL = [NSURL URLWithString:[NSString stringWithFormat:@"schemes/numbers/%ld.png", (long)self.station.nodeId.integerValue]
+                                  relativeToURL:dataURL];
+        NSString *schemeFilePath = [schemeURL path];
+
         
         _stationSchemeOverlayImage = [UIImage imageWithContentsOfFile:schemeFilePath];
     }
