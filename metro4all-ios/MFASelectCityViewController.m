@@ -23,8 +23,6 @@
 @interface MFASelectCityViewController ()
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSIndexPath *selectedRow;
-@property (nonatomic, weak) UIBarButtonItem *doneButton;
 
 @end
 
@@ -38,14 +36,6 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.rowHeight = 44.0;
-    
-    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                                target:self
-                                                                                action:@selector(selectionDone:)];
-    doneButton.enabled = NO;
-    
-    self.navigationItem.rightBarButtonItem = doneButton;
-    self.doneButton = doneButton;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,10 +60,9 @@
     }
 }
 
-- (IBAction)selectionDone:(id)sender
+- (IBAction)selectionDone:(NSUInteger)index
 {
-    NSIndexPath *selectedIndexPath = self.selectedRow;
-    NSDictionary *selectedCity = self.viewModel.cities[selectedIndexPath.row];
+    NSDictionary *selectedCity = self.viewModel.cities[index];
     
     [self.viewModel processCityMeta:selectedCity withCompletion:^{
         if (self.presentingViewController) {
@@ -121,42 +110,14 @@
 {
     MFASelectCityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectCityCell" forIndexPath:indexPath];
     cell.viewModel = self.viewModel.cities[indexPath.row];
-    
-    if ([self.selectedRow isEqual:indexPath]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    }
+    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([self.selectedRow isEqual:indexPath] == NO) {
-        
-        NSArray *indexPaths = nil;
-        
-        if (self.selectedRow) {
-            indexPaths = @[ self.selectedRow, indexPath ];
-        }
-        else {
-            indexPaths = @[ indexPath ];
-        }
-        
-        self.selectedRow = indexPath;
-        
-        // select new row
-        [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
-
-        self.doneButton.enabled = YES;
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.selectedRow = nil;
-    self.doneButton.enabled = NO;
-    
-    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+    [self selectionDone:indexPath.item];
 }
 
 @end
