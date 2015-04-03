@@ -194,6 +194,7 @@
 
 - (IBAction)changeCity:(id)sender
 {
+    self.selectedIndexPath = nil;
     UIViewController *selectCityViewController = self.viewModel.selectCityViewController;
     [self presentViewController:selectCityViewController animated:YES completion:nil];
 }
