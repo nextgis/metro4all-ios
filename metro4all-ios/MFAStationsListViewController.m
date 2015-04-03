@@ -24,6 +24,7 @@
                                              MFAStationListTableViewCellDelegate>
 
 @property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @end
 

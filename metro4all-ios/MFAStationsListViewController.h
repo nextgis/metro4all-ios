@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MFAStationsListViewModel.h"
 
-@interface MFAStationsListViewController : UITableViewController
+@interface MFAStationsListViewController : UIViewController
 
 @property (nonatomic, strong) MFAStationsListViewModel *viewModel;
 
