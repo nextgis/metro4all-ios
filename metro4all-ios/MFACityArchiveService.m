@@ -9,6 +9,20 @@
 #import <AFNetworking/AFNetworking.h>
 #import "MFACityArchiveService.h"
 
+NSString * getLocalizedName(NSDictionary *cityMeta)
+{
+    NSString *name = nil;
+    for (NSString *lang in [NSLocale preferredLanguages]) {
+        name = cityMeta[[@"name_" stringByAppendingString:lang]];
+        
+        if (name != nil) {
+            return name;
+        }
+    }
+    
+    return cityMeta[@"name"]; // default to english
+}
+
 @implementation MFACityArchiveService
 
 - (instancetype)initWithUrl:(NSString *)url
@@ -28,16 +42,23 @@
     NSURL *metaURL = [NSURL URLWithString:self.url];
     NSURLRequest *request = [NSURLRequest requestWithURL:metaURL];
     
+    id successBlock = ^(NSURLRequest *req, NSHTTPURLResponse *res, id JSON) {
+        NSLog(@"Successfully loaded meta.json");
+        
+        
+        
+        NSArray *sorted = [JSON[@"packages"] sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *city1, NSDictionary *city2) {
+            return [getLocalizedName(city1) compare:getLocalizedName(city2)];
+        }];
+        
+        if (completionBlock) {
+            completionBlock(sorted);
+        }
+    };
+    
     AFJSONRequestOperation *jsonRequest =
         [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-                                                        success:^(NSURLRequest *req, NSHTTPURLResponse *res, id JSON) {
-                                                            NSLog(@"Successfully loaded meta.json");
-                                                            
-                                                            if (completionBlock) {
-                                                                completionBlock(JSON[@"packages"]);
-                                                            }
-                                                        }
-         
+                                                        success:successBlock
                                                         failure:^(NSURLRequest *req, NSHTTPURLResponse *res, NSError *err, id JSON) {
                                                             NSLog(@"Failed to get meta.json: %@", err);
                                                             
