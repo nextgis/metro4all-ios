@@ -41,11 +41,9 @@ NSString * getLocalizedName(NSDictionary *cityMeta)
     
     NSURL *metaURL = [NSURL URLWithString:self.url];
     NSURLRequest *request = [NSURLRequest requestWithURL:metaURL];
-    
+
     id successBlock = ^(NSURLRequest *req, NSHTTPURLResponse *res, id JSON) {
         NSLog(@"Successfully loaded meta.json");
-        
-        
         
         NSArray *sorted = [JSON[@"packages"] sortedArrayUsingComparator:^NSComparisonResult(NSDictionary *city1, NSDictionary *city2) {
             return [getLocalizedName(city1) compare:getLocalizedName(city2)];

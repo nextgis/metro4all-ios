@@ -40,7 +40,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if ([Reachability reachabilityForInternetConnection]) {
+    if ([[Reachability reachabilityForInternetConnection] isReachable]) {
         [[[[self.viewModel.loadMetaFromServerCommand execute:nil] initially:^{
             [SVProgressHUD showWithStatus:@"Загружаю список городов" maskType:SVProgressHUDMaskTypeBlack];
         }] finally:^{

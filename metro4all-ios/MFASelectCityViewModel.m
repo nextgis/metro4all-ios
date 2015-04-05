@@ -141,13 +141,15 @@
 
 - (void)handleError:(NSError *)error
 {
-    self.completionBlock = nil;
-    
-    if (!self.errorBlock) {
-        return;
-    }
-    
-    self.errorBlock(error);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.completionBlock = nil;
+        
+        if (self.errorBlock) {
+            self.errorBlock(error);
+        }
+        
+        self.errorBlock = nil;
+    });
 }
 
 #pragma mark - NSURLSession Delegate
@@ -199,9 +201,20 @@
         NSLog(@"Failed to open zip archive: %@", error);
         
         [self handleError:[NSError errorWithDomain:@"ru.metro4all.zipUnarchiver"
-                                              code:1
+                                              code:2
                                           userInfo:@{ NSLocalizedDescriptionKey : @"Failed to open zip archive" }]];
         return;
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    if (error) {
+        NSLog(@"Failed to load zip archive: %@", error);
+        
+        [self handleError:[NSError errorWithDomain:@"ru.metro4all.zipUnarchiver"
+                                              code:3
+                                          userInfo:@{ NSLocalizedDescriptionKey : @"Failed load zip archive" }]];
     }
 }
 
