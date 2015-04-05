@@ -4,6 +4,7 @@
 #import "_MFACity.h"
 
 const struct MFACityAttributes MFACityAttributes = {
+	.metaDictionary = @"metaDictionary",
 	.name = @"name",
 	.path = @"path",
 	.version = @"version",
@@ -48,6 +49,8 @@ const struct MFACityRelationships MFACityRelationships = {
 
 	return keyPaths;
 }
+
+@dynamic metaDictionary;
 
 @dynamic name;
 

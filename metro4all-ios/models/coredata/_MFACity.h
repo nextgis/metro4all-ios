@@ -4,6 +4,7 @@
 @import CoreData;
 
 extern const struct MFACityAttributes {
+	__unsafe_unretained NSString *metaDictionary;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *path;
 	__unsafe_unretained NSString *version;
@@ -19,6 +20,8 @@ extern const struct MFACityRelationships {
 
 @class NSObject;
 
+@class NSObject;
+
 @interface MFACityID : NSManagedObjectID {}
 @end
 
@@ -27,6 +30,10 @@ extern const struct MFACityRelationships {
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) MFACityID* objectID;
+
+@property (nonatomic, strong) id metaDictionary;
+
+//- (BOOL)validateMetaDictionary:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) id name;
 
@@ -71,6 +78,9 @@ extern const struct MFACityRelationships {
 @end
 
 @interface _MFACity (CoreDataGeneratedPrimitiveAccessors)
+
+- (id)primitiveMetaDictionary;
+- (void)setPrimitiveMetaDictionary:(id)value;
 
 - (id)primitiveName;
 - (void)setPrimitiveName:(id)value;

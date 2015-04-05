@@ -40,8 +40,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-//    self.tableView.hidden = YES;
-    
     if ([Reachability reachabilityForInternetConnection]) {
         [[[[self.viewModel.loadMetaFromServerCommand execute:nil] initially:^{
             [SVProgressHUD showWithStatus:@"Загружаю список городов" maskType:SVProgressHUDMaskTypeBlack];
@@ -60,11 +58,9 @@
     }
 }
 
-- (IBAction)selectionDone:(NSUInteger)index
+- (IBAction)selectionDone:(NSIndexPath *)indexPath
 {
-    NSDictionary *selectedCity = self.viewModel.cities[index];
-    
-    [self.viewModel processCityMeta:selectedCity withCompletion:^{
+    void(^completionBlock)() = ^() {
         if (self.presentingViewController) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }
@@ -75,10 +71,28 @@
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:stationsList];
             [self presentViewController:navController animated:YES completion:nil];
         }
+    };
+    
+    if (indexPath.section == 1 || [self numberOfSectionsInTableView:self.tableView] == 1) {
+        NSDictionary *selectedCity = self.viewModel.cities[indexPath.row];
+        
+        [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
+        
+        [self.viewModel processCityMeta:selectedCity withCompletion:^{
+            [SVProgressHUD dismiss];
+            [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
+            
+            completionBlock();
+        }
+                                  error:^(NSError *error) {
+                                      [SVProgressHUD dismiss];
+                                      [self showErrorMessage];
+                                  }];
     }
-                              error:^(NSError *error) {
-                                  [self showErrorMessage];
-                              }];
+    else {
+        [self.viewModel changeCity:(self.viewModel.loadedCities[indexPath.row])];
+        completionBlock();
+    }
 }
 
 - (void)showErrorMessage
@@ -98,18 +112,23 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    return [self.viewModel numberOfSections];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.viewModel.cities.count;
+    return [self.viewModel numberOfRowsInSection:section];
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return [self.viewModel titleForHeaderInSection:section];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MFASelectCityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectCityCell" forIndexPath:indexPath];
-    cell.viewModel = self.viewModel.cities[indexPath.row];
+    cell.viewModel = [self.viewModel viewModelForRow:indexPath.row inSection:indexPath.section];
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     
     return cell;
@@ -117,7 +136,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self selectionDone:indexPath.item];
+    [self selectionDone:indexPath];
 }
 
 @end

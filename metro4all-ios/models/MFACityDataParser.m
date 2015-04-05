@@ -273,52 +273,59 @@
 - (MFACity *)configureCity
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"City"
+    fetchRequest.entity = [NSEntityDescription entityForName:@"City"
                                               inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
     
     // Specify criteria for filtering which objects to fetch
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", self.cityMetadata[@"path"]];
-    [fetchRequest setPredicate:predicate];
-    
+    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"path == %@", self.cityMetadata[@"path"]];
     fetchRequest.fetchLimit = 1;
     
     NSError *error = nil;
     NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest
                                                                        error:&error];
     MFACity *city = [fetchedObjects firstObject];
-    if (city) {
-        // updating info about city
-        NSLog(@"Found stored city: %@, version: %@", self.cityMetadata[@"name"],
-              self.cityMetadata[@"ver"]);
+    if (city &&
+        ![city.version isEqualToNumber:self.cityMetadata[@"ver"]]) {
+        
+        // If found city in coredata, but versions does not match, delete stored city and
+        // create new from meta
+        
+        NSLog(@"Found stored city: %@, version: %@", city.name, city.version);
+        NSLog(@"Got new meta for city: %@, version: %@", self.cityMetadata[@"name"], self.cityMetadata[@"ver"]);
         
         // Delete the old city object.
         // It will cascade to all info related to this city: stations, lines, portals, etc.
         [self.managedObjectContext deleteObject:city];
+        
+        city = nil;
     }
     
-    // create new city
-    city = [MFACity insertInManagedObjectContext:self.managedObjectContext];
-    
-    // extract names in different languages into Dictionary
-    NSMutableDictionary *names = [NSMutableDictionary new];
-    for (NSString *key in self.cityMetadata.allKeys) {
-        if ([key startsWithString:@"name"]) {
-            NSString *lang = nil;
-            if (key.length < 5) {
-                lang = @"en";
+    if (city == nil) {
+        // Create new city
+        city = [MFACity insertInManagedObjectContext:self.managedObjectContext];
+        
+        // Extract names in different languages into Dictionary
+        NSMutableDictionary *names = [NSMutableDictionary new];
+        for (NSString *key in self.cityMetadata.allKeys) {
+            if ([key startsWithString:@"name"]) {
+                NSString *lang = nil;
+                if (key.length < 5) {
+                    lang = @"en";
+                }
+                else {
+                    lang = [key substringFromIndex:5];
+                }
+                
+                names[lang] = self.cityMetadata[key];
             }
-            else {
-                lang = [key substringFromIndex:5];
-            }
-            
-            names[lang] = self.cityMetadata[key];
         }
+        
+        city.name = [names copy];
+        city.version = self.cityMetadata[@"ver"];
+        city.path = self.cityMetadata[@"path"];
+        
+        city.metaDictionary = self.cityMetadata;
     }
-    
-    city.name = [names copy];
-    city.version = self.cityMetadata[@"ver"];
-    city.path = self.cityMetadata[@"path"];
     
     return city;
 }

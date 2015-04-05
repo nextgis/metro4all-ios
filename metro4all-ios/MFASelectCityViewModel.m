@@ -6,11 +6,14 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import "AppDelegate.h"
+
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <SSZipArchive/SSZipArchive.h>
 
 #import "MFASelectCityViewModel.h"
 #import "MFACityDataParser.h"
+#import "MFACity.h"
 
 @interface MFASelectCityViewModel () <NSURLSessionDownloadDelegate, SSZipArchiveDelegate, MFACityDataParserDelegate>
 
@@ -18,11 +21,17 @@
 @property (nonatomic, strong) void (^completionBlock)(void);
 @property (nonatomic, strong) void (^errorBlock)(NSError *);
 
+/// Cities that are already downloaded on the device (MFACity *)
+@property (nonatomic, strong, readwrite) NSArray *loadedCities;
+
+/// Cities loaded from server (NSDictionary * meta)
 @property (nonatomic, strong, readwrite) NSArray *cities;
+
 @property (nonatomic, strong, readwrite) MFACity *selectedCity;
 @property (nonatomic, strong, readwrite) NSDictionary *selectedCityMeta;
 
 @property (nonatomic, strong) MFACityArchiveService *archiveService;
+@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @end
 
@@ -37,6 +46,11 @@
     }
     
     return self;
+}
+
+- (NSManagedObjectContext *)managedObjectContext
+{
+    return [(AppDelegate *)[UIApplication sharedApplication].delegate managedObjectContext];
 }
 
 - (RACCommand *)loadMetaFromServerCommand
@@ -62,6 +76,25 @@
     }
     
     return _loadMetaFromServerCommand;
+}
+
+- (NSArray *)loadedCities
+{
+    if (_loadedCities == nil) {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        fetchRequest.entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.managedObjectContext];
+
+        // Specify how the fetched objects should be sorted
+        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nameString"
+                                                                       ascending:YES];
+        
+        NSError *error = nil;
+        NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        
+        _loadedCities = [fetchedObjects sortedArrayUsingDescriptors:@[ sortDescriptor ]];
+    }
+    
+    return _loadedCities;
 }
 
 - (void)loadCitiesWithCompletion:(void (^)(void))completionBlock
@@ -90,19 +123,15 @@
                                                          delegateQueue:[[NSOperationQueue alloc] init]];
         
         NSURL *archiveURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://metro4all.org/data/v2.7/%@.zip", selectedCity[@"path"]]];
-        
-        [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
         [[session downloadTaskWithURL:archiveURL] resume];
     }
     else {
         // don't download data again
-        NSManagedObjectContext *moc =
-        [[UIApplication sharedApplication].delegate performSelector:@selector(managedObjectContext)];
         
         MFACityDataParser *parser =
         [[MFACityDataParser alloc] initWithCityMeta:self.selectedCityMeta
                                           pathToCSV:unzippedPath.path
-                               managedObjectContext:moc
+                               managedObjectContext:self.managedObjectContext
                                            delegate:self];
         
         self.parser = parser;
@@ -112,10 +141,6 @@
 
 - (void)handleError:(NSError *)error
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD dismiss];
-    });
-    
     self.completionBlock = nil;
     
     if (!self.errorBlock) {
@@ -161,8 +186,6 @@
                                           userInfo:@{ NSLocalizedDescriptionKey : @"Failed to create directory structure" }]];
         return;
     }
-    
-//    [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
     
     error = nil;
     [SSZipArchive unzipFileAtPath:[[location filePathURL] path]
@@ -255,21 +278,67 @@
 
 - (void)cityDataParser:(MFACityDataParser *)parser didFinishParsingCity:(MFACity *)city
 {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
-        
+    dispatch_async(dispatch_get_main_queue(), ^{       
         self.selectedCity = city;
         self.parser = nil;
 
-        [[NSUserDefaults standardUserDefaults] setObject:parser.cityMetadata forKey:@"MFA_CURRENT_CITY"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"MFA_CHANGE_CITY" object:nil];
+        [self changeCity:city];
 
         if (self.completionBlock) {
             self.completionBlock();
             self.completionBlock = nil;
         }
     });
+}
+
+- (void)changeCity:(MFACity *)city
+{
+    [[NSUserDefaults standardUserDefaults] setObject:city.metaDictionary forKey:@"MFA_CURRENT_CITY"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MFA_CHANGE_CITY" object:nil];
+}
+
+#pragma mark - Table View
+
+- (NSUInteger)numberOfSections
+{
+    if (self.loadedCities.count > 0) {
+        return 2;
+    }
+    
+    return 1;
+}
+
+- (NSUInteger)numberOfRowsInSection:(NSUInteger)section
+{
+    if (section == 1 || self.numberOfSections == 1) {
+        return self.cities.count;
+    }
+    else {
+        return self.loadedCities.count;
+    }
+}
+
+- (NSDictionary *)viewModelForRow:(NSUInteger)row inSection:(NSUInteger)section
+{
+    if (section == 1 || self.numberOfSections == 1) {
+        return self.cities[row];
+    }
+    else {
+        return [self.loadedCities[row] metaDictionary];
+    }
+}
+
+- (NSString *)titleForHeaderInSection:(NSUInteger)section
+{
+    if (section == 1) {
+        return @"Доступные";
+    }
+    else if (self.numberOfSections == 1) {
+        return nil;
+    }
+    else {
+        return @"На устройстве";
+    }
 }
 
 @end
