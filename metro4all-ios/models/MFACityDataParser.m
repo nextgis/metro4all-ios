@@ -145,11 +145,9 @@
         [stationsCache[key] setCity:city];
     }
 
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSError *error = nil;
-        [self.managedObjectContext save:&error];
-        
-    });
+    NSError *error = nil;
+    [self.managedObjectContext save:&error];
+
     
     [self.delegate cityDataParser:self didFinishParsingCity:city];
 }

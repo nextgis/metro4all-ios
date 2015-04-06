@@ -23,6 +23,8 @@
 @interface MFASelectCityViewController ()
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) IBOutlet UIView *noInternetFooterView;
+@property (nonatomic, strong) Reachability *reachability;
 
 @end
 
@@ -40,22 +42,52 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if ([[Reachability reachabilityForInternetConnection] isReachable]) {
-        [[[[self.viewModel.loadMetaFromServerCommand execute:nil] initially:^{
-            [SVProgressHUD showWithStatus:@"Загружаю список городов" maskType:SVProgressHUDMaskTypeBlack];
-        }] finally:^{
-            [SVProgressHUD dismiss];
-        }] subscribeCompleted:^{
-            [self.tableView reloadData];
-        }];
+    self.tableView.tableFooterView = nil;
+    self.reachability = [Reachability reachabilityForInternetConnection];
+    
+    if (self.reachability.isReachable) {
+        [self loadCities];
     }
     else {
-        [[[UIAlertView alloc] initWithTitle:@"Отсутствует соединение с интернетом"
-                                    message:@"Приложение «Метро для всех» требует для работы соединение с интернетом. Проверьте настройки или повторите запрос позднее"
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil] show];
+        __weak typeof(self) welf = self;
+        self.reachability.reachableBlock = ^(Reachability *reachability) {
+            reachability.reachableBlock = nil;
+            [welf loadCities];
+        };
+        
+        if (self.viewModel.loadedCities.count) {
+            self.noInternetFooterView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 500);
+            CGRect newFrame = self.noInternetFooterView.frame;
+            
+            [self.noInternetFooterView setNeedsLayout];
+            [self.noInternetFooterView layoutIfNeeded];
+            
+            CGSize newSize = [self.noInternetFooterView systemLayoutSizeFittingSize:UILayoutFittingExpandedSize];
+            newFrame.size.height = newSize.height;
+            self.noInternetFooterView.frame = newFrame;
+            
+            self.tableView.tableFooterView = self.noInternetFooterView;
+        }
+        else {
+            [[[UIAlertView alloc] initWithTitle:@"Отсутствует соединение с интернетом"
+                                        message:@"Приложение «Метро для всех» требует для работы соединение с интернетом. Проверьте настройки или повторите запрос позднее"
+                                       delegate:nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil] show];
+        }
     }
+}
+
+- (void)loadCities
+{
+    [[[[self.viewModel.loadMetaFromServerCommand execute:nil] initially:^{
+        [SVProgressHUD showWithStatus:@"Загружаю список городов"
+                             maskType:SVProgressHUDMaskTypeBlack];
+    }] finally:^{
+        [SVProgressHUD dismiss];
+    }] subscribeCompleted:^{
+        [self.tableView reloadData];
+    }];
 }
 
 - (IBAction)selectionDone:(NSIndexPath *)indexPath

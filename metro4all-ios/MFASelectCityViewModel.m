@@ -135,7 +135,10 @@
                                            delegate:self];
         
         self.parser = parser;
-        [parser start];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [parser start];
+        });
     }
 }
 
@@ -264,7 +267,9 @@
 //    });
     
     self.parser = parser;
-    [parser start];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [parser start];
+    });
 }
 
 #pragma mark - MFACityDataParser Delegate

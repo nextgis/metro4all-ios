@@ -14,6 +14,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="5JS-4m-Sn5">
+                            <rect key="frame" x="0.0" y="130" width="320" height="187"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Отсутствует соединение" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uws-bD-stu">
+                                    <rect key="frame" x="63" y="8" width="196" height="20"/>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="V1i-zC-J0s">
+                                    <rect key="frame" x="20" y="36" width="280" height="131"/>
+                                    <string key="text">Чтобы загрузить данные по другим городам, приложению требуется доступ в интернет. Пожалуйста, проверьте настройки или повторите запрос позднее</string>
+                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="centerX" secondItem="uws-bD-stu" secondAttribute="centerX" id="GrQ-aZ-Mwi"/>
+                                <constraint firstItem="uws-bD-stu" firstAttribute="top" secondItem="5JS-4m-Sn5" secondAttribute="top" constant="8" id="W9O-Hd-62W"/>
+                                <constraint firstAttribute="trailing" secondItem="V1i-zC-J0s" secondAttribute="trailing" constant="20" symbolic="YES" id="X3I-Eu-JDC"/>
+                                <constraint firstItem="V1i-zC-J0s" firstAttribute="leading" secondItem="5JS-4m-Sn5" secondAttribute="leading" constant="20" symbolic="YES" id="aB0-G8-mne"/>
+                                <constraint firstAttribute="trailing" secondItem="V1i-zC-J0s" secondAttribute="trailing" constant="20" symbolic="YES" id="jKg-xa-OEq"/>
+                                <constraint firstItem="V1i-zC-J0s" firstAttribute="leading" secondItem="5JS-4m-Sn5" secondAttribute="leading" constant="20" id="nMJ-gW-wUT"/>
+                                <constraint firstAttribute="bottom" secondItem="V1i-zC-J0s" secondAttribute="bottom" constant="20" symbolic="YES" id="yrh-Mn-b6L"/>
+                                <constraint firstItem="V1i-zC-J0s" firstAttribute="top" secondItem="uws-bD-stu" secondAttribute="bottom" constant="8" symbolic="YES" id="z67-Zl-bEZ"/>
+                            </constraints>
+                            <variation key="default">
+                                <mask key="constraints">
+                                    <exclude reference="aB0-G8-mne"/>
+                                    <exclude reference="jKg-xa-OEq"/>
+                                </mask>
+                            </variation>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MFA_selectCityCell" id="i9m-eK-yJE" customClass="MFASelectCityTableViewCell">
                                 <autoresizingMask key="autoresizingMask"/>
@@ -43,6 +79,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
+                        <outlet property="noInternetFooterView" destination="5JS-4m-Sn5" id="3yJ-cZ-fs7"/>
                         <outlet property="tableView" destination="oOH-Dx-Pxz" id="EPf-lL-o9V"/>
                     </connections>
                 </viewController>
@@ -62,6 +99,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="wxI-MP-Mte">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="e8p-h1-7gt">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -86,8 +127,8 @@
                                                         <constraint firstAttribute="width" constant="16" id="dxl-uP-zyg"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtM-Uf-teX">
-                                                    <rect key="frame" x="137" y="61" width="139" height="30"/>
+                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtM-Uf-teX">
+                                                    <rect key="frame" x="136" y="61" width="139" height="30"/>
                                                     <color key="tintColor" red="0.1176470588" green="0.60784313729999995" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <state key="normal" title="Схема станции" image="SchemeIcon"/>
                                                     <connections>
@@ -163,10 +204,6 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="wxI-MP-Mte">
-                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -347,7 +384,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="MapIcon" width="30" height="30"/>
+        <image name="MapIcon" width="29" height="30"/>
         <image name="SchemeIcon" width="30" height="30"/>
     </resources>
 </document>
