@@ -155,6 +155,19 @@
     });
 }
 
+- (void)deleteCityAtIndex:(NSUInteger)index
+{
+    MFACity *city = self.loadedCities[index];
+    if (city == nil) {
+        return;
+    }
+    
+    [self.managedObjectContext deleteObject:city];
+    [self.managedObjectContext save:nil];
+    
+    self.loadedCities = nil; // force reload on next access
+}
+
 #pragma mark - NSURLSession Delegate
 
 - (NSURL *)directoryForUnzippingCity:(NSString *)cityIdentifier metaVersion:(NSNumber *)version

@@ -28,6 +28,7 @@
 - (void)loadCitiesWithCompletion:(void(^)(void))completionBlock;
 - (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock;
 - (void)changeCity:(MFACity *)city;
+- (void)deleteCityAtIndex:(NSUInteger)index;
 
 #pragma mark - Table View
 

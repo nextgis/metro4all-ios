@@ -38,6 +38,8 @@
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.rowHeight = 44.0;
+    
+    self.tableView.allowsMultipleSelectionDuringEditing = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -159,7 +161,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MFASelectCityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectCityCell" forIndexPath:indexPath];
+    MFASelectCityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectCityCell"
+                                                                       forIndexPath:indexPath];
+    
     cell.viewModel = [self.viewModel viewModelForRow:indexPath.row inSection:indexPath.section];
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     
@@ -169,6 +173,25 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self selectionDone:indexPath];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return YES if you want the specified item to be editable.
+    if (indexPath.section == 1 || [self numberOfSectionsInTableView:self.tableView] == 1) {
+        // only edit loaded cities
+        return NO;
+    }
+    
+    return YES;
+}
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [self.viewModel deleteCityAtIndex:indexPath.row];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 @end
