@@ -134,7 +134,7 @@
     }
     
     [RACObserve(self.viewModel, showsMap) subscribeNext:^(NSNumber *showsMap) {
-        [self adjustControlsForMap:self.viewModel.showsMap animated:YES];
+        [self adjustControlsForMap:self.viewModel.showsMap animated:NO];
     }];
 }
 
