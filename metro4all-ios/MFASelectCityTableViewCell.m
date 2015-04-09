@@ -28,6 +28,8 @@
 
 - (void)prepareForReuse
 {
+    [super prepareForReuse];
+    
     self.viewModel = nil;
     self.accessoryType = UITableViewCellAccessoryNone;
 }

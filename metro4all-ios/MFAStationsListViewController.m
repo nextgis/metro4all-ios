@@ -44,6 +44,10 @@
                                                                         action:@selector(changeCity:)];
     
     self.navigationItem.rightBarButtonItem = changeCityButton;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cityChanged:)
+                                                 name:@"MFA_CHANGE_CITY" object:nil];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -59,6 +63,13 @@
     [RACObserve(self.viewModel, allStations) subscribeNext:^(id x) {
         [self.tableView reloadData];
     }];
+}
+
+- (void)cityChanged:(NSNotification *)note
+{
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                          atScrollPosition:UITableViewScrollPositionTop
+                                  animated:NO];
 }
 
 #pragma mark - UITableView Datasource

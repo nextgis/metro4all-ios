@@ -44,7 +44,7 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    self.tableView.tableFooterView = nil;
+    self.tableView.tableFooterView = [UIView new];
     self.reachability = [Reachability reachabilityForInternetConnection];
     
     if (self.reachability.isReachable) {
@@ -54,6 +54,7 @@
         __weak typeof(self) welf = self;
         self.reachability.reachableBlock = ^(Reachability *reachability) {
             reachability.reachableBlock = nil;
+            welf.tableView.tableFooterView = [UIView new];
             [welf loadCities];
         };
         
@@ -190,7 +191,8 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.viewModel deleteCityAtIndex:indexPath.row];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView setEditing:NO];
+        [self.tableView reloadData];
     }
 }
 
