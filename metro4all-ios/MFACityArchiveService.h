@@ -10,10 +10,9 @@
 
 @interface MFACityArchiveService : NSObject
 
-@property (nonatomic, copy) NSString *url;
-
-- (instancetype)initWithUrl:(NSString *)url;
+- (instancetype)initWithBaseURL:(NSURL *)baseUrl;
 
 - (void)loadCitiesWithCompletion:(void (^)(NSArray *citiesMeta))completionBlock;
+- (void)getCityFilesForMetadata:(NSDictionary *)cityMeta completion:(void (^)(NSString *path, NSError *error))completion;
 
 @end

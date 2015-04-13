@@ -42,7 +42,7 @@
 - (UIViewController *)setupSelectCityController
 {
     MFACityArchiveService *archiveService =
-    [[MFACityArchiveService alloc] initWithUrl:@"http://metro4all.org/data/v2.7/meta.json"];
+    [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/"]];
     
     MFASelectCityViewModel *viewModel =
     [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];
