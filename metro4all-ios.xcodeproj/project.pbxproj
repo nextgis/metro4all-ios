@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		581091E01ACC6F6500FDCC61 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */; };
 		58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */; };
+		5823455F1ADED13C00BBBE24 /* MFARouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5823455E1ADED13C00BBBE24 /* MFARouter.m */; };
+		582345611ADED87400BBBE24 /* RouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 582345601ADED87400BBBE24 /* RouterTests.m */; };
+		582345631ADED8C100BBBE24 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345621ADED8C100BBBE24 /* stations.json */; };
+		582345651ADED97900BBBE24 /* edges.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345641ADED97900BBBE24 /* edges.json */; };
 		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
 		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
 		586061931AB6C7F700E1F565 /* legend_pl.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061901AB6C7F700E1F565 /* legend_pl.png */; };
@@ -66,6 +70,11 @@
 		58136E881AA4B4CD00512D29 /* MFASelectCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFASelectCityTableViewCell.h; sourceTree = "<group>"; };
 		58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFASelectCityTableViewCell.m; sourceTree = "<group>"; };
 		582345581ADED05800BBBE24 /* metro4all_ios 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "metro4all_ios 2.xcdatamodel"; sourceTree = "<group>"; };
+		5823455D1ADED13C00BBBE24 /* MFARouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFARouter.h; path = models/router/MFARouter.h; sourceTree = "<group>"; };
+		5823455E1ADED13C00BBBE24 /* MFARouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFARouter.m; path = models/router/MFARouter.m; sourceTree = "<group>"; };
+		582345601ADED87400BBBE24 /* RouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterTests.m; sourceTree = "<group>"; };
+		582345621ADED8C100BBBE24 /* stations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
+		582345641ADED97900BBBE24 /* edges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = edges.json; sourceTree = "<group>"; };
 		583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewModel.h; sourceTree = "<group>"; };
 		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
 		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
@@ -201,6 +210,15 @@
 			name = CoreData;
 			sourceTree = "<group>";
 		};
+		582345591ADED0C300BBBE24 /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				5823455D1ADED13C00BBBE24 /* MFARouter.h */,
+				5823455E1ADED13C00BBBE24 /* MFARouter.m */,
+			);
+			name = Graph;
+			sourceTree = "<group>";
+		};
 		583B48F51AA74B8E00138E1F /* Station Map */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +329,7 @@
 				58F95EE61AA48FB600E22EF6 /* metro4all_iosTests.m */,
 				58F95EE41AA48FB600E22EF6 /* Supporting Files */,
 				58CA3DE71AC9376200205567 /* NSStringUtilsTests.m */,
+				582345601ADED87400BBBE24 /* RouterTests.m */,
 			);
 			path = "metro4all-iosTests";
 			sourceTree = "<group>";
@@ -319,6 +338,8 @@
 			isa = PBXGroup;
 			children = (
 				58F95EE51AA48FB600E22EF6 /* Info.plist */,
+				582345621ADED8C100BBBE24 /* stations.json */,
+				582345641ADED97900BBBE24 /* edges.json */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -326,6 +347,7 @@
 		58F95EF31AA49C5B00E22EF6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				582345591ADED0C300BBBE24 /* Graph */,
 				58136E8B1AA5F1B600512D29 /* CoreData */,
 				58F95EF01AA49C5200E22EF6 /* MFAObjectManager.h */,
 				58F95EF11AA49C5200E22EF6 /* MFAObjectManager.m */,
@@ -445,6 +467,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				582345651ADED97900BBBE24 /* edges.json in Resources */,
+				582345631ADED8C100BBBE24 /* stations.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +553,7 @@
 				58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */,
 				58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */,
 				588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */,
+				5823455F1ADED13C00BBBE24 /* MFARouter.m in Sources */,
 				58CF18331ACBD5DD0042F898 /* _MFACity.m in Sources */,
 				58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */,
 				58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */,
@@ -541,6 +566,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				58F95EE71AA48FB600E22EF6 /* metro4all_iosTests.m in Sources */,
+				582345611ADED87400BBBE24 /* RouterTests.m in Sources */,
 				58CA3DE81AC9376200205567 /* NSStringUtilsTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
