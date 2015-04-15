@@ -65,6 +65,7 @@
 		581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		58136E881AA4B4CD00512D29 /* MFASelectCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFASelectCityTableViewCell.h; sourceTree = "<group>"; };
 		58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFASelectCityTableViewCell.m; sourceTree = "<group>"; };
+		582345581ADED05800BBBE24 /* metro4all_ios 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "metro4all_ios 2.xcdatamodel"; sourceTree = "<group>"; };
 		583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewModel.h; sourceTree = "<group>"; };
 		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
 		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
@@ -759,9 +760,10 @@
 		58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				582345581ADED05800BBBE24 /* metro4all_ios 2.xcdatamodel */,
 				58F95ECF1AA48FB600E22EF6 /* metro4all_ios.xcdatamodel */,
 			);
-			currentVersion = 58F95ECF1AA48FB600E22EF6 /* metro4all_ios.xcdatamodel */;
+			currentVersion = 582345581ADED05800BBBE24 /* metro4all_ios 2.xcdatamodel */;
 			path = metro4all_ios.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -14,8 +14,8 @@ pod 'SMCalloutView'
 pod 'Reachability'
 
 pod 'SSZipArchive'
-#pod 'CHCSVParser'
 pod 'NTYCSVTable', :git => "https://github.com/marvin-yorke/NTYCSVTable.git"
+pod 'PESGraph'
 end
 
 target 'metro4all-iosTests' do
