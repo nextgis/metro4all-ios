@@ -13,6 +13,7 @@
 		582345611ADED87400BBBE24 /* RouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 582345601ADED87400BBBE24 /* RouterTests.m */; };
 		582345631ADED8C100BBBE24 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345621ADED8C100BBBE24 /* stations.json */; };
 		582345651ADED97900BBBE24 /* edges.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345641ADED97900BBBE24 /* edges.json */; };
+		582345691AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 582345681AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel */; };
 		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
 		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
 		586061931AB6C7F700E1F565 /* legend_pl.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061901AB6C7F700E1F565 /* legend_pl.png */; };
@@ -48,7 +49,6 @@
 		58F95ED61AA48FB600E22EF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 58F95ED41AA48FB600E22EF6 /* Main.storyboard */; };
 		58F95ED81AA48FB600E22EF6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58F95ED71AA48FB600E22EF6 /* Images.xcassets */; };
 		58F95EE71AA48FB600E22EF6 /* metro4all_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EE61AA48FB600E22EF6 /* metro4all_iosTests.m */; };
-		58F95EF21AA49C5200E22EF6 /* MFAObjectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EF11AA49C5200E22EF6 /* MFAObjectManager.m */; };
 		58F95EF61AA4A16100E22EF6 /* MFAStoryboardProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EF51AA4A16100E22EF6 /* MFAStoryboardProxy.m */; };
 		58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EF81AA4B2C800E22EF6 /* MFASelectCityViewModel.m */; };
 		EA07EF5930494CD34D1FF1CB /* libPods-metro4all-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 650638ADED9348536CB287EB /* libPods-metro4all-ios.a */; };
@@ -75,6 +75,7 @@
 		582345601ADED87400BBBE24 /* RouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterTests.m; sourceTree = "<group>"; };
 		582345621ADED8C100BBBE24 /* stations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
 		582345641ADED97900BBBE24 /* edges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = edges.json; sourceTree = "<group>"; };
+		582345681AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = StoreMigration.xcmappingmodel; sourceTree = "<group>"; };
 		583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewModel.h; sourceTree = "<group>"; };
 		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
 		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
@@ -140,8 +141,6 @@
 		58F95EE01AA48FB600E22EF6 /* metro4all-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "metro4all-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F95EE51AA48FB600E22EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58F95EE61AA48FB600E22EF6 /* metro4all_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = metro4all_iosTests.m; sourceTree = "<group>"; };
-		58F95EF01AA49C5200E22EF6 /* MFAObjectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAObjectManager.h; path = models/MFAObjectManager.h; sourceTree = "<group>"; };
-		58F95EF11AA49C5200E22EF6 /* MFAObjectManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAObjectManager.m; path = models/MFAObjectManager.m; sourceTree = "<group>"; };
 		58F95EF41AA4A16100E22EF6 /* MFAStoryboardProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAStoryboardProxy.h; path = models/MFAStoryboardProxy.h; sourceTree = "<group>"; };
 		58F95EF51AA4A16100E22EF6 /* MFAStoryboardProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAStoryboardProxy.m; path = models/MFAStoryboardProxy.m; sourceTree = "<group>"; };
 		58F95EF71AA4B2C800E22EF6 /* MFASelectCityViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFASelectCityViewModel.h; sourceTree = "<group>"; };
@@ -306,6 +305,7 @@
 				58F95ED41AA48FB600E22EF6 /* Main.storyboard */,
 				58F95ED71AA48FB600E22EF6 /* Images.xcassets */,
 				58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */,
+				582345681AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel */,
 				58F95EC71AA48FB600E22EF6 /* Supporting Files */,
 				58F95EF31AA49C5B00E22EF6 /* Models */,
 				58CA3DE41AC936EF00205567 /* NSString+Utils.h */,
@@ -349,8 +349,6 @@
 			children = (
 				582345591ADED0C300BBBE24 /* Graph */,
 				58136E8B1AA5F1B600512D29 /* CoreData */,
-				58F95EF01AA49C5200E22EF6 /* MFAObjectManager.h */,
-				58F95EF11AA49C5200E22EF6 /* MFAObjectManager.m */,
 				58F95EF41AA4A16100E22EF6 /* MFAStoryboardProxy.h */,
 				58F95EF51AA4A16100E22EF6 /* MFAStoryboardProxy.m */,
 				58B0DA381AA5F26C0011A4A4 /* MFACityDataParser.h */,
@@ -532,10 +530,10 @@
 				58CF18371ACBD5DD0042F898 /* _MFAPortal.m in Sources */,
 				58CF183C1ACBD5DD0042F898 /* MFAPortal.m in Sources */,
 				58F95ECD1AA48FB600E22EF6 /* AppDelegate.m in Sources */,
+				582345691AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel in Sources */,
 				58CF18311ACBD5DD0042F898 /* _MFAStation.m in Sources */,
 				58CA3DE61AC936F000205567 /* NSString+Utils.m in Sources */,
 				58CF183B1ACBD5DD0042F898 /* MFANode.m in Sources */,
-				58F95EF21AA49C5200E22EF6 /* MFAObjectManager.m in Sources */,
 				58CF18321ACBD5DD0042F898 /* MFAStation.m in Sources */,
 				58CF183A1ACBD5DD0042F898 /* MFALine.m in Sources */,
 				58F95ED01AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld in Sources */,

@@ -6,7 +6,8 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'metro4all-ios' do
 
 pod 'PureLayout'
-pod 'RestKit'
+pod 'AFNetworking'
+pod 'MagicalRecord'
 pod 'SVProgressHUD'
 pod 'ReactiveCocoa', '~> 2.0'
 pod 'MBXMapKit'

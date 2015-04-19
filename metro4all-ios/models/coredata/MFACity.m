@@ -1,3 +1,5 @@
+
+#import "AppDelegate.h"
 #import "MFACity.h"
 
 @interface MFACity ()
@@ -8,6 +10,11 @@
 
 @implementation MFACity
 @dynamic name;
+
++ (instancetype)cityWithIdentifier:(NSString *)path
+{
+    return [self MR_findFirstByAttribute:@"path" withValue:path];
+}
 
 - (NSString *)nameString
 {

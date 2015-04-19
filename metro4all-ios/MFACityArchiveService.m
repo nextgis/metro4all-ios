@@ -35,15 +35,14 @@
 
 - (void)loadCitiesWithCompletion:(void (^)(NSArray *citiesMeta))completionBlock;
 {
-    AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:self.baseURL];
-    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSURL *metaURL = [NSURL URLWithString:@"meta.json" relativeToURL:self.baseURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:metaURL];
 
-    id successBlock = ^(NSURLRequest *req, NSHTTPURLResponse *res, id JSON) {
+    id successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Successfully loaded meta.json");
         
-        NSArray *sorted = [JSON[@"packages"] sortedArrayUsingComparator:^NSComparisonResult(MFACityMeta city1, MFACityMeta city2) {
+        NSArray *sorted = [responseObject[@"packages"] sortedArrayUsingComparator:^NSComparisonResult(MFACityMeta city1, MFACityMeta city2) {
             return [city1.localizedName compare:city2.localizedName];
         }];
         
@@ -52,18 +51,17 @@
         }
     };
     
-    AFJSONRequestOperation *jsonRequest =
-        [AFJSONRequestOperation JSONRequestOperationWithRequest:request
-                                                        success:successBlock
-                                                        failure:^(NSURLRequest *req, NSHTTPURLResponse *res, NSError *err, id JSON) {
-                                                            NSLog(@"Failed to get meta.json: %@", err);
-                                                            
-                                                            if (completionBlock) {
-                                                                completionBlock(nil);
-                                                            }
-                                                        }];
+    AFHTTPRequestOperation *op = [manager HTTPRequestOperationWithRequest:request
+                                     success:successBlock
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         NSLog(@"Failed to get meta.json: %@", error);
+                                        
+                                         if (completionBlock) {
+                                             completionBlock(nil);
+                                         }
+                                     }];
     
-    [client enqueueHTTPRequestOperation:jsonRequest];
+    [op start];
 }
 
 - (void)getCityFilesForMetadata:(NSDictionary *)cityMeta completion:(void (^)(NSString *path, NSError *error))completion {

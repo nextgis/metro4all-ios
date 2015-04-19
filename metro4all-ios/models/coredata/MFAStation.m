@@ -1,4 +1,8 @@
+
 #import "MFAStation.h"
+
+#define MR_SHORTHAND
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 
 @interface MFAStation ()
 
@@ -8,6 +12,11 @@
 
 @implementation MFAStation
 @dynamic name;
+
++ (instancetype)withId:(NSNumber *)stationId
+{
+    return [self findFirstByAttribute:@"stationId" withValue:stationId];
+}
 
 - (NSString *)nameString
 {

@@ -1,5 +1,7 @@
 #import "_MFAInterchange.h"
 
 @interface MFAInterchange : _MFAInterchange {}
-// Custom logic goes here.
+
++ (instancetype)fromStationId:(NSNumber *)fromStationId
+                  toStationId:(NSNumber *)toStationId;
 @end

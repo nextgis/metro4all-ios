@@ -8,6 +8,7 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <Reachability/Reachability.h>
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 
 #import "MFASelectCityViewController.h"
 #import "MFASelectCityViewModel.h"

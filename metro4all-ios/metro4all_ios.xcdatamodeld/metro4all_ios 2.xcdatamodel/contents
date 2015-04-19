@@ -9,6 +9,8 @@
         <relationship name="stations" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Station" inverseName="city" inverseEntity="Station" syncable="YES"/>
     </entity>
     <entity name="Interchange" representedClassName="MFAInterchange" syncable="YES">
+        <attribute name="fromStationId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="toStationId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="fromStation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="interchangesTo" inverseEntity="Station" syncable="YES"/>
         <relationship name="toStation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="interchangesFrom" inverseEntity="Station" syncable="YES"/>
     </entity>
@@ -49,7 +51,7 @@
     </entity>
     <elements>
         <element name="City" positionX="-443" positionY="225" width="128" height="135"/>
-        <element name="Interchange" positionX="-0" positionY="378" width="128" height="75"/>
+        <element name="Interchange" positionX="-0" positionY="378" width="128" height="105"/>
         <element name="Line" positionX="43" positionY="168" width="128" height="120"/>
         <element name="Node" positionX="-243" positionY="315" width="128" height="73"/>
         <element name="Portal" positionX="43" positionY="531" width="128" height="165"/>

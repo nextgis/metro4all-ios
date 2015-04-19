@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "MFAStationsListViewModel.h"
 #import "MFACity.h"
+#import "MFAStation.h"
 
 @interface MFAStationsListViewModel ()
 
@@ -41,13 +42,7 @@
 
 - (NSArray *)fetchStationsForCity:(MFACity *)city searchString:(NSString *)searchString
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"Station" inManagedObjectContext:city.managedObjectContext];
-
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"city == %@", city];
-    
-    NSError *error = nil;
-    NSArray *fetchedObjects = [city.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [MFAStation MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"city == %@", city]];
     
     NSArray *filtered = nil;
     if (searchString) {
@@ -86,22 +81,13 @@
 {
     NSDictionary *currentCityMeta = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
     
-    NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
+    MFACity *city = [MFACity cityWithIdentifier:currentCityMeta[@"path"]];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"City"
-                                      inManagedObjectContext:context];
-    
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"path == %@", currentCityMeta[@"path"]];
-    
-    NSError *error = nil;
-    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
-    
-    if (fetchedObjects.count == 0) {
+    if (!city) {
         
     }
     else {
-        self.city = [fetchedObjects firstObject];
+        self.city = city;
         self.allStations = [self fetchStationsForCity:self.city searchString:nil];
         self.searchResults = self.allStations;
     }

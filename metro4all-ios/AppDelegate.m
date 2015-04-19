@@ -8,11 +8,15 @@
 //
 
 #import <Crashlytics/Crashlytics.h>
+#import <MagicalRecord/CoreData+MagicalRecord.h>
+
 #import "AppDelegate.h"
 
 #import "MFACityArchiveService.h"
 
 #import "MFAStoryboardProxy.h"
+
+#import "MFACity.h"
 
 #import "MFASelectCityViewController.h"
 #import "MFASelectCityViewModel.h"
@@ -42,13 +46,13 @@
 - (UIViewController *)setupSelectCityController
 {
     MFACityArchiveService *archiveService =
-    [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/"]];
+        [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/"]];
     
     MFASelectCityViewModel *viewModel =
-    [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];
+        [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];
     
     MFASelectCityViewController *selectCityController =
-    (MFASelectCityViewController *)[MFAStoryboardProxy selectCityViewController];
+        (MFASelectCityViewController *)[MFAStoryboardProxy selectCityViewController];
     
     selectCityController.viewModel = viewModel;
     
@@ -63,6 +67,7 @@
     [Crashlytics startWithAPIKey:@"c43619aaae8fac9a0428b7b54a32e0a00aa223f7"];
     
     [self setupAppearance];
+    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"metro4all_ios"];
     
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
@@ -73,23 +78,14 @@
         rootViewController = [self setupSelectCityController];
     }
     else {
-        NSManagedObjectContext *context = self.managedObjectContext;
+        MFACity *city = [MFACity cityWithIdentifier:currentCityMeta[@"path"]];
         
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = [NSEntityDescription entityForName:@"City"
-                                          inManagedObjectContext:context];
-        
-        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"path == %@", currentCityMeta[@"path"]];
-        
-        NSError *error = nil;
-        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
-        
-        if (fetchedObjects.count == 0) {
+        if (!city) {
             rootViewController = [self setupSelectCityController];
         }
         else {
             MFAStationsListViewModel *viewModel =
-                [[MFAStationsListViewModel alloc] initWithCity:[fetchedObjects firstObject]];
+                [[MFAStationsListViewModel alloc] initWithCity:city];
             
             MFAStationsListViewController *stationsListController =
                 (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
@@ -147,58 +143,8 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
-- (NSManagedObjectModel *)managedObjectModel {
-    // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"metro4all_ios" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModel;
-}
-
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it.
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-    
-    // Create the coordinator and store
-    
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"metro4all_ios.sqlite"];
-    NSError *error = nil;
-    NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        // Report any error we got.
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
-        dict[NSLocalizedFailureReasonErrorKey] = failureReason;
-        dict[NSUnderlyingErrorKey] = error;
-        error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        // Replace this with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    return _persistentStoreCoordinator;
-}
-
-
 - (NSManagedObjectContext *)managedObjectContext {
-    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
-        return nil;
-    }
-    _managedObjectContext = [[NSManagedObjectContext alloc] init];
-    [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-    return _managedObjectContext;
+    return [NSManagedObjectContext MR_defaultContext];
 }
 
 #pragma mark - Core Data Saving support

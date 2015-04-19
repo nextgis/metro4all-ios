@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <NTYCSVTable/NTYCSVTable.h>
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 
 #import "NSString+Utils.h"
 
@@ -145,9 +146,7 @@
         [stationsCache[key] setCity:city];
     }
 
-    NSError *error = nil;
-    [self.managedObjectContext save:&error];
-
+    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
     
     [self.delegate cityDataParser:self didFinishParsingCity:city];
 }
@@ -270,18 +269,7 @@
 
 - (MFACity *)configureCity
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    fetchRequest.entity = [NSEntityDescription entityForName:@"City"
-                                              inManagedObjectContext:self.managedObjectContext];
-    
-    // Specify criteria for filtering which objects to fetch
-    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"path == %@", self.cityMetadata[@"path"]];
-    fetchRequest.fetchLimit = 1;
-    
-    NSError *error = nil;
-    NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest
-                                                                       error:&error];
-    MFACity *city = [fetchedObjects firstObject];
+    MFACity *city = [MFACity cityWithIdentifier:self.cityMetadata[@"path"]];
     if (city &&
         ![city.version isEqualToNumber:self.cityMetadata[@"ver"]]) {
         

@@ -3,6 +3,11 @@
 
 @import CoreData;
 
+extern const struct MFAInterchangeAttributes {
+	__unsafe_unretained NSString *fromStationId;
+	__unsafe_unretained NSString *toStationId;
+} MFAInterchangeAttributes;
+
 extern const struct MFAInterchangeRelationships {
 	__unsafe_unretained NSString *fromStation;
 	__unsafe_unretained NSString *toStation;
@@ -20,6 +25,22 @@ extern const struct MFAInterchangeRelationships {
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 @property (nonatomic, readonly, strong) MFAInterchangeID* objectID;
 
+@property (nonatomic, strong) NSNumber* fromStationId;
+
+@property (atomic) int32_t fromStationIdValue;
+- (int32_t)fromStationIdValue;
+- (void)setFromStationIdValue:(int32_t)value_;
+
+//- (BOOL)validateFromStationId:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) NSNumber* toStationId;
+
+@property (atomic) int32_t toStationIdValue;
+- (int32_t)toStationIdValue;
+- (void)setToStationIdValue:(int32_t)value_;
+
+//- (BOOL)validateToStationId:(id*)value_ error:(NSError**)error_;
+
 @property (nonatomic, strong) MFAStation *fromStation;
 
 //- (BOOL)validateFromStation:(id*)value_ error:(NSError**)error_;
@@ -31,6 +52,18 @@ extern const struct MFAInterchangeRelationships {
 @end
 
 @interface _MFAInterchange (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSNumber*)primitiveFromStationId;
+- (void)setPrimitiveFromStationId:(NSNumber*)value;
+
+- (int32_t)primitiveFromStationIdValue;
+- (void)setPrimitiveFromStationIdValue:(int32_t)value_;
+
+- (NSNumber*)primitiveToStationId;
+- (void)setPrimitiveToStationId:(NSNumber*)value;
+
+- (int32_t)primitiveToStationIdValue;
+- (void)setPrimitiveToStationIdValue:(int32_t)value_;
 
 - (MFAStation*)primitiveFromStation;
 - (void)setPrimitiveFromStation:(MFAStation*)value;
