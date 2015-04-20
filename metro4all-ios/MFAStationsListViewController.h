@@ -9,8 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "MFAStationsListViewModel.h"
 
+@class MFAStationsListViewController, MFAStation;
+
+@protocol MFAStationListDelegate <NSObject>
+
+- (void)stationList:(MFAStationsListViewController *)controller
+   didSelectStation:(MFAStation *)station;
+
+@end
+
 @interface MFAStationsListViewController : UIViewController
 
 @property (nonatomic, strong) MFAStationsListViewModel *viewModel;
+@property (nonatomic, weak) id<MFAStationListDelegate> delegate;
+@property (nonatomic) BOOL fromStation;
 
 @end

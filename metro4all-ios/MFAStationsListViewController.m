@@ -47,7 +47,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cityChanged:)
                                                  name:@"MFA_CHANGE_CITY" object:nil];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -128,21 +127,18 @@
 {
     [self.view endEditing:YES];
     
-    if ([self.selectedIndexPath isEqual:indexPath] == NO) {
-        NSArray *indexPaths = nil;
-        
-        if (self.selectedIndexPath) {
-            indexPaths = @[ self.selectedIndexPath, indexPath ];
-        }
-        else {
-            indexPaths = @[ indexPath ];
-        }
-        
-        self.selectedIndexPath = indexPath;
-        
-        // select new row
-        [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+    MFAStation *station = nil;
+    
+    if (tableView == self.tableView) {
+        // main table view
+        station = self.viewModel.allStations[indexPath.row];
     }
+    else {
+        // search controller table view
+        station = self.viewModel.allStations[indexPath.row];
+    }
+    
+    [self.delegate stationList:self didSelectStation:station];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath

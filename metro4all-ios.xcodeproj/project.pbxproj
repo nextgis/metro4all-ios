@@ -26,6 +26,7 @@
 		58B0DA3D1AA707C20011A4A4 /* MFAStationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA3C1AA707C20011A4A4 /* MFAStationsListViewController.m */; };
 		58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA411AA709C80011A4A4 /* MFAStationListTableViewCell.m */; };
 		58B0DA451AA70DBB0011A4A4 /* MFAStationsListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA441AA70DBB0011A4A4 /* MFAStationsListViewModel.m */; };
+		58C60AC81AE4FF7200FA1D1A /* MFASelectStationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */; };
 		58CA3DB91AC577EA00205567 /* MFAPortalAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DB81AC577EA00205567 /* MFAPortalAnnotation.m */; };
 		58CA3DE61AC936F000205567 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DE51AC936F000205567 /* NSString+Utils.m */; };
 		58CA3DE81AC9376200205567 /* NSStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DE71AC9376200205567 /* NSStringUtilsTests.m */; };
@@ -97,6 +98,8 @@
 		58B0DA411AA709C80011A4A4 /* MFAStationListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationListTableViewCell.m; sourceTree = "<group>"; };
 		58B0DA431AA70DBB0011A4A4 /* MFAStationsListViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationsListViewModel.h; sourceTree = "<group>"; };
 		58B0DA441AA70DBB0011A4A4 /* MFAStationsListViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationsListViewModel.m; sourceTree = "<group>"; };
+		58C60AC61AE4FF7200FA1D1A /* MFASelectStationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFASelectStationViewController.h; path = controllers/MFASelectStationViewController.h; sourceTree = "<group>"; };
+		58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFASelectStationViewController.m; path = controllers/MFASelectStationViewController.m; sourceTree = "<group>"; };
 		58CA3DB71AC577EA00205567 /* MFAPortalAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAPortalAnnotation.h; path = models/MFAPortalAnnotation.h; sourceTree = "<group>"; };
 		58CA3DB81AC577EA00205567 /* MFAPortalAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAPortalAnnotation.m; path = models/MFAPortalAnnotation.m; sourceTree = "<group>"; };
 		58CA3DE41AC936EF00205567 /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 				58F95EF31AA49C5B00E22EF6 /* Models */,
 				58CA3DE41AC936EF00205567 /* NSString+Utils.h */,
 				58CA3DE51AC936F000205567 /* NSString+Utils.m */,
+				58C60AC61AE4FF7200FA1D1A /* MFASelectStationViewController.h */,
+				58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */,
 			);
 			path = "metro4all-ios";
 			sourceTree = "<group>";
@@ -527,6 +532,7 @@
 				58CA3DB91AC577EA00205567 /* MFAPortalAnnotation.m in Sources */,
 				58F95EF61AA4A16100E22EF6 /* MFAStoryboardProxy.m in Sources */,
 				583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */,
+				58C60AC81AE4FF7200FA1D1A /* MFASelectStationViewController.m in Sources */,
 				58CF18371ACBD5DD0042F898 /* _MFAPortal.m in Sources */,
 				58CF183C1ACBD5DD0042F898 /* MFAPortal.m in Sources */,
 				58F95ECD1AA48FB600E22EF6 /* AppDelegate.m in Sources */,

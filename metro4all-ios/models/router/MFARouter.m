@@ -7,12 +7,18 @@
 //
 
 #import "MFARouter.h"
+
+#import "MFAInterchange.h"
+
 #import <PESGraph/PESGraph.h>
 #import <PESGraph/PESGraphNode.h>
 #import <PESGraph/PESGraphEdge.h>
 #import <PESGraph/PESGraphRoute.h>
+#import <PESGraph/PESGraphRouteStep.h>
 
 #import <NTYCSVTable/NTYCSVTable.h>
+
+#define STEP_WEIGHT_CHANGEOVER @5
 
 @interface MFARouter ()
 
@@ -57,6 +63,29 @@
     PESGraphNode *nodeTo = [self.graph nodeInGraphWithIdentifier:stationIdTo.stringValue];
     
     PESGraphRoute *route = [self.graph shortestRouteFromNode:nodeFrom toNode:nodeTo];
+    
+    NSMutableArray *steps = [NSMutableArray new];
+    
+    NSNumberFormatter *f = [NSNumberFormatter new];
+    f.numberStyle = NSNumberFormatterDecimalStyle;
+    
+    for (NSUInteger i = 0; i < route.steps.count; i++) {
+        PESGraphRouteStep *step = steps[i];
+        
+        if ([STEP_WEIGHT_CHANGEOVER isEqualToNumber:step.edge.weight]) {
+            NSAssert(step.isEndingStep == NO, @"an interchange cannot be an ending step");
+            
+            PESGraphRouteStep *nextStep = steps[i+1];
+            MFAInterchange *interchange = [MFAInterchange fromStationId:[f numberFromString:step.node.identifier]
+                                                            toStationId:[f numberFromString:nextStep.node.identifier]];
+            
+            [steps addObject:interchange];
+        }
+        else {
+            MFAStation *station = [MFAStation withId:[f numberFromString:step.node.identifier]];
+            [steps addObject:station];
+        }
+    }
     
     return [NSArray new];
 }

@@ -21,8 +21,10 @@
 #import "MFASelectCityViewController.h"
 #import "MFASelectCityViewModel.h"
 
-#import "MFAStationsListViewController.h"
-#import "MFAStationsListViewModel.h"
+//#import "MFAStationsListViewController.h"
+//#import "MFAStationsListViewModel.h"
+
+#import "MFASelectStationViewController.h"
 
 @interface AppDelegate ()
 
@@ -72,31 +74,29 @@
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     NSDictionary *currentCityMeta = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
+    MFACity *city = [MFACity cityWithIdentifier:currentCityMeta[@"path"]];
+    
     UIViewController *rootViewController = nil;
     
-    if (currentCityMeta == nil) {
+    if (!city) {
+        // no stored city or cannot fetch city from coredata
         rootViewController = [self setupSelectCityController];
     }
     else {
-        MFACity *city = [MFACity cityWithIdentifier:currentCityMeta[@"path"]];
+//        MFAStationsListViewModel *viewModel =
+//            [[MFAStationsListViewModel alloc] initWithCity:city];
+//        
+//        MFAStationsListViewController *stationsListController =
+//            (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
+//        
+//        stationsListController.viewModel = viewModel;
         
-        if (!city) {
-            rootViewController = [self setupSelectCityController];
-        }
-        else {
-            MFAStationsListViewModel *viewModel =
-                [[MFAStationsListViewModel alloc] initWithCity:city];
-            
-            MFAStationsListViewController *stationsListController =
-                (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
-            
-            stationsListController.viewModel = viewModel;
-            
-            UINavigationController *navController =
-                [[UINavigationController alloc] initWithRootViewController:stationsListController];
-            
-            rootViewController = navController;
-        }
+        MFASelectStationViewController *selectStation = [[MFASelectStationViewController alloc] initWithCity:city];
+        
+        UINavigationController *navController =
+            [[UINavigationController alloc] initWithRootViewController:selectStation];
+        
+        rootViewController = navController;
     }
     
     window.rootViewController = rootViewController;
