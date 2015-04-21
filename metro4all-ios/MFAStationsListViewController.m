@@ -38,13 +38,6 @@
 
     self.searchDisplayController.searchResultsTableView.tableFooterView = [UIView new];
     
-    UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:@"Город"
-                                                                         style:UIBarButtonItemStylePlain
-                                                                        target:self
-                                                                        action:@selector(changeCity:)];
-    
-    self.navigationItem.rightBarButtonItem = changeCityButton;
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cityChanged:)
                                                  name:@"MFA_CHANGE_CITY" object:nil];
 }
@@ -200,10 +193,4 @@
     [self.navigationController pushViewController:stationMapController animated:YES];
 }
 
-- (IBAction)changeCity:(id)sender
-{
-    self.selectedIndexPath = nil;
-    UIViewController *selectCityViewController = self.viewModel.selectCityViewController;
-    [self presentViewController:selectCityViewController animated:YES completion:nil];
-}
 @end

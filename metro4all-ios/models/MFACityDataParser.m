@@ -17,6 +17,7 @@
 #import "MFALine.h"
 #import "MFAStation.h"
 #import "MFAPortal.h"
+#import "MFAInterchange.h"
 
 #import "MFACityDataParser.h"
 
@@ -72,8 +73,6 @@
     MFACity *city = [self configureCity];
     
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.csvPath error:nil];
-    const NSUInteger totalFiles = files.count;
-    NSUInteger processedFiles = 0;
     
     NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *stationsCache = [[NSMutableDictionary alloc] init];
@@ -83,7 +82,8 @@
     files = [files filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         if ([evaluatedObject startsWithString:@"lines"] ||
             [evaluatedObject startsWithString:@"portals"] ||
-            [evaluatedObject startsWithString:@"stations"]) {
+            [evaluatedObject startsWithString:@"stations"] ||
+            [evaluatedObject startsWithString:@"interchanges"]) {
             
             return YES;
         }
@@ -91,27 +91,22 @@
         return NO;
     }]];
     
+    id weights = @{
+                   @"lines" : @0,
+                   @"stations" : @1,
+                   @"portals" : @2,
+                   @"interchanges" : @3
+                   };
+    
+    id characterSet = [NSCharacterSet characterSetWithCharactersInString:@"_."];
+    
     files = [files sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
-        NSNumber *rep1 = nil, *rep2 = nil;
-        if ([obj1 startsWithString:@"lines"]) {
-            rep1 = @0;
-        }
-        else if ([obj1 startsWithString:@"stations"]) {
-            rep1 = @1;
-        }
-        else {
-            rep1 = @2;
-        }
         
-        if ([obj2 startsWithString:@"lines"]) {
-            rep2 = @0;
-        }
-        else if ([obj2 startsWithString:@"stations"]) {
-            rep2 = @1;
-        }
-        else {
-            rep2 = @2;
-        }
+        NSString *key1 = [obj1 componentsSeparatedByCharactersInSet:characterSet][0];
+        NSString *key2 = [obj2 componentsSeparatedByCharactersInSet:characterSet][0];
+        
+        NSNumber *rep1 = weights[key1] ?: @0;
+        NSNumber *rep2 = weights[key2] ?: @0;
         
         return [rep1 compare:rep2];
     }];
@@ -132,9 +127,9 @@
                          stationsCache:stationsCache
                           portalsCache:portalsCache];
         }
-        
-        if ([self.delegate respondsToSelector:@selector(cityDataParser:didProcessFiles:ofTotalFiles:)]) {
-            [self.delegate cityDataParser:self didProcessFiles:++processedFiles ofTotalFiles:totalFiles];
+        else if ([filePath startsWithString:@"interchanges"]) {
+            [self parseInterchangesFromFile:filePath
+                              stationsCache:stationsCache];
         }
     }
     
@@ -149,6 +144,31 @@
     [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
     
     [self.delegate cityDataParser:self didFinishParsingCity:city];
+}
+
+- (void)parseInterchangesFromFile:(NSString *)filePath stationsCache:(NSMutableDictionary *)stationsCache
+{
+    NSArray *parsedLines = [self parseFileAtURL:[NSURL URLWithString:filePath
+                                                       relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+    
+    for (NSDictionary *interchangeProperties in parsedLines) {
+        NSNumber *stationFromId = interchangeProperties[@"station_from"];
+        NSNumber *stationToId = interchangeProperties[@"station_to"];
+        
+        MFAInterchange *interchange = [MFAInterchange insertInManagedObjectContext:self.managedObjectContext];
+        interchange.fromStation = stationsCache[stationFromId];
+        interchange.toStation = stationsCache[stationToId];
+        
+        interchange.maxWidth = interchangeProperties[@"max_width"];
+        interchange.minStep = interchangeProperties[@"min_step"];
+        interchange.minStepRamp = interchangeProperties[@"min_step_ramp"];
+        interchange.elevator = interchangeProperties[@"lift"];
+        interchange.elevatorMinusSteps = interchangeProperties[@"lift_minus_step"];
+        interchange.minRailWidth = interchangeProperties[@"min_rail_width"];
+        interchange.maxRailWidth = interchangeProperties[@"max_rail_width"];
+        interchange.maxAngle = interchangeProperties[@"max_angle"];
+        interchange.escalator = interchangeProperties[@"escalator"];
+    }
 }
 
 - (void)parseLinesFromFile:(NSString *)filePath linesCache:(NSMutableDictionary *)linesCache

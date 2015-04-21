@@ -1,7 +1,6 @@
 
 #import "MFAStation.h"
 
-#define MR_SHORTHAND
 #import <MagicalRecord/CoreData+MagicalRecord.h>
 
 @interface MFAStation ()
@@ -15,7 +14,7 @@
 
 + (instancetype)withId:(NSNumber *)stationId
 {
-    return [self findFirstByAttribute:@"stationId" withValue:stationId];
+    return [self MR_findFirstByAttribute:@"stationId" withValue:stationId];
 }
 
 - (NSString *)nameString
@@ -48,6 +47,11 @@
     self.lon = [f numberFromString:arrayOfStantionProperties[5]];
     
     return self;
+}
+
+- (NSString *)description
+{
+    return self.name[@"en"];
 }
 
 @end

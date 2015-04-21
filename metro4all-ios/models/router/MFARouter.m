@@ -70,16 +70,16 @@
     f.numberStyle = NSNumberFormatterDecimalStyle;
     
     for (NSUInteger i = 0; i < route.steps.count; i++) {
-        PESGraphRouteStep *step = steps[i];
+        PESGraphRouteStep *step = route.steps[i];
         
-        if ([STEP_WEIGHT_CHANGEOVER isEqualToNumber:step.edge.weight]) {
-            NSAssert(step.isEndingStep == NO, @"an interchange cannot be an ending step");
-            
-            PESGraphRouteStep *nextStep = steps[i+1];
+        if (!step.isEndingStep && [STEP_WEIGHT_CHANGEOVER isEqualToNumber:step.edge.weight]) {
+            PESGraphRouteStep *nextStep = route.steps[i+1];
             MFAInterchange *interchange = [MFAInterchange fromStationId:[f numberFromString:step.node.identifier]
                                                             toStationId:[f numberFromString:nextStep.node.identifier]];
             
             [steps addObject:interchange];
+            
+            i++; // skip next step as we've already added it as part of interchange
         }
         else {
             MFAStation *station = [MFAStation withId:[f numberFromString:step.node.identifier]];
@@ -87,7 +87,7 @@
         }
     }
     
-    return [NSArray new];
+    return steps;
 }
 
 @end

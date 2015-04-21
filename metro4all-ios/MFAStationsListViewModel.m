@@ -72,15 +72,9 @@
     self.searchResults = [self fetchStationsForCity:self.city searchString:searchString];
 }
 
-- (UIViewController *)selectCityViewController
-{
-    return [((AppDelegate *)[UIApplication sharedApplication].delegate) setupSelectCityController];
-}
-
 - (void)changeCity:(NSNotification *)note
 {
     NSDictionary *currentCityMeta = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
-    
     MFACity *city = [MFACity cityWithIdentifier:currentCityMeta[@"path"]];
     
     if (!city) {
