@@ -2,6 +2,4 @@
 
 @interface MFAInterchange : _MFAInterchange {}
 
-+ (instancetype)fromStationId:(NSNumber *)fromStationId
-                  toStationId:(NSNumber *)toStationId;
 @end

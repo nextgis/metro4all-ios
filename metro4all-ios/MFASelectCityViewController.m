@@ -15,6 +15,8 @@
 #import "MFASelectCityTableViewCell.h"
 
 #import "MFAStationsListViewController.h"
+#import "MFASelectStationViewController.h"
+
 #import "MFAStoryboardProxy.h"
 
 @interface MFASelectCityViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -101,10 +103,10 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         }
         else {
-            MFAStationsListViewController *stationsList = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
-            stationsList.viewModel = [[MFAStationsListViewModel alloc] initWithCity:self.viewModel.selectedCity];
+            MFASelectStationViewController *selectStation = (MFASelectStationViewController *)[MFAStoryboardProxy selectStationViewController];
+            selectStation.city = self.viewModel.selectedCity;
             
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:stationsList];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:selectStation];
             [self presentViewController:navController animated:YES completion:nil];
         }
     };

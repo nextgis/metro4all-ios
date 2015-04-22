@@ -9,6 +9,8 @@
 #import "MFARouter.h"
 
 #import "MFAInterchange.h"
+#import "MFACity.h"
+#import "MFAStation.h"
 
 #import <PESGraph/PESGraph.h>
 #import <PESGraph/PESGraphNode.h>
@@ -23,15 +25,17 @@
 @interface MFARouter ()
 
 @property (nonatomic, strong) PESGraph *graph;
+@property (nonatomic, strong) MFACity *city;
 
 @end
 
 @implementation MFARouter
 
-- (instancetype)initWithStations:(NSArray *)stations edges:(NSArray *)edges
+- (instancetype)initWithCity:(MFACity *)city stations:(NSArray *)stations edges:(NSArray *)edges
 {
     self = [super init];
     if (self) {
+        self.city = city;
         
         // parse stations and create graph nodes
         NSMutableDictionary *nodes = [[NSMutableDictionary alloc] initWithCapacity:stations.count];
@@ -74,15 +78,15 @@
         
         if (!step.isEndingStep && [STEP_WEIGHT_CHANGEOVER isEqualToNumber:step.edge.weight]) {
             PESGraphRouteStep *nextStep = route.steps[i+1];
-            MFAInterchange *interchange = [MFAInterchange fromStationId:[f numberFromString:step.node.identifier]
-                                                            toStationId:[f numberFromString:nextStep.node.identifier]];
+            MFAInterchange *interchange = [self.city interchangeFromStationId:[f numberFromString:step.node.identifier]
+                                                                  toStationId:[f numberFromString:nextStep.node.identifier]];
             
             [steps addObject:interchange];
             
             i++; // skip next step as we've already added it as part of interchange
         }
         else {
-            MFAStation *station = [MFAStation withId:[f numberFromString:step.node.identifier]];
+            MFAStation *station = [self.city stationWithId:[f numberFromString:step.node.identifier]];
             [steps addObject:station];
         }
     }

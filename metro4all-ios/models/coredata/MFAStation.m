@@ -12,11 +12,6 @@
 @implementation MFAStation
 @dynamic name;
 
-+ (instancetype)withId:(NSNumber *)stationId
-{
-    return [self MR_findFirstByAttribute:@"stationId" withValue:stationId];
-}
-
 - (NSString *)nameString
 {
     NSString *name = nil;

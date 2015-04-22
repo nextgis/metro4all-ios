@@ -159,7 +159,25 @@ const struct MFAStationRelationships MFAStationRelationships = {
 
 @dynamic interchangesFrom;
 
+- (NSMutableSet*)interchangesFromSet {
+	[self willAccessValueForKey:@"interchangesFrom"];
+
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"interchangesFrom"];
+
+	[self didAccessValueForKey:@"interchangesFrom"];
+	return result;
+}
+
 @dynamic interchangesTo;
+
+- (NSMutableSet*)interchangesToSet {
+	[self willAccessValueForKey:@"interchangesTo"];
+
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"interchangesTo"];
+
+	[self didAccessValueForKey:@"interchangesTo"];
+	return result;
+}
 
 @dynamic line;
 

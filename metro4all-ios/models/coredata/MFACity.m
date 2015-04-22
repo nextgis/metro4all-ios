@@ -48,4 +48,21 @@
     return pathURL;
 }
 
+- (MFAInterchange *)interchangeFromStationId:(NSNumber *)fromStationId toStationId:(NSNumber *)toStationId
+{
+    NSString *format = @"fromStation.stationId == %@ && " \
+                       @"toStation.stationId == %@ && " \
+                       @"fromStation.city == %@ && " \
+                       @"toStation.city == %@ ";
+    
+    NSPredicate *pred = [NSPredicate predicateWithFormat:format, fromStationId, toStationId, self, self];
+    return [MFAInterchange MR_findFirstWithPredicate:pred];
+}
+
+- (MFAStation *)stationWithId:(NSNumber *)stationId
+{
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"stationId == %@ && city == %@", stationId, self];
+    return [MFAStation MR_findFirstWithPredicate:pred];
+}
+
 @end

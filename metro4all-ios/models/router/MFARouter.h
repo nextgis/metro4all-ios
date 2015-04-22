@@ -12,7 +12,7 @@
 
 @interface MFARouter : NSObject
 
-- (instancetype)initWithStations:(NSArray *)stations edges:(NSArray *)edges;
+- (instancetype)initWithCity:(MFACity *)city stations:(NSArray *)stations edges:(NSArray *)edges;
 - (NSArray *)routeFromStation:(NSNumber *)stationIdFrom toStation:(NSNumber *)stationIdTo;
 
 @end

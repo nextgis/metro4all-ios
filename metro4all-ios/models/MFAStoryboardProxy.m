@@ -44,4 +44,8 @@ static UIStoryboard *mainStoryboard = nil;
     return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_legendViewController"];
 }
 
++ (UIViewController *)selectStationViewController
+{
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_selectStationViewController"];
+}
 @end

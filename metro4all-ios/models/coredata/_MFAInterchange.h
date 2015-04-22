@@ -7,14 +7,12 @@ extern const struct MFAInterchangeAttributes {
 	__unsafe_unretained NSString *elevator;
 	__unsafe_unretained NSString *elevatorMinusSteps;
 	__unsafe_unretained NSString *escalator;
-	__unsafe_unretained NSString *fromStationId;
 	__unsafe_unretained NSString *maxAngle;
 	__unsafe_unretained NSString *maxRailWidth;
 	__unsafe_unretained NSString *maxWidth;
 	__unsafe_unretained NSString *minRailWidth;
 	__unsafe_unretained NSString *minStep;
 	__unsafe_unretained NSString *minStepRamp;
-	__unsafe_unretained NSString *toStationId;
 } MFAInterchangeAttributes;
 
 extern const struct MFAInterchangeRelationships {
@@ -57,14 +55,6 @@ extern const struct MFAInterchangeRelationships {
 - (void)setEscalatorValue:(BOOL)value_;
 
 //- (BOOL)validateEscalator:(id*)value_ error:(NSError**)error_;
-
-@property (nonatomic, strong) NSNumber* fromStationId;
-
-@property (atomic) int32_t fromStationIdValue;
-- (int32_t)fromStationIdValue;
-- (void)setFromStationIdValue:(int32_t)value_;
-
-//- (BOOL)validateFromStationId:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* maxAngle;
 
@@ -114,14 +104,6 @@ extern const struct MFAInterchangeRelationships {
 
 //- (BOOL)validateMinStepRamp:(id*)value_ error:(NSError**)error_;
 
-@property (nonatomic, strong) NSNumber* toStationId;
-
-@property (atomic) int32_t toStationIdValue;
-- (int32_t)toStationIdValue;
-- (void)setToStationIdValue:(int32_t)value_;
-
-//- (BOOL)validateToStationId:(id*)value_ error:(NSError**)error_;
-
 @property (nonatomic, strong) MFAStation *fromStation;
 
 //- (BOOL)validateFromStation:(id*)value_ error:(NSError**)error_;
@@ -151,12 +133,6 @@ extern const struct MFAInterchangeRelationships {
 
 - (BOOL)primitiveEscalatorValue;
 - (void)setPrimitiveEscalatorValue:(BOOL)value_;
-
-- (NSNumber*)primitiveFromStationId;
-- (void)setPrimitiveFromStationId:(NSNumber*)value;
-
-- (int32_t)primitiveFromStationIdValue;
-- (void)setPrimitiveFromStationIdValue:(int32_t)value_;
 
 - (NSNumber*)primitiveMaxAngle;
 - (void)setPrimitiveMaxAngle:(NSNumber*)value;
@@ -193,12 +169,6 @@ extern const struct MFAInterchangeRelationships {
 
 - (int32_t)primitiveMinStepRampValue;
 - (void)setPrimitiveMinStepRampValue:(int32_t)value_;
-
-- (NSNumber*)primitiveToStationId;
-- (void)setPrimitiveToStationId:(NSNumber*)value;
-
-- (int32_t)primitiveToStationIdValue;
-- (void)setPrimitiveToStationIdValue:(int32_t)value_;
 
 - (MFAStation*)primitiveFromStation;
 - (void)setPrimitiveFromStation:(MFAStation*)value;

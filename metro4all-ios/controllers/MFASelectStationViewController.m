@@ -23,11 +23,10 @@
 
 @interface MFASelectStationViewController () <UITableViewDelegate, UITableViewDataSource, MFAStationListDelegate>
 
-@property (nonatomic, strong, readwrite) MFACity *city;
-
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *stationFromButton;
 @property (nonatomic, weak) IBOutlet UIButton *stationToButton;
+@property (nonatomic, weak) IBOutlet UIImageView *cityLogoImageView;
 
 @property (nonatomic, strong) MFAStation *stationFrom;
 @property (nonatomic, strong) MFAStation *stationTo;
@@ -38,74 +37,14 @@
 
 @implementation MFASelectStationViewController
 
-- (instancetype)initWithCity:(MFACity *)city
-{
-    self = [super init];
-    if (self) {
-        self.city = city;
-    }
-    
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.stationFromButton.tag = 0;
+    self.stationToButton.tag = 1;
     
-    UIView *containerView = [[UIView alloc] initForAutoLayout];
-    [containerView autoSetDimension:ALDimensionHeight toSize:44.0];
-    containerView.backgroundColor = [UIColor whiteColor];
-    
-    [self.view addSubview:containerView];
-    
-    [containerView autoPinEdgeToSuperviewEdge:ALEdgeTop];
-    [containerView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [containerView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    
-    UIButton *stationFromButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    UIButton *stationToButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    
-    stationToButton.translatesAutoresizingMaskIntoConstraints = NO;
-    stationFromButton.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    stationFromButton.tag = 0;
-    stationToButton.tag = 1;
-    
-    [stationFromButton addTarget:self action:@selector(selectStation:) forControlEvents:UIControlEventTouchUpInside];
-    [stationToButton addTarget:self action:@selector(selectStation:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [containerView addSubview:stationFromButton];
-    [containerView addSubview:stationToButton];
-    
-    [stationFromButton autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [stationFromButton autoPinEdgeToSuperviewEdge:ALEdgeTop];
-    [stationFromButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    
-    [stationToButton autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    [stationToButton autoPinEdgeToSuperviewEdge:ALEdgeTop];
-    [stationToButton autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    
-    [stationFromButton autoConstrainAttribute:ALAttributeWidth toAttribute:ALAttributeWidth ofView:stationToButton];
-    
-    self.stationToButton = stationToButton;
-    self.stationFromButton = stationFromButton;
-    
-    UITableView *tableView = [[UITableView alloc] initForAutoLayout];
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    [tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
-    tableView.tableFooterView = [UIView new];
-    
-    [self.view addSubview:tableView];
-    
-    [tableView autoPinEdgeToSuperviewEdge:ALEdgeBottom];
-    [tableView autoPinEdgeToSuperviewEdge:ALEdgeLeft];
-    [tableView autoPinEdgeToSuperviewEdge:ALEdgeRight];
-    
-    [tableView autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:containerView];
-    
-    self.tableView = tableView;
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
+    self.tableView.tableFooterView = [UIView new];
     
     self.title = @"Метро для всех";
     
@@ -134,14 +73,14 @@
         [self.stationFromButton setTitle:self.stationFrom.nameString forState:UIControlStateNormal];
     }
     else {
-        [self.stationFromButton setTitle:@"Станция отправления" forState:UIControlStateNormal];
+        [self.stationFromButton setTitle:@"Старт" forState:UIControlStateNormal];
     }
     
     if (self.stationTo) {
         [self.stationToButton setTitle:self.stationTo.nameString forState:UIControlStateNormal];
     }
     else {
-        [self.stationToButton setTitle:@"Станция назначения" forState:UIControlStateNormal];
+        [self.stationToButton setTitle:@"Финиш" forState:UIControlStateNormal];
     }
     
     self.stationFromButton.titleLabel.textColor = [UIColor blackColor];
@@ -159,7 +98,9 @@
 {
     self.stationFrom = nil;
     self.stationTo = nil;
+    [self updateButtonTitles];
     
+    self.steps = @[];
     [self.tableView reloadData];
     
     NSDictionary *currentCityMeta = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
@@ -189,7 +130,7 @@
     return cell;
 }
 
-- (void)selectStation:(UIButton *)sender
+- (IBAction)selectStation:(UIButton *)sender
 {
     MFAStationsListViewModel *viewModel = [[MFAStationsListViewModel alloc] initWithCity:self.city];
     MFAStationsListViewController *viewController = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
@@ -215,17 +156,21 @@
     [self updateButtonTitles];
     [self.navigationController popViewControllerAnimated:YES];
     
-    if (self.stationFrom && self.stationTo) {
+    if (self.stationFrom && self.stationTo &&
+        self.stationFrom != self.stationTo) {
         // both stations are set, calculate route
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             MFACityMeta meta = self.city.metaDictionary;
             NTYCSVTable *stationsTable = [[NTYCSVTable alloc] initWithContentsOfURL:[meta.filesDirectory URLByAppendingPathComponent:@"stations_en.csv"]
                                                                     columnSeparator:@";"];
             
             NTYCSVTable *edgesTable = [[NTYCSVTable alloc] initWithContentsOfURL:[meta.filesDirectory URLByAppendingPathComponent:@"graph.csv"]
                                                                     columnSeparator:@";"];
-            MFARouter *router = [[MFARouter alloc] initWithStations:stationsTable.rows edges:edgesTable.rows];
+            
+            MFARouter *router = [[MFARouter alloc] initWithCity:self.city
+                                                       stations:stationsTable.rows
+                                                          edges:edgesTable.rows];
             
             self.steps = [router routeFromStation:self.stationFrom.stationId toStation:self.stationTo.stationId];
             [self.tableView reloadData];

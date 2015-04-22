@@ -91,7 +91,8 @@
 //        
 //        stationsListController.viewModel = viewModel;
         
-        MFASelectStationViewController *selectStation = [[MFASelectStationViewController alloc] initWithCity:city];
+        MFASelectStationViewController *selectStation = [MFAStoryboardProxy selectStationViewController];
+        selectStation.city = city;
         
         UINavigationController *navController =
             [[UINavigationController alloc] initWithRootViewController:selectStation];

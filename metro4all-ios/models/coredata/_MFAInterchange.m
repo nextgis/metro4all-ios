@@ -7,14 +7,12 @@ const struct MFAInterchangeAttributes MFAInterchangeAttributes = {
 	.elevator = @"elevator",
 	.elevatorMinusSteps = @"elevatorMinusSteps",
 	.escalator = @"escalator",
-	.fromStationId = @"fromStationId",
 	.maxAngle = @"maxAngle",
 	.maxRailWidth = @"maxRailWidth",
 	.maxWidth = @"maxWidth",
 	.minRailWidth = @"minRailWidth",
 	.minStep = @"minStep",
 	.minStepRamp = @"minStepRamp",
-	.toStationId = @"toStationId",
 };
 
 const struct MFAInterchangeRelationships MFAInterchangeRelationships = {
@@ -63,11 +61,6 @@ const struct MFAInterchangeRelationships MFAInterchangeRelationships = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"fromStationIdValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"fromStationId"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 	if ([key isEqualToString:@"maxAngleValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"maxAngle"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -95,11 +88,6 @@ const struct MFAInterchangeRelationships MFAInterchangeRelationships = {
 	}
 	if ([key isEqualToString:@"minStepRampValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"minStepRamp"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
-	if ([key isEqualToString:@"toStationIdValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"toStationId"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -165,26 +153,6 @@ const struct MFAInterchangeRelationships MFAInterchangeRelationships = {
 
 - (void)setPrimitiveEscalatorValue:(BOOL)value_ {
 	[self setPrimitiveEscalator:@(value_)];
-}
-
-@dynamic fromStationId;
-
-- (int32_t)fromStationIdValue {
-	NSNumber *result = [self fromStationId];
-	return [result intValue];
-}
-
-- (void)setFromStationIdValue:(int32_t)value_ {
-	[self setFromStationId:@(value_)];
-}
-
-- (int32_t)primitiveFromStationIdValue {
-	NSNumber *result = [self primitiveFromStationId];
-	return [result intValue];
-}
-
-- (void)setPrimitiveFromStationIdValue:(int32_t)value_ {
-	[self setPrimitiveFromStationId:@(value_)];
 }
 
 @dynamic maxAngle;
@@ -305,26 +273,6 @@ const struct MFAInterchangeRelationships MFAInterchangeRelationships = {
 
 - (void)setPrimitiveMinStepRampValue:(int32_t)value_ {
 	[self setPrimitiveMinStepRamp:@(value_)];
-}
-
-@dynamic toStationId;
-
-- (int32_t)toStationIdValue {
-	NSNumber *result = [self toStationId];
-	return [result intValue];
-}
-
-- (void)setToStationIdValue:(int32_t)value_ {
-	[self setToStationId:@(value_)];
-}
-
-- (int32_t)primitiveToStationIdValue {
-	NSNumber *result = [self primitiveToStationId];
-	return [result intValue];
-}
-
-- (void)setPrimitiveToStationIdValue:(int32_t)value_ {
-	[self setPrimitiveToStationId:@(value_)];
 }
 
 @dynamic fromStation;

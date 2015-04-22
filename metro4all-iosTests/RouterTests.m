@@ -38,8 +38,8 @@
 }
 
 - (void)testExample {
-    MFARouter *router = [[MFARouter alloc] initWithStations:self.stations edges:self.edges];
-    [router routeFromStation:@1 toStation:@12];
+//    MFARouter *router = [[MFARouter alloc] initWithStations:self.stations edges:self.edges];
+//    [router routeFromStation:@1 toStation:@12];
 }
 
 @end

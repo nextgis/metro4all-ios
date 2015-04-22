@@ -17,5 +17,6 @@
 + (UIViewController *)stationsListViewController;
 + (UIViewController *)stationMapViewController;
 + (UIViewController *)legendViewController;
++ (UIViewController *)selectStationViewController;
 
 @end

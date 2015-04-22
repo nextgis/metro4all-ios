@@ -12,8 +12,6 @@
 
 @interface MFASelectStationViewController : UIViewController
 
-@property (nonatomic, readonly) MFACity *city;
-
-- (instancetype)initWithCity:(MFACity *)city;
+@property (nonatomic, strong) MFACity *city;
 
 @end

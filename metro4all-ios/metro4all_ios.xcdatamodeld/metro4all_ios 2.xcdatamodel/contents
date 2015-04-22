@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7527" systemVersion="14D87h" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7527" systemVersion="14E7f" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="City" representedClassName="MFACity" syncable="YES">
         <attribute name="metaDictionary" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" attributeType="Transformable" syncable="YES"/>
@@ -12,16 +12,14 @@
         <attribute name="elevator" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="elevatorMinusSteps" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="escalator" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="fromStationId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="maxAngle" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="maxRailWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="maxWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="minRailWidth" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="minStep" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="minStepRamp" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="toStationId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
-        <relationship name="fromStation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="interchangesTo" inverseEntity="Station" syncable="YES"/>
-        <relationship name="toStation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="interchangesFrom" inverseEntity="Station" syncable="YES"/>
+        <relationship name="fromStation" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="interchangesTo" inverseEntity="Station" syncable="YES"/>
+        <relationship name="toStation" maxCount="1" deletionRule="Nullify" destinationEntity="Station" inverseName="interchangesFrom" inverseEntity="Station" syncable="YES"/>
     </entity>
     <entity name="Line" representedClassName="MFALine" syncable="YES">
         <attribute name="color" attributeType="Transformable" valueTransformerName="" syncable="YES"/>
@@ -52,15 +50,15 @@
         <attribute name="schemeFilePath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="stationId" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="city" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="City" inverseName="stations" inverseEntity="City" syncable="YES"/>
-        <relationship name="interchangesFrom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Interchange" inverseName="toStation" inverseEntity="Interchange" syncable="YES"/>
-        <relationship name="interchangesTo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Interchange" inverseName="fromStation" inverseEntity="Interchange" syncable="YES"/>
+        <relationship name="interchangesFrom" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Interchange" inverseName="toStation" inverseEntity="Interchange" syncable="YES"/>
+        <relationship name="interchangesTo" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Interchange" inverseName="fromStation" inverseEntity="Interchange" syncable="YES"/>
         <relationship name="line" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Line" inverseName="stations" inverseEntity="Line" syncable="YES"/>
         <relationship name="node" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Node" inverseName="stations" inverseEntity="Node" syncable="YES"/>
         <relationship name="portals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Portal" inverseName="station" inverseEntity="Portal" syncable="YES"/>
     </entity>
     <elements>
         <element name="City" positionX="-443" positionY="225" width="128" height="135"/>
-        <element name="Interchange" positionX="-0" positionY="378" width="128" height="240"/>
+        <element name="Interchange" positionX="-0" positionY="378" width="128" height="210"/>
         <element name="Line" positionX="43" positionY="168" width="128" height="120"/>
         <element name="Node" positionX="-243" positionY="315" width="128" height="73"/>
         <element name="Portal" positionX="43" positionY="531" width="128" height="165"/>
