@@ -128,7 +128,7 @@
     }
     else {
         // search controller table view
-        station = self.viewModel.allStations[indexPath.row];
+        station = self.viewModel.searchResults[indexPath.row];
     }
     
     [self.delegate stationList:self didSelectStation:station];
