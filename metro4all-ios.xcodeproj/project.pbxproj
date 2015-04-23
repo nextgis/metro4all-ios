@@ -43,6 +43,10 @@
 		58CF183B1ACBD5DD0042F898 /* MFANode.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF182E1ACBD5DD0042F898 /* MFANode.m */; };
 		58CF183C1ACBD5DD0042F898 /* MFAPortal.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF18301ACBD5DD0042F898 /* MFAPortal.m */; };
 		58E179761ADC06C200D50060 /* NSDictionary+CityMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 58E179751ADC06C200D50060 /* NSDictionary+CityMeta.m */; };
+		58F8954C1AE946D1001DF1DD /* MFALineColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F8954B1AE946D1001DF1DD /* MFALineColorView.m */; };
+		58F895501AE948FA001DF1DD /* MFARouteTableViewStationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F8954F1AE948FA001DF1DD /* MFARouteTableViewStationCell.m */; };
+		58F895531AE95197001DF1DD /* MFAInterchangeLineColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F895521AE95197001DF1DD /* MFAInterchangeLineColorView.m */; };
+		58F895561AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F895551AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m */; };
 		58F95ECA1AA48FB600E22EF6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95EC91AA48FB600E22EF6 /* main.m */; };
 		58F95ECD1AA48FB600E22EF6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 58F95ECC1AA48FB600E22EF6 /* AppDelegate.m */; };
 		58F95ED01AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */; };
@@ -131,6 +135,14 @@
 		58CF18301ACBD5DD0042F898 /* MFAPortal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAPortal.m; path = models/coredata/MFAPortal.m; sourceTree = "<group>"; };
 		58E179741ADC06C200D50060 /* NSDictionary+CityMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+CityMeta.h"; path = "models/NSDictionary+CityMeta.h"; sourceTree = "<group>"; };
 		58E179751ADC06C200D50060 /* NSDictionary+CityMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+CityMeta.m"; path = "models/NSDictionary+CityMeta.m"; sourceTree = "<group>"; };
+		58F8954A1AE946D1001DF1DD /* MFALineColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFALineColorView.h; path = views/MFALineColorView.h; sourceTree = "<group>"; };
+		58F8954B1AE946D1001DF1DD /* MFALineColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFALineColorView.m; path = views/MFALineColorView.m; sourceTree = "<group>"; };
+		58F8954E1AE948FA001DF1DD /* MFARouteTableViewStationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFARouteTableViewStationCell.h; path = views/MFARouteTableViewStationCell.h; sourceTree = "<group>"; };
+		58F8954F1AE948FA001DF1DD /* MFARouteTableViewStationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFARouteTableViewStationCell.m; path = views/MFARouteTableViewStationCell.m; sourceTree = "<group>"; };
+		58F895511AE95197001DF1DD /* MFAInterchangeLineColorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAInterchangeLineColorView.h; path = views/MFAInterchangeLineColorView.h; sourceTree = "<group>"; };
+		58F895521AE95197001DF1DD /* MFAInterchangeLineColorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAInterchangeLineColorView.m; path = views/MFAInterchangeLineColorView.m; sourceTree = "<group>"; };
+		58F895541AE95232001DF1DD /* MFARouteTableViewInterchangeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFARouteTableViewInterchangeCell.h; path = views/MFARouteTableViewInterchangeCell.h; sourceTree = "<group>"; };
+		58F895551AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFARouteTableViewInterchangeCell.m; path = views/MFARouteTableViewInterchangeCell.m; sourceTree = "<group>"; };
 		58F95EC41AA48FB600E22EF6 /* metro4all-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "metro4all-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58F95EC81AA48FB600E22EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		58F95EC91AA48FB600E22EF6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -276,6 +288,23 @@
 			name = "Stations List";
 			sourceTree = "<group>";
 		};
+		58F8954D1AE948CA001DF1DD /* Select Stations (Main Screen) */ = {
+			isa = PBXGroup;
+			children = (
+				58C60AC61AE4FF7200FA1D1A /* MFASelectStationViewController.h */,
+				58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */,
+				58F8954A1AE946D1001DF1DD /* MFALineColorView.h */,
+				58F8954B1AE946D1001DF1DD /* MFALineColorView.m */,
+				58F8954E1AE948FA001DF1DD /* MFARouteTableViewStationCell.h */,
+				58F8954F1AE948FA001DF1DD /* MFARouteTableViewStationCell.m */,
+				58F895511AE95197001DF1DD /* MFAInterchangeLineColorView.h */,
+				58F895521AE95197001DF1DD /* MFAInterchangeLineColorView.m */,
+				58F895541AE95232001DF1DD /* MFARouteTableViewInterchangeCell.h */,
+				58F895551AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m */,
+			);
+			name = "Select Stations (Main Screen)";
+			sourceTree = "<group>";
+		};
 		58F95EBB1AA48FB600E22EF6 = {
 			isa = PBXGroup;
 			children = (
@@ -305,6 +334,7 @@
 				58B0DA3F1AA709990011A4A4 /* Stations List */,
 				583B48F51AA74B8E00138E1F /* Station Map */,
 				5860618F1AB6C7E100E1F565 /* Scheme Legend */,
+				58F8954D1AE948CA001DF1DD /* Select Stations (Main Screen) */,
 				58F95ED41AA48FB600E22EF6 /* Main.storyboard */,
 				58F95ED71AA48FB600E22EF6 /* Images.xcassets */,
 				58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */,
@@ -313,8 +343,6 @@
 				58F95EF31AA49C5B00E22EF6 /* Models */,
 				58CA3DE41AC936EF00205567 /* NSString+Utils.h */,
 				58CA3DE51AC936F000205567 /* NSString+Utils.m */,
-				58C60AC61AE4FF7200FA1D1A /* MFASelectStationViewController.h */,
-				58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */,
 			);
 			path = "metro4all-ios";
 			sourceTree = "<group>";
@@ -546,6 +574,7 @@
 				58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */,
 				58F95ED31AA48FB600E22EF6 /* MFASelectCityViewController.m in Sources */,
 				58F95ECA1AA48FB600E22EF6 /* main.m in Sources */,
+				58F895531AE95197001DF1DD /* MFAInterchangeLineColorView.m in Sources */,
 				58CF18381ACBD5DD0042F898 /* MFACity.m in Sources */,
 				58B0DA451AA70DBB0011A4A4 /* MFAStationsListViewModel.m in Sources */,
 				58CF18361ACBD5DD0042F898 /* _MFANode.m in Sources */,
@@ -553,11 +582,14 @@
 				58B0DA3D1AA707C20011A4A4 /* MFAStationsListViewController.m in Sources */,
 				58CF18341ACBD5DD0042F898 /* _MFAInterchange.m in Sources */,
 				58CF18351ACBD5DD0042F898 /* _MFALine.m in Sources */,
+				58F895501AE948FA001DF1DD /* MFARouteTableViewStationCell.m in Sources */,
 				583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */,
 				58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */,
+				58F8954C1AE946D1001DF1DD /* MFALineColorView.m in Sources */,
 				58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */,
 				588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */,
 				5823455F1ADED13C00BBBE24 /* MFARouter.m in Sources */,
+				58F895561AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m in Sources */,
 				58CF18331ACBD5DD0042F898 /* _MFACity.m in Sources */,
 				58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */,
 				58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */,

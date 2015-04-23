@@ -250,9 +250,85 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ss4-aL-Sb3">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Ss4-aL-Sb3">
                                 <rect key="frame" x="0.0" y="112" width="320" height="456"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MFA_routeStationCell" rowHeight="44" id="NqH-QG-it9" customClass="MFARouteTableViewStationCell">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NqH-QG-it9" id="oe8-ZE-bdk">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0V-eK-e8p">
+                                                    <rect key="frame" x="42" y="11" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fF-cT-klF" userLabel="Line Color View" customClass="MFALineColorView">
+                                                    <rect key="frame" x="8" y="0.0" width="20" height="44"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="0xg-hf-Ezu"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="bottomMargin" secondItem="0fF-cT-klF" secondAttribute="bottom" constant="-8" id="FDa-mC-ruc"/>
+                                                <constraint firstAttribute="centerY" secondItem="R0V-eK-e8p" secondAttribute="centerY" constant="0.5" id="aJW-sK-WUD"/>
+                                                <constraint firstItem="0fF-cT-klF" firstAttribute="top" secondItem="oe8-ZE-bdk" secondAttribute="topMargin" constant="-8" id="cXr-tF-BIs"/>
+                                                <constraint firstItem="0fF-cT-klF" firstAttribute="leading" secondItem="oe8-ZE-bdk" secondAttribute="leading" constant="8" id="eda-ZM-n6R"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="R0V-eK-e8p" secondAttribute="trailing" constant="20" symbolic="YES" id="fSC-1P-DmJ"/>
+                                                <constraint firstItem="R0V-eK-e8p" firstAttribute="leading" secondItem="0fF-cT-klF" secondAttribute="trailing" constant="14" id="wX0-am-TFh"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="lineColorView" destination="0fF-cT-klF" id="lgH-VX-eoK"/>
+                                            <outlet property="stationNameLabel" destination="R0V-eK-e8p" id="Xxa-Zs-mEy"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MFA_routeInterchangeCell" rowHeight="88" id="BEy-kn-CoJ" customClass="MFARouteTableViewInterchangeCell">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BEy-kn-CoJ" id="4Xu-t2-EbH">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gS3-yd-9bi" userLabel="Line Color View" customClass="MFAInterchangeLineColorView">
+                                                    <rect key="frame" x="8" y="0.0" width="20" height="88"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="Fq2-P9-Hxt"/>
+                                                    </constraints>
+                                                </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ihI-za-HVf">
+                                                    <rect key="frame" x="42" y="12" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zhy-CJ-Nr3">
+                                                    <rect key="frame" x="42" y="56" width="42" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="gS3-yd-9bi" firstAttribute="leading" secondItem="4Xu-t2-EbH" secondAttribute="leading" constant="8" id="9sX-HC-iyT"/>
+                                                <constraint firstAttribute="centerY" secondItem="ihI-za-HVf" secondAttribute="centerY" constant="22" id="EPK-j4-WDV"/>
+                                                <constraint firstItem="ihI-za-HVf" firstAttribute="leading" secondItem="gS3-yd-9bi" secondAttribute="trailing" constant="14" id="G6p-Cb-bIo"/>
+                                                <constraint firstItem="ihI-za-HVf" firstAttribute="leading" secondItem="Zhy-CJ-Nr3" secondAttribute="leading" id="SHx-cY-RRc"/>
+                                                <constraint firstAttribute="centerY" secondItem="Zhy-CJ-Nr3" secondAttribute="centerY" constant="-22" id="dD0-cK-Cqa"/>
+                                                <constraint firstItem="gS3-yd-9bi" firstAttribute="top" secondItem="4Xu-t2-EbH" secondAttribute="topMargin" constant="-8" id="gwJ-eT-4xr"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="gS3-yd-9bi" secondAttribute="bottom" constant="-8" id="yV9-lg-Rge"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="interchangeColorView" destination="gS3-yd-9bi" id="RJQ-Vf-ree"/>
+                                            <outlet property="stationFromNameLabel" destination="ihI-za-HVf" id="Kp1-Ov-HrC"/>
+                                            <outlet property="stationToNameLabel" destination="Zhy-CJ-Nr3" id="X9B-hw-BkC"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="QFt-fU-WA1" id="Q04-lv-Y5U"/>
                                     <outlet property="delegate" destination="QFt-fU-WA1" id="Vya-qz-WQR"/>
@@ -280,7 +356,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.8862745098" green="0.90196078430000004" blue="0.92156862750000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="AaO-Ta-p0J" secondAttribute="bottom" id="13F-gn-q15"/>
                                     <constraint firstAttribute="bottom" secondItem="PLs-85-q9e" secondAttribute="bottom" id="3wj-Ri-HqL"/>

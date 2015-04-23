@@ -16,8 +16,12 @@
 #import "MFAStationsListViewController.h"
 #import "MFAStationsListViewModel.h"
 
+#import "MFARouteTableViewStationCell.h"
+#import "MFARouteTableViewInterchangeCell.h"
+
 #import "MFACity.h"
 #import "MFAStation.h"
+#import "MFALine.h"
 
 #import "MFARouter.h"
 
@@ -121,13 +125,58 @@
     return self.steps.count;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    id routeStep = self.steps[indexPath.row];
+    NSAssert(routeStep != nil, @"route step cannot be nil");
+    
+    if ([routeStep isKindOfClass:[MFAStation class]]) {
+        return 44.0;
+    }
+    else {
+        return 88.0;
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    id routeStep = self.steps[indexPath.row];
+    NSAssert(routeStep != nil, @"route step cannot be nil");
     
-    cell.textLabel.text = [self.steps[indexPath.row] description];
-    
-    return cell;
+    if ([routeStep isKindOfClass:[MFAStation class]]) {
+        MFARouteTableViewStationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_routeStationCell"
+                                                                             forIndexPath:indexPath];
+        
+        MFAStation *station = routeStep;
+        
+        cell.station = station;
+        cell.lineColorView.lineColor = station.line.color;
+        cell.lineColorView.isFirstStation = (indexPath.row == 0) ? YES : NO;
+        cell.lineColorView.isLastStation = (indexPath.row == self.steps.count - 1) ? YES : NO;
+        
+        cell.stationNameLabel.text = station.nameString;
+        
+        return cell;
+    }
+    else {
+        MFARouteTableViewInterchangeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MFA_routeInterchangeCell"
+                                                                                 forIndexPath:indexPath];
+        
+        MFAInterchange *interchange = routeStep;
+        
+        cell.interchange = interchange;
+        
+        cell.interchangeColorView.fromColor = interchange.fromStation.line.color;
+        cell.interchangeColorView.toColor = interchange.toStation.line.color;
+        
+        cell.interchangeColorView.isFirstStep = (indexPath.row == 0) ? YES : NO;
+        cell.interchangeColorView.isLastStep = (indexPath.row == self.steps.count - 1) ? YES : NO;
+
+        cell.stationFromNameLabel.text = interchange.fromStation.nameString;
+        cell.stationToNameLabel.text = interchange.toStation.nameString;
+        
+        return cell;
+    }
 }
 
 - (IBAction)selectStation:(UIButton *)sender
