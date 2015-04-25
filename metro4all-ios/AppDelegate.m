@@ -69,8 +69,10 @@
     [Crashlytics startWithAPIKey:@"c43619aaae8fac9a0428b7b54a32e0a00aa223f7"];
     
     [self setupAppearance];
-    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"metro4all_ios"];
+    [self disableIcloudBackup];
     
+    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"metro4all_ios"];
+
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     NSDictionary *currentCityMeta = [[NSUserDefaults standardUserDefaults] objectForKey:@"MFA_CURRENT_CITY"];
@@ -160,6 +162,35 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
+    }
+}
+
+- (void)disableIcloudBackup 
+{
+    NSString *docsDir;
+    NSArray *dirPaths;
+    NSURL * finalURL;
+    dirPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    docsDir = [dirPaths objectAtIndex:0];
+    
+    finalURL = [[NSURL fileURLWithPath:docsDir] URLByAppendingPathComponent:@"data"];
+
+    // create data dir if needed
+    if (![[NSFileManager defaultManager] fileExistsAtPath:finalURL.path isDirectory:nil]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:finalURL.path
+                                  withIntermediateDirectories:NO
+                                                   attributes:nil
+                                                        error:nil];
+    }
+    
+    NSError *error = nil;
+    
+    BOOL success = [finalURL setResourceValue: [NSNumber numberWithBool: YES]
+                                       forKey: NSURLIsExcludedFromBackupKey
+                                        error: &error];
+    
+    if (!success){
+        NSLog(@"Error excluding %@ from backup %@", [finalURL lastPathComponent], error);
     }
 }
 
