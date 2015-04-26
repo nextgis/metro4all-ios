@@ -24,7 +24,7 @@ IB_DESIGNABLE
 {
     //// Color Declarations
     UIColor* backgroundColor = self.backgroundColor;
-    
+ 
     //// Rectangle 2 Drawing
     UIBezierPath* rectangle2Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame), CGRectGetMinY(frame), CGRectGetWidth(frame), CGRectGetHeight(frame))];
     [backgroundColor setFill];
@@ -34,7 +34,7 @@ IB_DESIGNABLE
     if (showTopStem)
     {
         //// Rectangle 3 Drawing
-        UIBezierPath* rectangle3Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 5) * 0.50000) + 0.5, CGRectGetMinY(frame), 5, floor((CGRectGetHeight(frame)) * 0.50000 + 0.5))];
+        UIBezierPath* rectangle3Path = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 5) * 0.50000) + 0.5, CGRectGetMinY(frame), 5, 22)];
         [lineColor setFill];
         [rectangle3Path fill];
     }
@@ -43,20 +43,20 @@ IB_DESIGNABLE
     if (showBottomStem)
     {
         //// Rectangle Drawing
-        UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 5) * 0.50000) + 0.5, CGRectGetMinY(frame) + floor((CGRectGetHeight(frame)) * 0.50000 + 0.5), 5, CGRectGetHeight(frame) - floor((CGRectGetHeight(frame)) * 0.50000 + 0.5))];
+        UIBezierPath* rectanglePath = [UIBezierPath bezierPathWithRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 5) * 0.50000) + 0.5, CGRectGetMinY(frame) + 22, 5, CGRectGetHeight(frame) - 22)];
         [lineColor setFill];
         [rectanglePath fill];
     }
     
     
     //// Oval 2 Drawing
-    UIBezierPath* oval2Path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 20) / 2 + 0.5), CGRectGetMinY(frame) + floor((CGRectGetHeight(frame) - 20) * 0.50000 + 0.5), 20, 20)];
+    UIBezierPath* oval2Path = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 20) / 2 + 0.5), CGRectGetMinY(frame) + 12, 20, 20)];
     [backgroundColor setFill];
     [oval2Path fill];
     
     
     //// Oval Drawing
-    UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 12) * 0.50000 + 0.5), CGRectGetMinY(frame) + floor((CGRectGetHeight(frame) - 12) * 0.50000 + 0.5), 12, 12)];
+    UIBezierPath* ovalPath = [UIBezierPath bezierPathWithOvalInRect: CGRectMake(CGRectGetMinX(frame) + floor((CGRectGetWidth(frame) - 12) * 0.50000 + 0.5), CGRectGetMinY(frame) + 16, 12, 12)];
     [lineColor setFill];
     [ovalPath fill];
 }

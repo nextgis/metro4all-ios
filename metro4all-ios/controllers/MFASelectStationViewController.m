@@ -37,6 +37,8 @@
 
 @property (nonatomic, strong) NSArray *steps;
 
+@property (nonatomic, strong) NSIndexPath *selectedRow;
+
 @end
 
 @implementation MFASelectStationViewController
@@ -131,10 +133,15 @@
     NSAssert(routeStep != nil, @"route step cannot be nil");
     
     if ([routeStep isKindOfClass:[MFAStation class]]) {
-        return 44.0;
+        if ([indexPath isEqual:self.selectedRow]) {
+            return 80.0f;
+        }
+        else {
+            return 44.0f;
+        }
     }
     else {
-        return 88.0;
+        return 88.0f;
     }
 }
 
@@ -177,6 +184,38 @@
         
         return cell;
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView beginUpdates];
+    
+    if ([self.selectedRow isEqual:indexPath] == NO) {
+        NSArray *indexPaths = nil;
+        
+        if (self.selectedRow) {
+            indexPaths = @[ self.selectedRow, indexPath ];
+        }
+        else {
+            indexPaths = @[ indexPath ];
+        }
+        
+        self.selectedRow = indexPath;
+        
+        // select new row
+//        [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+        for (NSIndexPath *indexPath in indexPaths) {
+            [[tableView cellForRowAtIndexPath:indexPath] setNeedsDisplay];
+        }
+    }
+    
+    [tableView endUpdates];
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    self.selectedRow = nil;
+    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 - (IBAction)selectStation:(UIButton *)sender
