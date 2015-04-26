@@ -12,6 +12,11 @@ IB_DESIGNABLE
 
 @implementation MFALineColorView
 
+- (void)awakeFromNib
+{
+    self.contentMode = UIViewContentModeRedraw;
+}
+
 - (void)drawRect:(CGRect)rect {
     [self drawLineWithFrame:self.bounds
                       color:self.lineColor

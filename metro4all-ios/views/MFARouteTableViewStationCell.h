@@ -9,12 +9,26 @@
 #import <UIKit/UIKit.h>
 #import "MFALineColorView.h"
 
-@class MFAStation;
+@class MFAStation, MFARouteTableViewStationCell;
+
+@protocol MFARouteTableViewStationCellDelegate <NSObject>
+
+- (void)stationCellDidRequestMap:(MFARouteTableViewStationCell *)cell;
+- (void)stationCellDidRequestScheme:(MFARouteTableViewStationCell *)cell;
+
+@end
+
 
 @interface MFARouteTableViewStationCell : UITableViewCell
 
 @property (nonatomic, strong) MFAStation *station;
+
 @property (nonatomic, weak) IBOutlet MFALineColorView *lineColorView;
 @property (nonatomic, weak) IBOutlet UILabel *stationNameLabel;
+
+@property (nonatomic, weak) IBOutlet UIButton *mapButton;
+@property (nonatomic, weak) IBOutlet UIButton *schemeButton;
+
+@property (nonatomic, weak) id<MFARouteTableViewStationCellDelegate> delegate;
 
 @end

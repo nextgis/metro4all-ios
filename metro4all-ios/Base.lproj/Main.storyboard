@@ -254,19 +254,37 @@
                                 <rect key="frame" x="0.0" y="112" width="320" height="456"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MFA_routeStationCell" rowHeight="44" id="NqH-QG-it9" customClass="MFARouteTableViewStationCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="MFA_routeStationCell" rowHeight="104" id="NqH-QG-it9" customClass="MFARouteTableViewStationCell">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NqH-QG-it9" id="oe8-ZE-bdk">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0V-eK-e8p">
-                                                    <rect key="frame" x="42" y="11" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Station name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0V-eK-e8p">
+                                                    <rect key="frame" x="42" y="16" width="102" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0fF-cT-klF" userLabel="Line Color View" customClass="MFALineColorView">
-                                                    <rect key="frame" x="8" y="0.0" width="20" height="44"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UOC-eY-sD0">
+                                                    <rect key="frame" x="139" y="54" width="138" height="23"/>
+                                                    <color key="tintColor" red="0.1176470588" green="0.60784313729999995" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="Схема станции" image="SchemeIcon"/>
+                                                    <connections>
+                                                        <action selector="showScheme:" destination="NqH-QG-it9" eventType="touchUpInside" id="l1l-zG-AIC"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kze-8D-p5f">
+                                                    <rect key="frame" x="42" y="53" width="73" height="24"/>
+                                                    <color key="tintColor" red="0.1176470588" green="0.60784313729999995" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="Карта" image="MapIcon"/>
+                                                    <connections>
+                                                        <action selector="showMap:" destination="NqH-QG-it9" eventType="touchUpInside" id="TYL-6E-LCC"/>
+                                                    </connections>
+                                                </button>
+                                                <view contentMode="top" translatesAutoresizingMaskIntoConstraints="NO" id="0fF-cT-klF" userLabel="Line Color View" customClass="MFALineColorView">
+                                                    <rect key="frame" x="8" y="0.0" width="20" height="104"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="0xg-hf-Ezu"/>
@@ -274,9 +292,13 @@
                                                 </view>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="R0V-eK-e8p" firstAttribute="top" secondItem="oe8-ZE-bdk" secondAttribute="top" constant="11" id="BUp-NN-3jl"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="0fF-cT-klF" secondAttribute="bottom" constant="-8" id="FDa-mC-ruc"/>
-                                                <constraint firstItem="0fF-cT-klF" firstAttribute="top" secondItem="oe8-ZE-bdk" secondAttribute="topMargin" constant="-8" id="cXr-tF-BIs"/>
+                                                <constraint firstItem="UOC-eY-sD0" firstAttribute="baseline" secondItem="kze-8D-p5f" secondAttribute="baseline" id="6C9-ql-8Kv"/>
+                                                <constraint firstItem="R0V-eK-e8p" firstAttribute="top" secondItem="oe8-ZE-bdk" secondAttribute="top" constant="16" id="BUp-NN-3jl"/>
+                                                <constraint firstAttribute="bottom" secondItem="0fF-cT-klF" secondAttribute="bottom" id="FDa-mC-ruc"/>
+                                                <constraint firstItem="UOC-eY-sD0" firstAttribute="leading" secondItem="kze-8D-p5f" secondAttribute="trailing" constant="24" id="Jxe-bU-dfA"/>
+                                                <constraint firstItem="kze-8D-p5f" firstAttribute="leading" secondItem="R0V-eK-e8p" secondAttribute="leading" id="Wdk-2r-gWV"/>
+                                                <constraint firstItem="0fF-cT-klF" firstAttribute="top" secondItem="oe8-ZE-bdk" secondAttribute="top" id="cXr-tF-BIs"/>
+                                                <constraint firstItem="kze-8D-p5f" firstAttribute="top" secondItem="R0V-eK-e8p" secondAttribute="bottom" constant="16" id="eDe-XR-mv3"/>
                                                 <constraint firstItem="0fF-cT-klF" firstAttribute="leading" secondItem="oe8-ZE-bdk" secondAttribute="leading" constant="8" id="eda-ZM-n6R"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="R0V-eK-e8p" secondAttribute="trailing" constant="20" symbolic="YES" id="fSC-1P-DmJ"/>
                                                 <constraint firstItem="R0V-eK-e8p" firstAttribute="leading" secondItem="0fF-cT-klF" secondAttribute="trailing" constant="14" id="wX0-am-TFh"/>
@@ -284,6 +306,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="lineColorView" destination="0fF-cT-klF" id="lgH-VX-eoK"/>
+                                            <outlet property="mapButton" destination="kze-8D-p5f" id="Q22-lh-fOp"/>
+                                            <outlet property="schemeButton" destination="UOC-eY-sD0" id="q6f-jE-XsY"/>
                                             <outlet property="stationNameLabel" destination="R0V-eK-e8p" id="Xxa-Zs-mEy"/>
                                         </connections>
                                     </tableViewCell>
@@ -391,7 +415,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T7n-IZ-tCr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-447" y="457"/>
+            <point key="canvasLocation" x="-506" y="460"/>
         </scene>
         <!--Station Map View Controller-->
         <scene sceneID="mzj-S9-7Ua">

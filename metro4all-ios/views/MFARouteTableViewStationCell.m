@@ -10,10 +10,30 @@
 
 @implementation MFARouteTableViewStationCell
 
+- (void)awakeFromNib
+{
+    self.mapButton.hidden = YES;
+    self.schemeButton.hidden = YES;
+}
+
 - (void)prepareForReuse
 {
     self.lineColorView.isLastStation = NO;
     self.lineColorView.isFirstStation = NO;
     [self.lineColorView setNeedsDisplay];
+    
+    self.mapButton.hidden = YES;
+    self.schemeButton.hidden = YES;
 }
+
+- (IBAction)showMap:(id)sender
+{
+    [self.delegate stationCellDidRequestMap:self];
+}
+
+- (IBAction)showScheme:(id)sender
+{
+    [self.delegate stationCellDidRequestScheme:self];
+}
+
 @end

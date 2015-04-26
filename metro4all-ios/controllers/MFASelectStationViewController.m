@@ -13,6 +13,10 @@
 
 #import "MFAStoryboardProxy.h"
 #import "MFASelectStationViewController.h"
+
+#import "MFAStationMapViewController.h"
+#import "MFAStationMapViewModel.h"
+
 #import "MFAStationsListViewController.h"
 #import "MFAStationsListViewModel.h"
 
@@ -25,7 +29,10 @@
 
 #import "MFARouter.h"
 
-@interface MFASelectStationViewController () <UITableViewDelegate, UITableViewDataSource, MFAStationListDelegate>
+@interface MFASelectStationViewController () <UITableViewDelegate,
+                                              UITableViewDataSource,
+                                              MFAStationListDelegate,
+                                              MFARouteTableViewStationCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *stationFromButton;
@@ -163,6 +170,13 @@
         
         cell.stationNameLabel.text = station.nameString;
         
+        if ([self.selectedRow isEqual:indexPath]) {
+            cell.mapButton.hidden = NO;
+            cell.schemeButton.hidden = NO;
+        }
+        
+        cell.delegate = self;
+        
         return cell;
     }
     else {
@@ -188,6 +202,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    id routeStep = self.steps[indexPath.row];
+    NSAssert(routeStep != nil, @"route step cannot be nil");
+    
+    if (![routeStep isKindOfClass:[MFAStation class]]) {
+        return;
+    }
+    
+//    [[(MFARouteTableViewStationCell *)[tableView cellForRowAtIndexPath:indexPath] lineColorView] setNeedsDisplay];
+    
     [tableView beginUpdates];
     
     if ([self.selectedRow isEqual:indexPath] == NO) {
@@ -203,10 +226,10 @@
         self.selectedRow = indexPath;
         
         // select new row
-//        [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-        for (NSIndexPath *indexPath in indexPaths) {
-            [[tableView cellForRowAtIndexPath:indexPath] setNeedsDisplay];
-        }
+        [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+//        for (NSIndexPath *indexPath in indexPaths) {
+//            [[(MFARouteTableViewStationCell *)[tableView cellForRowAtIndexPath:indexPath] lineColorView] setNeedsDisplay];
+//        }   
     }
     
     [tableView endUpdates];
@@ -215,11 +238,42 @@
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedRow = nil;
-    [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)stationCellDidRequestMap:(MFARouteTableViewStationCell *)cell
+{
+    [self showMapForStation:cell.station];
+}
+
+- (void)stationCellDidRequestScheme:(MFARouteTableViewStationCell *)cell
+{
+    [self showSchemeForStation:cell.station];
+}
+
+- (void)showSchemeForStation:(MFAStation *)station
+{
+    MFAStationMapViewModel *viewModel = [[MFAStationMapViewModel alloc] initWithStation:station];
+    MFAStationMapViewController *stationMapController = (MFAStationMapViewController *)[MFAStoryboardProxy stationMapViewController];
+    
+    viewModel.showsMap = NO;
+    stationMapController.viewModel = viewModel;
+    
+    [self.navigationController pushViewController:stationMapController animated:YES];
+}
+
+- (void)showMapForStation:(MFAStation *)station
+{
+    MFAStationMapViewModel *viewModel = [[MFAStationMapViewModel alloc] initWithStation:station];
+    MFAStationMapViewController *stationMapController = (MFAStationMapViewController *)[MFAStoryboardProxy stationMapViewController];
+    stationMapController.viewModel = viewModel;
+    
+    [self.navigationController pushViewController:stationMapController animated:YES];
 }
 
 - (IBAction)selectStation:(UIButton *)sender
 {
+    self.selectedRow = nil;
+    
     MFAStationsListViewModel *viewModel = [[MFAStationsListViewModel alloc] initWithCity:self.city];
     MFAStationsListViewController *viewController = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
     viewController.viewModel = viewModel;
@@ -261,7 +315,7 @@
                                                           edges:edgesTable.rows];
             
             self.steps = [router routeFromStation:self.stationFrom.stationId toStation:self.stationTo.stationId];
-            [self.tableView reloadData];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         });
     }
 }
