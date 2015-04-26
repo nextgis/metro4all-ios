@@ -70,8 +70,34 @@
 
 - (void)start
 {
-    MFACity *city = [self configureCity];
+    NSManagedObjectContext *childContext = [NSManagedObjectContext MR_contextWithParent:self.managedObjectContext];
     
+    // perform parsing in background
+    [childContext performBlock:^{
+        MFACity *city = [self parseCityIntoContext:childContext];
+        
+        if (city) {
+            [self.delegate cityDataParser:self didFinishParsingCity:[city MR_inContext:self.managedObjectContext]];
+        }
+        else {
+            [self.delegate cityDataParserDidFail:self];
+        }
+
+    }];
+    
+}
+
+- (MFACity *)parseSync
+{
+    // use main context
+    return [self parseCityIntoContext:self.managedObjectContext];
+}
+
+- (MFACity *)parseCityIntoContext:(NSManagedObjectContext *)context
+{
+    NSDate *start = [NSDate date];
+    
+    MFACity *city = [self configureCityInContext:context];
     NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.csvPath error:nil];
     
     NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] init];
@@ -114,22 +140,26 @@
     for (NSString *filePath in files) {
         if ([filePath startsWithString:@"lines"]) {
             [self parseLinesFromFile:filePath
-                          linesCache:linesCache];
+                          linesCache:linesCache
+                managedObjectContext:context];
         }
         else if ([filePath startsWithString:@"stations"]) {
             [self parseStationsFromFile:filePath
                              linesCache:linesCache
                           stationsCache:stationsCache
-                             nodesCache:nodesCache];
+                             nodesCache:nodesCache
+                   managedObjectContext:context];
         }
         else if ([filePath startsWithString:@"portals"]) {
             [self parsePortalsFromFile:filePath
                          stationsCache:stationsCache
-                          portalsCache:portalsCache];
+                          portalsCache:portalsCache
+                  managedObjectContext:context];
         }
         else if ([filePath startsWithString:@"interchanges"]) {
             [self parseInterchangesFromFile:filePath
-                              stationsCache:stationsCache];
+                              stationsCache:stationsCache
+                       managedObjectContext:context];
         }
     }
     
@@ -140,13 +170,18 @@
     for (id key in stationsCache) {
         [stationsCache[key] setCity:city];
     }
-
-    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
     
-    [self.delegate cityDataParser:self didFinishParsingCity:city];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:start];
+    
+    NSLog(@"%@ Execution Time: %f", NSStringFromSelector(_cmd), executionTime);
+    
+    [context MR_saveToPersistentStoreAndWait];
+    
+    return city;
 }
 
-- (void)parseInterchangesFromFile:(NSString *)filePath stationsCache:(NSMutableDictionary *)stationsCache
+- (void)parseInterchangesFromFile:(NSString *)filePath stationsCache:(NSMutableDictionary *)stationsCache managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedLines = [self parseFileAtURL:[NSURL URLWithString:filePath
                                                        relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
@@ -155,7 +190,7 @@
         NSNumber *stationFromId = interchangeProperties[@"station_from"];
         NSNumber *stationToId = interchangeProperties[@"station_to"];
         
-        MFAInterchange *interchange = [MFAInterchange insertInManagedObjectContext:self.managedObjectContext];
+        MFAInterchange *interchange = [MFAInterchange insertInManagedObjectContext:context];
         interchange.fromStation = stationsCache[stationFromId];
         interchange.toStation = stationsCache[stationToId];
         
@@ -171,7 +206,9 @@
     }
 }
 
-- (void)parseLinesFromFile:(NSString *)filePath linesCache:(NSMutableDictionary *)linesCache
+- (void)parseLinesFromFile:(NSString *)filePath
+                linesCache:(NSMutableDictionary *)linesCache
+      managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedLines = [self parseFileAtURL:[NSURL URLWithString:filePath
                                                        relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
@@ -182,7 +219,7 @@
         NSNumber *lineId = lineProperties[@"id_line"];
         
         if (linesCache[lineId] == nil) {
-            MFALine *line = [MFALine insertInManagedObjectContext:self.managedObjectContext];
+            MFALine *line = [MFALine insertInManagedObjectContext:context];
         
             line.lineId = lineId;
             line.name = @{ lang : lineProperties[@"name"] };
@@ -210,6 +247,7 @@
                    linesCache:(NSMutableDictionary *)linesCache
                 stationsCache:(NSMutableDictionary *)stationsCache
                    nodesCache:(NSMutableDictionary *)nodesCache
+         managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedStations = [self parseFileAtURL:[NSURL URLWithString:filePath
                                                           relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
@@ -220,7 +258,7 @@
         NSNumber *stationId = stationProperties[@"id_station"];
         
         if (stationsCache[stationId] == nil) {
-            MFAStation *station = [MFAStation insertInManagedObjectContext:self.managedObjectContext];
+            MFAStation *station = [MFAStation insertInManagedObjectContext:context];
             
             station.stationId = stationId;
             
@@ -229,7 +267,7 @@
                 station.node = nodesCache[nodeId];
             }
             else {
-                MFANode *node = [MFANode insertInManagedObjectContext:self.managedObjectContext];
+                MFANode *node = [MFANode insertInManagedObjectContext:context];
                 node.nodeId = nodeId;
                 station.node = node;
                 nodesCache[nodeId] = node;
@@ -255,6 +293,7 @@
 - (void)parsePortalsFromFile:(NSString *)filePath
                stationsCache:(NSMutableDictionary *)stationsCache
                 portalsCache:(NSMutableDictionary *)portalsCache
+        managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedPortals = [self parseFileAtURL:[NSURL URLWithString:filePath
                                                          relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
@@ -265,7 +304,7 @@
         NSNumber *portalId = portalProperties[@"id_entrance"];
         
         if (portalsCache[portalId] == nil) {
-            MFAPortal *portal = [MFAPortal insertInManagedObjectContext:self.managedObjectContext];
+            MFAPortal *portal = [MFAPortal insertInManagedObjectContext:context];
         
             portal.potralId = portalId;
             portal.portalNumber = portalProperties[@"meetcode"];
@@ -287,7 +326,7 @@
     }
 }
 
-- (MFACity *)configureCity
+- (MFACity *)configureCityInContext:(NSManagedObjectContext *)context
 {
     MFACity *city = [MFACity cityWithIdentifier:self.cityMetadata[@"path"]];
     if (city &&
@@ -301,14 +340,14 @@
         
         // Delete the old city object.
         // It will cascade to all info related to this city: stations, lines, portals, etc.
-        [self.managedObjectContext deleteObject:city];
+        [context deleteObject:city];
         
         city = nil;
     }
     
     if (city == nil) {
         // Create new city
-        city = [MFACity insertInManagedObjectContext:self.managedObjectContext];
+        city = [MFACity insertInManagedObjectContext:context];
         
         // Extract names in different languages into Dictionary
         NSMutableDictionary *names = [NSMutableDictionary new];

@@ -21,8 +21,8 @@
 #import "MFASelectCityViewController.h"
 #import "MFASelectCityViewModel.h"
 
-//#import "MFAStationsListViewController.h"
-//#import "MFAStationsListViewModel.h"
+#import "NSDictionary+CityMeta.h"
+#import "MFACityDataParser.h"
 
 #import "MFASelectStationViewController.h"
 
@@ -71,7 +71,30 @@
     [self setupAppearance];
     [self disableIcloudBackup];
     
-    [MagicalRecord setupCoreDataStackWithAutoMigratingSqliteStoreNamed:@"metro4all_ios"];
+    id storeUrl = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"data/metro4all_ios.sqlite"];
+    
+    if (![NSPersistentStoreCoordinator MR_defaultStoreCoordinator]) {
+
+        NSManagedObjectModel *model = [NSManagedObjectModel MR_defaultManagedObjectModel];
+        NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+        
+        NSError *error = nil;
+        NSPersistentStore *store = [psc addPersistentStoreWithType:NSSQLiteStoreType
+                                                     configuration:nil
+                                                               URL:storeUrl
+                                                           options:nil
+                                                             error:&error];
+        
+        BOOL isMigrationError = [error code] == NSPersistentStoreIncompatibleVersionHashError || [error code] == NSMigrationMissingSourceModelError;
+        
+        if (!store && [[error domain] isEqualToString:NSCocoaErrorDomain] && isMigrationError) {
+            [self recreatePersistentStore];
+        }
+        else {
+            [NSPersistentStoreCoordinator MR_setDefaultStoreCoordinator:psc];
+            [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:psc];
+        }
+    }
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
@@ -142,12 +165,59 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (NSURL *)applicationDocumentsDirectory {
-    // The directory the application uses to store the Core Data store file. This code uses a directory named "beer.awesome.metro4all_ios" in the application's documents directory.
-    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    // The directory the application uses to store the Core Data store file.
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory
+                                                   inDomains:NSUserDomainMask] lastObject];
 }
 
 - (NSManagedObjectContext *)managedObjectContext {
     return [NSManagedObjectContext MR_defaultContext];
+}
+
+- (NSPersistentStoreCoordinator *)recreatePersistentStore
+{
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"data/metro4all_ios.sqlite"];
+    [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+    
+    NSError *error = nil;
+    NSManagedObjectModel *model = [NSManagedObjectModel MR_defaultManagedObjectModel];
+    NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    NSPersistentStore *store = [coordinator addPersistentStoreWithType:NSSQLiteStoreType
+                                                         configuration:nil
+                                                                   URL:storeURL
+                                                               options:nil
+                                                                 error:&error];
+    
+    if (store == nil) {
+        NSLog(@"failed to recreate persistent store, abort");
+        NSLog(@"%@", error.localizedDescription);
+        
+        abort();
+    }
+    
+    [NSPersistentStoreCoordinator MR_setDefaultStoreCoordinator:coordinator];
+    [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:coordinator];
+    
+    NSURL *dataUrl = [MFACityMeta metaJsonFileURL];
+    NSData *jsonData = [NSData dataWithContentsOfURL:dataUrl];
+    
+    NSArray *cities = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                      options:0 error:nil][@"packages"];
+    
+    for (MFACityMeta *meta in cities) {
+        NSURL *csvDir = [meta filesDirectory];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:csvDir.path]) {
+            MFACityDataParser *parser = [[MFACityDataParser alloc] initWithCityMeta:meta
+                                                                          pathToCSV:csvDir.path
+                                                               managedObjectContext:self.managedObjectContext
+                                                                           delegate:nil];
+            
+            [parser parseSync];
+        }
+    }
+    
+    return coordinator;
 }
 
 #pragma mark - Core Data Saving support

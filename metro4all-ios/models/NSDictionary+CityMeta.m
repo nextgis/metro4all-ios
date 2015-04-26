@@ -38,4 +38,16 @@
     return pathURL;
 }
 
++ (NSURL *)metaJsonFileURL
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSAssert(basePath, @"Cannot get path to Documents directory");
+    
+    NSURL *pathURL = [[NSURL fileURLWithPath:basePath] URLByAppendingPathComponent:@"data/meta.json"];
+    
+    return pathURL;
+}
+
 @end

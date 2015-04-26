@@ -15,7 +15,7 @@
 @interface MFACityArchiveService () <NSURLSessionDownloadDelegate, SSZipArchiveDelegate>
 
 @property (nonatomic, strong) NSURL *baseURL;
-@property (nonatomic, strong) MFACityMeta selectedCityMeta;
+@property (nonatomic, strong) MFACityMeta *selectedCityMeta;
 
 @property (nonatomic, copy) void (^completionBlock)(NSString *path, NSError *error);
 
@@ -42,9 +42,15 @@
     id successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Successfully loaded meta.json");
         
-        NSArray *sorted = [responseObject[@"packages"] sortedArrayUsingComparator:^NSComparisonResult(MFACityMeta city1, MFACityMeta city2) {
+        NSArray *sorted = [responseObject[@"packages"] sortedArrayUsingComparator:^NSComparisonResult(MFACityMeta *city1, MFACityMeta *city2) {
             return [city1.localizedName compare:city2.localizedName];
         }];
+        
+        NSURL *metaJsonFileURL = [MFACityMeta metaJsonFileURL];
+        
+        // save json for future use
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
+        [jsonData writeToURL:metaJsonFileURL options:0 error:nil];
         
         if (completionBlock) {
             completionBlock(sorted);

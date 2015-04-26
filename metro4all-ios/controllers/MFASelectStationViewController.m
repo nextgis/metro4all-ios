@@ -210,7 +210,7 @@
         // both stations are set, calculate route
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            MFACityMeta meta = self.city.metaDictionary;
+            MFACityMeta *meta = self.city.metaDictionary;
             NTYCSVTable *stationsTable = [[NTYCSVTable alloc] initWithContentsOfURL:[meta.filesDirectory URLByAppendingPathComponent:@"stations_en.csv"]
                                                                     columnSeparator:@";"];
             

@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-typedef NSDictionary * MFACityMeta;
+typedef NSDictionary MFACityMeta;
 
 @interface NSDictionary (CityMeta)
 
 - (NSString *)localizedName;
 - (NSURL *)filesDirectory;
+
++ (NSURL *)metaJsonFileURL;
 
 @end

@@ -31,5 +31,6 @@
 @property (nonatomic, copy, readonly) NSDictionary *cityMetadata;
 
 - (void)start;
+- (MFACity *)parseSync;
 
 @end
