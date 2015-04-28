@@ -7,14 +7,22 @@
 //
 
 #import "MFARouteTableViewInterchangeCell.h"
+#import "MFAInterchange.h"
 
 @implementation MFARouteTableViewInterchangeCell
 
 - (void)prepareForReuse
 {
+    [super prepareForReuse];
+    
     self.interchangeColorView.isFirstStep = NO;
     self.interchangeColorView.isLastStep = NO;
     [self.interchangeColorView setNeedsDisplay];
+}
+
+- (MFAStation *)station
+{
+    return self.interchange.fromStation;
 }
 
 @end

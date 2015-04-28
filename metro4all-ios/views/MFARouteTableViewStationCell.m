@@ -8,7 +8,7 @@
 
 #import "MFARouteTableViewStationCell.h"
 
-@implementation MFARouteTableViewStationCell
+@implementation MFARouteTableViewCell
 
 - (void)awakeFromNib
 {
@@ -18,9 +18,7 @@
 
 - (void)prepareForReuse
 {
-    self.lineColorView.isLastStation = NO;
-    self.lineColorView.isFirstStation = NO;
-    [self.lineColorView setNeedsDisplay];
+    [super prepareForReuse];
     
     self.mapButton.hidden = YES;
     self.schemeButton.hidden = YES;
@@ -34,6 +32,19 @@
 - (IBAction)showScheme:(id)sender
 {
     [self.delegate stationCellDidRequestScheme:self];
+}
+
+@end
+
+@implementation MFARouteTableViewStationCell
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    self.lineColorView.isLastStation = NO;
+    self.lineColorView.isFirstStation = NO;
+    [self.lineColorView setNeedsDisplay];
 }
 
 @end

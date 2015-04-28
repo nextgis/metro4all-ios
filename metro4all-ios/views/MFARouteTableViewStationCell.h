@@ -9,26 +9,28 @@
 #import <UIKit/UIKit.h>
 #import "MFALineColorView.h"
 
-@class MFAStation, MFARouteTableViewStationCell;
+@class MFAStation, MFARouteTableViewCell;
 
-@protocol MFARouteTableViewStationCellDelegate <NSObject>
+@protocol MFARouteTableViewCellDelegate <NSObject>
 
-- (void)stationCellDidRequestMap:(MFARouteTableViewStationCell *)cell;
-- (void)stationCellDidRequestScheme:(MFARouteTableViewStationCell *)cell;
+- (void)stationCellDidRequestMap:(MFARouteTableViewCell *)cell;
+- (void)stationCellDidRequestScheme:(MFARouteTableViewCell *)cell;
 
 @end
 
-
-@interface MFARouteTableViewStationCell : UITableViewCell
+@interface MFARouteTableViewCell : UITableViewCell
 
 @property (nonatomic, strong) MFAStation *station;
-
-@property (nonatomic, weak) IBOutlet MFALineColorView *lineColorView;
-@property (nonatomic, weak) IBOutlet UILabel *stationNameLabel;
+@property (nonatomic, weak) id<MFARouteTableViewCellDelegate> delegate;
 
 @property (nonatomic, weak) IBOutlet UIButton *mapButton;
 @property (nonatomic, weak) IBOutlet UIButton *schemeButton;
 
-@property (nonatomic, weak) id<MFARouteTableViewStationCellDelegate> delegate;
+@end
+
+@interface MFARouteTableViewStationCell : MFARouteTableViewCell
+
+@property (nonatomic, weak) IBOutlet MFALineColorView *lineColorView;
+@property (nonatomic, weak) IBOutlet UILabel *stationNameLabel;
 
 @end

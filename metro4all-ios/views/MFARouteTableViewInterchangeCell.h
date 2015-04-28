@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "MFAInterchangeLineColorView.h"
+#import "MFARouteTableViewStationCell.h"
 
 @class MFAInterchange;
 
-@interface MFARouteTableViewInterchangeCell : UITableViewCell
+@interface MFARouteTableViewInterchangeCell : MFARouteTableViewCell
 
 @property (nonatomic, weak) MFAInterchange *interchange;
 

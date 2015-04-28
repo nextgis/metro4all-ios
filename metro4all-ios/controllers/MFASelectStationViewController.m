@@ -32,7 +32,7 @@
 @interface MFASelectStationViewController () <UITableViewDelegate,
                                               UITableViewDataSource,
                                               MFAStationListDelegate,
-                                              MFARouteTableViewStationCellDelegate>
+                                              MFARouteTableViewCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *stationFromButton;
@@ -141,14 +141,20 @@
     
     if ([routeStep isKindOfClass:[MFAStation class]]) {
         if ([indexPath isEqual:self.selectedRow]) {
-            return 80.0f;
+            return 85.0f;
         }
         else {
-            return 44.0f;
+            return 49.0f;
         }
     }
     else {
-        return 88.0f;
+        if ([indexPath isEqual:self.selectedRow]) {
+            return 122.0f;
+        }
+        else {
+            return 88.0f;
+        }
+        
     }
 }
 
@@ -196,6 +202,13 @@
         cell.stationFromNameLabel.text = interchange.fromStation.nameString;
         cell.stationToNameLabel.text = interchange.toStation.nameString;
         
+        if ([self.selectedRow isEqual:indexPath]) {
+            cell.mapButton.hidden = NO;
+            cell.schemeButton.hidden = NO;
+        }
+        
+        cell.delegate = self;
+        
         return cell;
     }
 }
@@ -204,10 +217,6 @@
 {
     id routeStep = self.steps[indexPath.row];
     NSAssert(routeStep != nil, @"route step cannot be nil");
-    
-    if (![routeStep isKindOfClass:[MFAStation class]]) {
-        return;
-    }
     
 //    [[(MFARouteTableViewStationCell *)[tableView cellForRowAtIndexPath:indexPath] lineColorView] setNeedsDisplay];
     
@@ -233,11 +242,6 @@
     }
     
     [tableView endUpdates];
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.selectedRow = nil;
 }
 
 - (void)stationCellDidRequestMap:(MFARouteTableViewStationCell *)cell
