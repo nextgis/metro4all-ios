@@ -16,6 +16,9 @@
 
 @end
 
-@interface MFASideMenuViewController : UITableViewController
+@interface MFASideMenuViewController : UIViewController
+
 @property (nonatomic, weak) id<MFASideMenuDelegate> delegate;
+@property (nonatomic, strong) NSLayoutConstraint *logoCenterConstraint;
+
 @end

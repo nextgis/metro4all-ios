@@ -29,7 +29,7 @@
 
 - (void)sideMenu:(MFASideMenuViewController *)menuController didSelectItem:(NSUInteger)item
 {
-    
+    NSLog(@"%d", item);
 }
 
 @end

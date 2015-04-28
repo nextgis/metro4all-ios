@@ -7,16 +7,18 @@
 //
 
 #import "MFASideMenuViewController.h"
+#import "MFAMenuContainerViewController.h"
+
+#import <PureLayout/PureLayout.h>
 
 @interface MFASideMenuViewController ()
-
+@property (nonatomic, weak) IBOutlet UIImageView *logoImageView;
 @end
 
 @implementation MFASideMenuViewController
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (IBAction)menuItem:(UIButton *)sender
 {
-    [self.delegate sideMenu:self didSelectItem:indexPath.row];
+    [self.delegate sideMenu:self didSelectItem:sender.tag];
 }
-
 @end

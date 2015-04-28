@@ -3,77 +3,72 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Side Menu View Controller-->
-        <scene sceneID="RmD-xc-9Ut">
+        <scene sceneID="jXQ-H1-hxt">
             <objects>
-                <tableViewController storyboardIdentifier="MFA_sideMenuViewController" id="e89-W6-Kw2" customClass="MFASideMenuViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="b5D-rE-K20">
+                <viewController storyboardIdentifier="MFA_sideMenuViewController" id="Afw-dR-L1r" customClass="MFASideMenuViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qel-aT-BAf"/>
+                        <viewControllerLayoutGuide type="bottom" id="Mpv-SB-5mG"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TVK-iH-LJq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="ODT-81-cTF">
+                                <rect key="frame" x="35" y="44" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="vUW-P4-MfW"/>
+                                    <constraint firstAttribute="height" constant="120" id="yZr-Hf-g3Q"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYd-ZP-fa7">
+                                <rect key="frame" x="40" y="200" width="103" height="30"/>
+                                <state key="normal" title="Выбор города">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="menuItem:" destination="Afw-dR-L1r" eventType="touchUpInside" id="2wE-b9-qfJ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y2R-95-7RK">
+                                <rect key="frame" x="40" y="238" width="90" height="30"/>
+                                <state key="normal" title="Все станции">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="menuItem:" destination="Afw-dR-L1r" eventType="touchUpInside" id="vJx-mp-ysk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ODu-Uy-e13">
+                                <rect key="frame" x="40" y="276" width="106" height="30"/>
+                                <state key="normal" title="О приложении">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="menuItem:" destination="Afw-dR-L1r" eventType="touchUpInside" id="bZA-Gm-OaC"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <sections>
-                            <tableViewSection id="Bwc-9S-fKa">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="e4N-JD-0af" style="IBUITableViewCellStyleDefault" id="cve-U8-gnv">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cve-U8-gnv" id="gmd-kL-TMv">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Все станции" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="e4N-JD-0af">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="4QF-fg-DcQ" style="IBUITableViewCellStyleDefault" id="DUt-Ae-XAh">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DUt-Ae-XAh" id="OuN-E2-g12">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="О приложении" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4QF-fg-DcQ">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="cSr-as-f9M" style="IBUITableViewCellStyleDefault" id="IcN-CD-gTY">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IcN-CD-gTY" id="8bj-DH-Dc8">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Выбрать город" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cSr-as-f9M">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="e89-W6-Kw2" id="vR2-2C-bhR"/>
-                            <outlet property="delegate" destination="e89-W6-Kw2" id="tmP-RS-h2p"/>
-                        </connections>
-                    </tableView>
+                        <constraints>
+                            <constraint firstItem="GYd-ZP-fa7" firstAttribute="leading" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="40" id="8Ud-RW-1Nv"/>
+                            <constraint firstItem="ODT-81-cTF" firstAttribute="centerX" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="95" id="C9E-b2-T7v"/>
+                            <constraint firstItem="GYd-ZP-fa7" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="180" id="HaJ-hx-anf"/>
+                            <constraint firstItem="ODT-81-cTF" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="24" id="MVn-rb-JaC"/>
+                            <constraint firstItem="ODu-Uy-e13" firstAttribute="top" secondItem="y2R-95-7RK" secondAttribute="bottom" constant="8" symbolic="YES" id="RQx-VG-dFF"/>
+                            <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="ODu-Uy-e13" secondAttribute="leading" id="foP-Z3-0EL"/>
+                            <constraint firstItem="y2R-95-7RK" firstAttribute="top" secondItem="GYd-ZP-fa7" secondAttribute="bottom" constant="8" symbolic="YES" id="hnM-8s-x3p"/>
+                            <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="GYd-ZP-fa7" secondAttribute="leading" id="vHh-hy-gEO"/>
+                        </constraints>
+                    </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yc7-UG-gwN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SDb-2x-bF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-895" y="-235"/>
         </scene>
@@ -91,6 +86,12 @@
                         <color key="backgroundColor" red="0.64478945730000004" green="0.82396358250000001" blue="0.92391103510000006" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="scaleContentView" value="NO"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="contentViewShadowEnabled" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="menuPrefersStatusBarHidden" value="YES"/>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="scaleMenuView" value="NO"/>
+                    </userDefinedRuntimeAttributes>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8VU-nd-Ah7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -217,7 +218,7 @@
                                                         <constraint firstAttribute="width" constant="16" id="dxl-uP-zyg"/>
                                                     </constraints>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtM-Uf-teX">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtM-Uf-teX">
                                                     <rect key="frame" x="137" y="62" width="138" height="23"/>
                                                     <color key="tintColor" red="0.1176470588" green="0.60784313729999995" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <inset key="titleEdgeInsets" minX="8" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -680,6 +681,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Logo" width="120" height="120"/>
         <image name="MapIcon" width="22" height="24"/>
         <image name="SchemeIcon" width="21" height="23"/>
     </resources>
