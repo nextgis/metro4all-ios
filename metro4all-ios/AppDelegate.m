@@ -25,6 +25,7 @@
 #import "MFACityDataParser.h"
 
 #import "MFASelectStationViewController.h"
+#import "MFAMenuContainerViewController.h"
 
 @interface AppDelegate ()
 
@@ -108,21 +109,19 @@
         rootViewController = [self setupSelectCityController];
     }
     else {
-//        MFAStationsListViewModel *viewModel =
-//            [[MFAStationsListViewModel alloc] initWithCity:city];
-//        
-//        MFAStationsListViewController *stationsListController =
-//            (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
-//        
-//        stationsListController.viewModel = viewModel;
-        
-        MFASelectStationViewController *selectStation = [MFAStoryboardProxy selectStationViewController];
+        MFASelectStationViewController *selectStation =
+            (MFASelectStationViewController *)[MFAStoryboardProxy selectStationViewController];
         selectStation.city = city;
         
         UINavigationController *navController =
             [[UINavigationController alloc] initWithRootViewController:selectStation];
         
-        rootViewController = navController;
+        MFAMenuContainerViewController *menuContainer =
+            (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
+        
+        menuContainer.contentViewController = navController;
+        
+        rootViewController = menuContainer;
     }
     
     window.rootViewController = rootViewController;

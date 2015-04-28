@@ -48,4 +48,14 @@ static UIStoryboard *mainStoryboard = nil;
 {
     return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_selectStationViewController"];
 }
+
++ (UIViewController *)sideMenuViewController
+{
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_sideMenuViewController"];
+}
+
++ (UIViewController *)menuContainerViewController
+{
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_menuContainerViewController"];
+}
 @end

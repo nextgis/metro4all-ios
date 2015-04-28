@@ -16,6 +16,7 @@
 
 #import "MFAStationsListViewController.h"
 #import "MFASelectStationViewController.h"
+#import "MFAMenuContainerViewController.h"
 
 #import "MFAStoryboardProxy.h"
 
@@ -103,11 +104,19 @@
             [self dismissViewControllerAnimated:YES completion:nil];
         }
         else {
-            MFASelectStationViewController *selectStation = (MFASelectStationViewController *)[MFAStoryboardProxy selectStationViewController];
+            MFAMenuContainerViewController *menuVC =
+                (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
+            
+            MFASelectStationViewController *selectStation =
+                (MFASelectStationViewController *)[MFAStoryboardProxy selectStationViewController];
+            
             selectStation.city = self.viewModel.selectedCity;
             
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:selectStation];
-            [self presentViewController:navController animated:YES completion:nil];
+            
+            menuVC.contentViewController = navController;
+            
+            [self presentViewController:menuVC animated:YES completion:nil];
         }
     };
     

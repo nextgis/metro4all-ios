@@ -30,6 +30,8 @@
 		58CA3DB91AC577EA00205567 /* MFAPortalAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DB81AC577EA00205567 /* MFAPortalAnnotation.m */; };
 		58CA3DE61AC936F000205567 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DE51AC936F000205567 /* NSString+Utils.m */; };
 		58CA3DE81AC9376200205567 /* NSStringUtilsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DE71AC9376200205567 /* NSStringUtilsTests.m */; };
+		58CE3D931AEFEE5700F91F0A /* MFAMenuContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CE3D921AEFEE5700F91F0A /* MFAMenuContainerViewController.m */; };
+		58CE3D961AEFEE6700F91F0A /* MFASideMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CE3D951AEFEE6700F91F0A /* MFASideMenuViewController.m */; };
 		58CF18311ACBD5DD0042F898 /* _MFAStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF181A1ACBD5DD0042F898 /* _MFAStation.m */; };
 		58CF18321ACBD5DD0042F898 /* MFAStation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF181C1ACBD5DD0042F898 /* MFAStation.m */; };
 		58CF18331ACBD5DD0042F898 /* _MFACity.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CF181E1ACBD5DD0042F898 /* _MFACity.m */; };
@@ -109,6 +111,10 @@
 		58CA3DE41AC936EF00205567 /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
 		58CA3DE51AC936F000205567 /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
 		58CA3DE71AC9376200205567 /* NSStringUtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringUtilsTests.m; sourceTree = "<group>"; };
+		58CE3D911AEFEE5700F91F0A /* MFAMenuContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAMenuContainerViewController.h; path = "metro4all-ios/controllers/MFAMenuContainerViewController.h"; sourceTree = "<group>"; };
+		58CE3D921AEFEE5700F91F0A /* MFAMenuContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFAMenuContainerViewController.m; path = "metro4all-ios/controllers/MFAMenuContainerViewController.m"; sourceTree = "<group>"; };
+		58CE3D941AEFEE6700F91F0A /* MFASideMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFASideMenuViewController.h; path = "metro4all-ios/controllers/MFASideMenuViewController.h"; sourceTree = "<group>"; };
+		58CE3D951AEFEE6700F91F0A /* MFASideMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFASideMenuViewController.m; path = "metro4all-ios/controllers/MFASideMenuViewController.m"; sourceTree = "<group>"; };
 		58CF18191ACBD5DD0042F898 /* _MFAStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = _MFAStation.h; path = models/coredata/_MFAStation.h; sourceTree = "<group>"; };
 		58CF181A1ACBD5DD0042F898 /* _MFAStation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = _MFAStation.m; path = models/coredata/_MFAStation.m; sourceTree = "<group>"; };
 		58CF181B1ACBD5DD0042F898 /* MFAStation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAStation.h; path = models/coredata/MFAStation.h; sourceTree = "<group>"; };
@@ -288,19 +294,31 @@
 			name = "Stations List";
 			sourceTree = "<group>";
 		};
+		58CE3D901AEFEE2700F91F0A /* Side Menu Container */ = {
+			isa = PBXGroup;
+			children = (
+				58CE3D911AEFEE5700F91F0A /* MFAMenuContainerViewController.h */,
+				58CE3D921AEFEE5700F91F0A /* MFAMenuContainerViewController.m */,
+				58CE3D941AEFEE6700F91F0A /* MFASideMenuViewController.h */,
+				58CE3D951AEFEE6700F91F0A /* MFASideMenuViewController.m */,
+			);
+			name = "Side Menu Container";
+			path = ..;
+			sourceTree = "<group>";
+		};
 		58F8954D1AE948CA001DF1DD /* Select Stations (Main Screen) */ = {
 			isa = PBXGroup;
 			children = (
-				58C60AC61AE4FF7200FA1D1A /* MFASelectStationViewController.h */,
-				58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */,
 				58F8954A1AE946D1001DF1DD /* MFALineColorView.h */,
 				58F8954B1AE946D1001DF1DD /* MFALineColorView.m */,
-				58F8954E1AE948FA001DF1DD /* MFARouteTableViewStationCell.h */,
-				58F8954F1AE948FA001DF1DD /* MFARouteTableViewStationCell.m */,
 				58F895511AE95197001DF1DD /* MFAInterchangeLineColorView.h */,
 				58F895521AE95197001DF1DD /* MFAInterchangeLineColorView.m */,
+				58F8954E1AE948FA001DF1DD /* MFARouteTableViewStationCell.h */,
+				58F8954F1AE948FA001DF1DD /* MFARouteTableViewStationCell.m */,
 				58F895541AE95232001DF1DD /* MFARouteTableViewInterchangeCell.h */,
 				58F895551AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m */,
+				58C60AC61AE4FF7200FA1D1A /* MFASelectStationViewController.h */,
+				58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */,
 			);
 			name = "Select Stations (Main Screen)";
 			sourceTree = "<group>";
@@ -330,6 +348,7 @@
 			children = (
 				58F95ECB1AA48FB600E22EF6 /* AppDelegate.h */,
 				58F95ECC1AA48FB600E22EF6 /* AppDelegate.m */,
+				58CE3D901AEFEE2700F91F0A /* Side Menu Container */,
 				58B0DA3E1AA707CC0011A4A4 /* Select City */,
 				58B0DA3F1AA709990011A4A4 /* Stations List */,
 				583B48F51AA74B8E00138E1F /* Station Map */,
@@ -575,6 +594,7 @@
 				58F95ED31AA48FB600E22EF6 /* MFASelectCityViewController.m in Sources */,
 				58F95ECA1AA48FB600E22EF6 /* main.m in Sources */,
 				58F895531AE95197001DF1DD /* MFAInterchangeLineColorView.m in Sources */,
+				58CE3D961AEFEE6700F91F0A /* MFASideMenuViewController.m in Sources */,
 				58CF18381ACBD5DD0042F898 /* MFACity.m in Sources */,
 				58B0DA451AA70DBB0011A4A4 /* MFAStationsListViewModel.m in Sources */,
 				58CF18361ACBD5DD0042F898 /* _MFANode.m in Sources */,
@@ -592,6 +612,7 @@
 				58F895561AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m in Sources */,
 				58CF18331ACBD5DD0042F898 /* _MFACity.m in Sources */,
 				58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */,
+				58CE3D931AEFEE5700F91F0A /* MFAMenuContainerViewController.m in Sources */,
 				58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */,
 				58CF18391ACBD5DD0042F898 /* MFAInterchange.m in Sources */,
 			);

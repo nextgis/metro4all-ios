@@ -13,6 +13,7 @@ pod 'ReactiveCocoa', '~> 2.0'
 pod 'MBXMapKit'
 pod 'SMCalloutView'
 pod 'Reachability'
+pod 'RESideMenu'
 
 pod 'SSZipArchive'
 pod 'NTYCSVTable', :git => "https://github.com/marvin-yorke/NTYCSVTable.git"

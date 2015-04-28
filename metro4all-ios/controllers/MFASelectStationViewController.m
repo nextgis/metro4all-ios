@@ -8,6 +8,7 @@
 
 #import <PureLayout/PureLayout.h>
 #import <NTYCSVTable/NTYCSVTable.h>
+#import <RESideMenu/RESideMenu.h>
 
 #import "AppDelegate.h"
 
@@ -61,12 +62,12 @@
     
     self.title = @"Метро для всех";
     
-    UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:@"Город"
+    UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:@"Меню"
                                                                          style:UIBarButtonItemStylePlain
                                                                         target:self
-                                                                        action:@selector(changeCityClick:)];
+                                                                        action:@selector(showMenu:)];
     
-    self.navigationItem.rightBarButtonItem = changeCityButton;
+    self.navigationItem.leftBarButtonItem = changeCityButton;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCity:)
                                                  name:@"MFA_CHANGE_CITY"
@@ -98,6 +99,11 @@
     
     self.stationFromButton.titleLabel.textColor = [UIColor blackColor];
     self.stationToButton.titleLabel.textColor = [UIColor blackColor];
+}
+
+- (IBAction)showMenu:(id)sender
+{
+    [self.sideMenuViewController presentLeftMenuViewController];
 }
 
 - (IBAction)changeCityClick:(id)sender
