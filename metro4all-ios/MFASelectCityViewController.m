@@ -10,6 +10,7 @@
 #import <Reachability/Reachability.h>
 #import <MagicalRecord/CoreData+MagicalRecord.h>
 
+#import "MFAMenuContainerViewController.h"
 #import "MFASelectCityViewController.h"
 #import "MFASelectCityViewModel.h"
 #import "MFASelectCityTableViewCell.h"
@@ -100,21 +101,13 @@
 - (IBAction)selectionDone:(NSIndexPath *)indexPath
 {
     void(^completionBlock)() = ^() {
-        if (self.presentingViewController) {
-            [self dismissViewControllerAnimated:YES completion:nil];
+        if (self.sideMenuViewController) {
+            // if changing city, not loading first one
+            [(MFAMenuContainerViewController *)self.sideMenuViewController sideMenu:nil didSelectItem:0];
         }
         else {
             MFAMenuContainerViewController *menuVC =
                 (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
-            
-            MFASelectStationViewController *selectStation =
-                (MFASelectStationViewController *)[MFAStoryboardProxy selectStationViewController];
-            
-            selectStation.city = self.viewModel.selectedCity;
-            
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:selectStation];
-            
-            menuVC.contentViewController = navController;
             
             [self presentViewController:menuVC animated:YES completion:nil];
         }

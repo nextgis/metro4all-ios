@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <RESideMenu/RESideMenu.h>
+#import "MFASideMenuViewController.h"
 
-@interface MFAMenuContainerViewController : RESideMenu
+@interface MFAMenuContainerViewController : RESideMenu <MFASideMenuDelegate>
 
 @end

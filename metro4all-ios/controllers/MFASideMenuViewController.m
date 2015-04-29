@@ -12,7 +12,6 @@
 #import <PureLayout/PureLayout.h>
 
 @interface MFASideMenuViewController ()
-@property (nonatomic, weak) IBOutlet UIImageView *logoImageView;
 @end
 
 @implementation MFASideMenuViewController
@@ -21,4 +20,5 @@
 {
     [self.delegate sideMenu:self didSelectItem:sender.tag];
 }
+
 @end

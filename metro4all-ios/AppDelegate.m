@@ -106,25 +106,16 @@
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    MFACity *city = [self currentCity];
     UIViewController *rootViewController = nil;
     
-    if (!city) {
+    if ([self currentCity] == nil) {
         // no stored city or cannot fetch city from coredata
         rootViewController = [self setupSelectCityController];
     }
     else {
-        MFASelectStationViewController *selectStation =
-            (MFASelectStationViewController *)[MFAStoryboardProxy selectStationViewController];
-        selectStation.city = city;
-        
-        UINavigationController *navController =
-            [[UINavigationController alloc] initWithRootViewController:selectStation];
-        
+        // we do know that there's a city that can be used
         MFAMenuContainerViewController *menuContainer =
             (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
-        
-        menuContainer.contentViewController = navController;
         
         rootViewController = menuContainer;
     }

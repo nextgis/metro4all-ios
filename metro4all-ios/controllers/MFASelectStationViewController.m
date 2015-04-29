@@ -61,14 +61,7 @@
     self.tableView.tableFooterView = [UIView new];
     
     self.title = @"Метро для всех";
-    
-    UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:@"Меню"
-                                                                         style:UIBarButtonItemStylePlain
-                                                                        target:self
-                                                                        action:@selector(showMenu:)];
-    
-    self.navigationItem.leftBarButtonItem = changeCityButton;
-    
+        
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCity:)
                                                  name:@"MFA_CHANGE_CITY"
                                                object:nil];

@@ -11,7 +11,6 @@
 #import "MFAMenuContainerViewController.h"
 #import "MFAStoryboardProxy.h"
 
-#import "MFASideMenuViewController.h"
 #import "MFAStationsListViewModel.h"
 #import "MFAStationsListViewController.h"
 #import "MFASelectCityViewModel.h"
@@ -20,11 +19,12 @@
 
 @class MFACity;
 
-@interface MFAMenuContainerViewController () <MFASideMenuDelegate>
+@interface MFAMenuContainerViewController ()
 
 @property (nonatomic, strong) MFASelectStationViewController *mainViewController;
 @property (nonatomic, strong) MFASelectCityViewController *selectCityViewController;
 @property (nonatomic, strong) MFAStationsListViewController *stationsListViewController;
+@property (nonatomic, strong) UIBarButtonItem *menuButton;
 
 @end
 
@@ -40,13 +40,26 @@
     self.leftMenuViewController = sideMenuController;
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
+    self.mainViewController.navigationItem.leftBarButtonItem = self.menuButton;
+    
     self.contentViewController = navController;
 }
 
 - (MFASelectCityViewController *)selectCityViewController
 {
     if (_selectCityViewController == nil) {
-        _selectCityViewController = [(AppDelegate *)[UIApplication sharedApplication].delegate setupSelectCityController];
+        MFACityArchiveService *archiveService =
+            [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/"]];
+        
+        MFASelectCityViewModel *viewModel =
+            [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];
+        
+        MFASelectCityViewController *selectCityController =
+            (MFASelectCityViewController *)[MFAStoryboardProxy selectCityViewController];
+        
+        selectCityController.viewModel = viewModel;
+        
+        self.selectCityViewController = selectCityController;
     }
     
     return _selectCityViewController;
@@ -82,21 +95,42 @@
     return _stationsListViewController;
 }
 
+- (UIBarButtonItem *)menuButton
+{
+    if (_menuButton == nil) {
+        UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:@"Меню"
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:@selector(presentLeftMenuViewController)];
+        
+        _menuButton = changeCityButton;
+    }
+    
+    return _menuButton;
+}
+
+
 - (void)sideMenu:(MFASideMenuViewController *)menuController didSelectItem:(NSUInteger)item
 {
     switch (item) {
         case 0: {
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
+            self.mainViewController.navigationItem.leftBarButtonItem = self.menuButton;
             [self setContentViewController:navController animated:YES];
             break;
         }
             
-        case 2:
-            [self setContentViewController:self.selectCityViewController animated:YES];
+        case 2: {
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.selectCityViewController];
+            self.selectCityViewController.navigationItem.leftBarButtonItem = self.menuButton;
+            
+            [self setContentViewController:navController animated:YES];
             break;
+        }
             
         case 1: {
             UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.stationsListViewController];
+            self.stationsListViewController.navigationItem.leftBarButtonItem = self.menuButton;
             [self setContentViewController:navController animated:YES];
             break;
         }
