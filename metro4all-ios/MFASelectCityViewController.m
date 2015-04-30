@@ -160,9 +160,18 @@
     return [self.viewModel numberOfRowsInSection:section];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    return [self.viewModel titleForHeaderInSection:section];
+    UIView *view = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectCitySectionHeader"];
+    UILabel *titleLabel = (UILabel *)[view viewWithTag:999];
+    titleLabel.text = [self.viewModel titleForHeaderInSection:section];
+    
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 44.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
