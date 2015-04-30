@@ -45,6 +45,13 @@
     self.contentViewController = navController;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.contentViewInPortraitOffsetCenterX = 190.0f - CGRectGetWidth(self.view.frame)/2;
+}
+
 - (MFASelectCityViewController *)selectCityViewController
 {
     if (_selectCityViewController == nil) {

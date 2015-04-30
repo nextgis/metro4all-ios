@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7520"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -19,16 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Logo" translatesAutoresizingMaskIntoConstraints="NO" id="ODT-81-cTF">
-                                <rect key="frame" x="35" y="44" width="120" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="vUW-P4-MfW"/>
-                                    <constraint firstAttribute="height" constant="120" id="yZr-Hf-g3Q"/>
-                                </constraints>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYd-ZP-fa7">
-                                <rect key="frame" x="40" y="200" width="132" height="32"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <rect key="frame" x="32" y="200" width="113" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Поиск маршрута">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -38,8 +30,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y2R-95-7RK">
-                                <rect key="frame" x="40" y="240" width="100" height="32"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <rect key="frame" x="32" y="237" width="84" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Все станции">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -49,8 +41,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ODu-Uy-e13">
-                                <rect key="frame" x="40" y="512" width="113" height="32"/>
-                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <rect key="frame" x="32" y="515" width="97" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Выбор города">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,20 +52,29 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DLf-zr-TaV">
-                                <rect key="frame" x="190" y="158" width="160" height="284"/>
+                                <rect key="frame" x="-87" y="32" width="2" height="39"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <button opaque="NO" tag="99" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pCO-us-KRZ">
+                                <rect key="frame" x="35" y="44" width="120" height="120"/>
+                                <state key="normal" image="Logo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="menuItem:" destination="Afw-dR-L1r" eventType="touchUpInside" id="dQc-i6-kUF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Mpv-SB-5mG" firstAttribute="top" secondItem="ODu-Uy-e13" secondAttribute="bottom" constant="24" id="05L-H6-geH"/>
-                            <constraint firstItem="GYd-ZP-fa7" firstAttribute="leading" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="40" id="8Ud-RW-1Nv"/>
-                            <constraint firstItem="ODT-81-cTF" firstAttribute="centerX" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="95" id="C9E-b2-T7v"/>
+                            <constraint firstItem="pCO-us-KRZ" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="24" id="2xg-rP-BWM"/>
+                            <constraint firstItem="GYd-ZP-fa7" firstAttribute="leading" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="32" id="8Ud-RW-1Nv"/>
                             <constraint firstItem="GYd-ZP-fa7" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="180" id="HaJ-hx-anf"/>
-                            <constraint firstItem="ODT-81-cTF" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="24" id="MVn-rb-JaC"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="ODu-Uy-e13" secondAttribute="leading" id="foP-Z3-0EL"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="top" secondItem="GYd-ZP-fa7" secondAttribute="bottom" constant="8" symbolic="YES" id="hnM-8s-x3p"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="GYd-ZP-fa7" secondAttribute="leading" id="vHh-hy-gEO"/>
+                            <constraint firstItem="pCO-us-KRZ" firstAttribute="leading" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="35" id="zlc-f8-SiP"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -363,7 +364,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Station name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R0V-eK-e8p">
                                                     <rect key="frame" x="42" y="16" width="102" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UOC-eY-sD0">
@@ -427,13 +428,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="From Station" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ihI-za-HVf">
                                                     <rect key="frame" x="42" y="16" width="99" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="To Station" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zhy-CJ-Nr3">
                                                     <rect key="frame" x="42" y="85" width="77" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ab-bm-YAD">
