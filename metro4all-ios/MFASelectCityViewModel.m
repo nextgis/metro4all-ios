@@ -191,8 +191,10 @@
     [self changeCity:city];
 
     if (self.completionBlock) {
-        self.completionBlock();
-        self.completionBlock = nil;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.completionBlock();
+            self.completionBlock = nil;
+        });
     }
 }
 
