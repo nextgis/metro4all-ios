@@ -29,6 +29,8 @@
 - (void)changeCity:(MFACity *)city;
 - (void)deleteCityAtIndex:(NSUInteger)index;
 
+- (void)selectCityAtIndexPath:(NSIndexPath *)indexPath completion:(void (^)())completionBlock;
+
 #pragma mark - Table View
 
 - (NSUInteger)numberOfSections;

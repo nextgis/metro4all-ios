@@ -86,4 +86,5 @@
         self.searchResults = self.allStations;
     }
 }
+
 @end

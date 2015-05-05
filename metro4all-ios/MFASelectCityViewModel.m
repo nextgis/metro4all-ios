@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+#import <MagicalRecord/CoreData+MagicalRecord.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <SSZipArchive/SSZipArchive.h>
 
@@ -96,7 +97,9 @@
         _loadedCities = [fetchedObjects sortedArrayUsingDescriptors:@[ sortDescriptor ]];
         
         for (MFACity *city in _loadedCities) {
-            [self calculateArchiveSizeForCity:city];
+            if (city.metaDictionary[@"archiveSize"] == nil) {
+                [self calculateArchiveSizeForCity:city];
+            }
         }
     }
     
@@ -136,6 +139,10 @@
     self.errorBlock = errorBlock;
     
     [self.archiveService getCityFilesForMetadata:selectedCity completion:^(NSString *path, NSError *error) {
+        
+        NSMutableDictionary *meta = [selectedCity mutableCopy];
+        meta[@"archiveSize"] = [self sizeOfFolder:path];
+        
         if (error) {
             [self handleError:error];
         }
@@ -148,7 +155,7 @@
             [[UIApplication sharedApplication].delegate performSelector:@selector(managedObjectContext)];
             
             MFACityDataParser *parser =
-            [[MFACityDataParser alloc] initWithCityMeta:selectedCity
+            [[MFACityDataParser alloc] initWithCityMeta:meta
                                               pathToCSV:path
                                    managedObjectContext:moc
                                                delegate:self];
@@ -188,7 +195,7 @@
     }
     
     [self.managedObjectContext deleteObject:city];
-    [self.managedObjectContext save:nil];
+    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
     
     self.loadedCities = nil; // force reload on next access
 }
@@ -234,6 +241,49 @@
 {
     [[NSUserDefaults standardUserDefaults] setObject:city.metaDictionary forKey:@"MFA_CURRENT_CITY"];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MFA_CHANGE_CITY" object:nil];
+}
+
+- (void)selectCityAtIndexPath:(NSIndexPath *)indexPath completion:(void (^)())completionBlock;
+{
+    if (indexPath.section == 1 || self.numberOfSections == 1) {
+        NSDictionary *selectedCity = self.cities[indexPath.row];
+        
+        [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
+        
+        [self processCityMeta:selectedCity withCompletion:^{
+            [SVProgressHUD dismiss];
+            [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
+            
+            if (completionBlock) {
+                self.loadedCities = nil; // reload lazily
+                completionBlock();
+            }
+        }
+                                  error:^(NSError *error) {
+                                      [SVProgressHUD dismiss];
+                                      [self showErrorMessage];
+                                  }];
+    }
+    else {
+        [self changeCity:(self.loadedCities[indexPath.row])];
+        
+        if (completionBlock) {
+            completionBlock();
+        }
+    }
+}
+
+- (void)showErrorMessage
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                                        message:@"Произошла ошибка при загрузке данных. Попробуйте повторить операцию или обратитесь в поддержку"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        
+        [alert show];
+    });
 }
 
 #pragma mark - Table View

@@ -98,56 +98,6 @@
     }];
 }
 
-- (IBAction)selectionDone:(NSIndexPath *)indexPath
-{
-    void(^completionBlock)() = ^() {
-        if (self.sideMenuViewController) {
-            // if changing city, not loading first one
-            [(MFAMenuContainerViewController *)self.sideMenuViewController sideMenu:nil didSelectItem:0];
-        }
-        else {
-            MFAMenuContainerViewController *menuVC =
-                (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
-            
-            [self presentViewController:menuVC animated:YES completion:nil];
-        }
-    };
-    
-    if (indexPath.section == 1 || [self numberOfSectionsInTableView:self.tableView] == 1) {
-        NSDictionary *selectedCity = self.viewModel.cities[indexPath.row];
-        
-        [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
-        
-        [self.viewModel processCityMeta:selectedCity withCompletion:^{
-            [SVProgressHUD dismiss];
-            [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
-            
-            completionBlock();
-        }
-                                  error:^(NSError *error) {
-                                      [SVProgressHUD dismiss];
-                                      [self showErrorMessage];
-                                  }];
-    }
-    else {
-        [self.viewModel changeCity:(self.viewModel.loadedCities[indexPath.row])];
-        completionBlock();
-    }
-}
-
-- (void)showErrorMessage
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                        message:@"Произошла ошибка при загрузке данных. Попробуйте повторить операцию или обратитесь в поддержку"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        
-        [alert show];
-    });
-}
-
 #pragma mark - UITableView Datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -195,13 +145,29 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self selectionDone:indexPath];
+    [self.viewModel selectCityAtIndexPath:indexPath completion:^{
+        if (self.sideMenuViewController) {
+            // if changing city, not loading first one
+            [(MFAMenuContainerViewController *)self.sideMenuViewController sideMenu:nil didSelectItem:0];
+        }
+        else {
+            MFAMenuContainerViewController *menuVC =
+            (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
+            
+            [self presentViewController:menuVC animated:YES completion:nil];
+        }
+    }];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return YES if you want the specified item to be editable.
     if (indexPath.section == 1 || [self numberOfSectionsInTableView:self.tableView] == 1) {
         // only edit loaded cities
+        return NO;
+    }
+    
+    if ([tableView numberOfRowsInSection:indexPath.section] == 1) {
+        // cannot delete last loaded city to avoid troubles
         return NO;
     }
     
