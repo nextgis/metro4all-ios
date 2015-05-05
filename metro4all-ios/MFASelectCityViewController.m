@@ -162,16 +162,24 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectCitySectionHeader"];
-    UILabel *titleLabel = (UILabel *)[view viewWithTag:999];
-    titleLabel.text = [self.viewModel titleForHeaderInSection:section];
+    if (self.viewModel.numberOfSections > 1) {
+        UITableViewCell *view = [tableView dequeueReusableCellWithIdentifier:@"MFA_selectCitySectionHeader"];
+        UILabel *titleLabel = (UILabel *)[view viewWithTag:999];
+        titleLabel.text = [self.viewModel titleForHeaderInSection:section];
+        
+        return view.contentView;
+    }
     
-    return view;
+    return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 44.0f;
+    if (self.viewModel.numberOfSections > 1) {
+        return 44.0f;
+    }
+
+    return 0.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
