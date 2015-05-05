@@ -49,9 +49,22 @@
             }
         }
         
-        if (name == nil) {
-            self.titleLabel.text = self.viewModel[@"name"];
+        name = name ?: self.viewModel[@"name"];
+        
+        NSString *subtitle = self.viewModel[@"archiveSize"];
+
+        NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[name stringByAppendingString:@" "]
+                                                                                  attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:17.0f],
+                                                                                                NSForegroundColorAttributeName : [UIColor blackColor] }];
+        
+        if (subtitle.length > 0) {
+            NSAttributedString *details = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"(%@)", subtitle]
+                                                                         attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:14.0f],
+                                                                                       NSForegroundColorAttributeName : [UIColor darkGrayColor] }];
+            [title appendAttributedString:details];
         }
+        
+        self.titleLabel.attributedText = title;
     }
     else {
         self.titleLabel.text = nil;

@@ -14,6 +14,7 @@
 #import "MFASelectCityViewModel.h"
 #import "MFACityDataParser.h"
 #import "MFACity.h"
+#import "NSDictionary+CityMeta.h"
 
 @interface MFASelectCityViewModel () <MFACityDataParserDelegate>
 
@@ -93,9 +94,40 @@
         NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
         
         _loadedCities = [fetchedObjects sortedArrayUsingDescriptors:@[ sortDescriptor ]];
+        
+        for (MFACity *city in _loadedCities) {
+            [self calculateArchiveSizeForCity:city];
+        }
     }
     
     return _loadedCities;
+}
+
+- (void)calculateArchiveSizeForCity:(MFACity *)city
+{
+    MFACityMeta *meta = city.metaDictionary;
+    NSMutableDictionary *dict = [meta mutableCopy];
+    dict[@"archiveSize"] = [self sizeOfFolder:meta.filesDirectory.path];
+    
+    city.metaDictionary = [dict copy];
+}
+
+- (NSString *)sizeOfFolder:(NSString *)folderPath
+{
+    NSArray *contents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:folderPath error:nil];
+    NSEnumerator *contentsEnumurator = [contents objectEnumerator];
+    
+    NSString *file;
+    unsigned long long int folderSize = 0;
+    
+    while (file = [contentsEnumurator nextObject]) {
+        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:file] error:nil];
+        folderSize += [[fileAttributes objectForKey:NSFileSize] intValue];
+    }
+    
+    //This line will give you formatted size from bytes ....
+    NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
+    return folderSizeStr;
 }
 
 - (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock

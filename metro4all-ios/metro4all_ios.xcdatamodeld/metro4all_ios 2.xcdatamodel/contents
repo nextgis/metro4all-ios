@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14E7f" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7700" systemVersion="14E7f" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="City" representedClassName="MFACity" syncable="YES">
-        <attribute name="fakeitem9" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="metaDictionary" optional="YES" attributeType="Transformable" syncable="YES"/>
         <attribute name="name" attributeType="Transformable" syncable="YES"/>
         <attribute name="path" attributeType="String" indexed="YES" syncable="YES"/>
@@ -58,7 +57,7 @@
         <relationship name="portals" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Portal" inverseName="station" inverseEntity="Portal" syncable="YES"/>
     </entity>
     <elements>
-        <element name="City" positionX="-443" positionY="225" width="128" height="150"/>
+        <element name="City" positionX="-443" positionY="225" width="128" height="135"/>
         <element name="Interchange" positionX="-0" positionY="378" width="128" height="210"/>
         <element name="Line" positionX="43" positionY="168" width="128" height="120"/>
         <element name="Node" positionX="-243" positionY="315" width="128" height="73"/>
