@@ -120,18 +120,37 @@
 {
     [self.view endEditing:YES];
     
-    MFAStation *station = nil;
-    
-    if (tableView == self.tableView) {
-        // main table view
-        station = self.viewModel.allStations[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(stationList:didSelectStation:)]) {
+        MFAStation *station = nil;
+        
+        if (tableView == self.tableView) {
+            // main table view
+            station = self.viewModel.allStations[indexPath.row];
+        }
+        else {
+            // search controller table view
+            station = self.viewModel.searchResults[indexPath.row];
+        }
+        
+        [self.delegate stationList:self didSelectStation:station];
     }
     else {
-        // search controller table view
-        station = self.viewModel.searchResults[indexPath.row];
+        if ([self.selectedIndexPath isEqual:indexPath] == NO) {
+            NSArray *indexPaths = nil;
+            
+            if (self.selectedIndexPath) {
+                indexPaths = @[ self.selectedIndexPath, indexPath ];
+            }
+            else {
+                indexPaths = @[ indexPath ];
+            }
+            
+            self.selectedIndexPath = indexPath;
+            
+            // select new row
+            [tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
     }
-    
-    [self.delegate stationList:self didSelectStation:station];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
