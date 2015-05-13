@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Maxim Smirnov. All rights reserved.
 //
 
+#import <OHAlertView/OHAlertView.h>
+
 #import "AppDelegate.h"
 
 #import "MFAMenuContainerViewController.h"
@@ -142,6 +144,20 @@
             break;
         }
             
+        case 99: {
+            NSURL *infoUrl = [NSURL URLWithString:@"http://metro4all.org"];
+            if ([[UIApplication sharedApplication] canOpenURL:infoUrl]) {
+                [OHAlertView showAlertWithTitle:@"merto4all.org"
+                                        message:@"Открыть страницу \"http://metro4all.org\" в Safari?"
+                                   cancelButton:@"Нет"
+                                       okButton:@"Да"
+                                  buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
+                                      if (buttonIndex != [(UIAlertView *)alert cancelButtonIndex]) {
+                                          [[UIApplication sharedApplication] openURL:infoUrl];
+                                      }
+                                  }];
+            }
+        }
         default:
             break;
     }
