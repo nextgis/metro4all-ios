@@ -8,6 +8,7 @@
 
 #import <AFNetworking/AFNetworking.h>
 #import <SSZipArchive/SSZipArchive.h>
+#import <ReactiveCocoa/ReactiveCocoa.h>
 
 #import "MFACityArchiveService.h"
 #import "NSDictionary+CityMeta.h"
@@ -18,6 +19,8 @@
 @property (nonatomic, strong) MFACityMeta *selectedCityMeta;
 
 @property (nonatomic, copy) void (^completionBlock)(NSString *path, NSError *error);
+
+@property (nonatomic, strong) RACSubject *downloadProgressSignal;
 
 @end
 
@@ -70,9 +73,11 @@
     [op start];
 }
 
-- (void)getCityFilesForMetadata:(NSDictionary *)cityMeta completion:(void (^)(NSString *path, NSError *error))completion {
+- (RACSignal *)getCityFilesForMetadata:(NSDictionary *)cityMeta completion:(void (^)(NSString *path, NSError *error))completion {
     self.selectedCityMeta = cityMeta;
     self.completionBlock = completion;
+    
+    self.downloadProgressSignal = [RACSubject subject];
     
     NSURL *unzippedPath = [cityMeta filesDirectory];
     
@@ -91,6 +96,8 @@
         self.completionBlock = nil;
         completion(unzippedPath.path, nil);
     }
+    
+    return self.downloadProgressSignal;
 }
 
 #pragma mark - NSURLSession Delegate
@@ -127,6 +134,7 @@
     if (error) {
         NSLog(@"Failed to open zip archive: %@", error);
         
+        [self.downloadProgressSignal sendCompleted];
         self.completionBlock(nil, [NSError errorWithDomain:@"ru.metro4all.zipUnarchiver"
                                                       code:2
                                                   userInfo:@{ NSLocalizedDescriptionKey : @"Failed to open zip archive" }]);
@@ -139,10 +147,19 @@
     if (error) {
         NSLog(@"Failed to load zip archive: %@", error);
         
+        [self.downloadProgressSignal sendCompleted];
         self.completionBlock(nil, [NSError errorWithDomain:@"ru.metro4all.zipUnarchiver"
                                                       code:3
                                                   userInfo:@{ NSLocalizedDescriptionKey : @"Failed load zip archive" }]);
     }
+}
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+      didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten
+                                 totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    NSLog(@"Downloaded %lld of %lld", totalBytesWritten, totalBytesExpectedToWrite);
+    [self.downloadProgressSignal sendNext:@((float)totalBytesWritten/totalBytesExpectedToWrite)];
 }
 
 #pragma mark - SSZipArchive Delegate
@@ -154,6 +171,7 @@
     [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        [self.downloadProgressSignal sendCompleted];
         self.completionBlock(unzippedPath, nil);
     });
 }

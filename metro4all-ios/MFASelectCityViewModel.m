@@ -34,6 +34,8 @@
 @property (nonatomic, strong) MFACityArchiveService *archiveService;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
+@property (nonatomic, strong) RACSignal *downloadProgress;
+
 @end
 
 @implementation MFASelectCityViewModel
@@ -138,8 +140,10 @@
     self.completionBlock = completionBlock;
     self.errorBlock = errorBlock;
     
-    [self.archiveService getCityFilesForMetadata:selectedCity completion:^(NSString *path, NSError *error) {
+    RACSignal *downloadProgress = [self.archiveService getCityFilesForMetadata:selectedCity
+                                                                    completion:^(NSString *path, NSError *error) {
         
+        self.downloadProgress = nil;
         NSMutableDictionary *meta = [selectedCity mutableCopy];
         meta[@"archiveSize"] = [self sizeOfFolder:path];
         
@@ -172,6 +176,20 @@
             });
         }
     }];
+    
+    [downloadProgress subscribeNext:^(NSNumber *progress) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD showProgress:progress.floatValue
+                                 status:@"Загружаются данные города"
+                               maskType:SVProgressHUDMaskTypeBlack];
+        });
+    } completed:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+        });
+    }];
+    
+    self.downloadProgress = downloadProgress;
 }
 
 - (void)handleError:(NSError *)error
