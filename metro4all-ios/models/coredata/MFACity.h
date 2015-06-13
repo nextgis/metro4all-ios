@@ -14,6 +14,7 @@
 @property (nonatomic, strong, readonly) NSURL *dataDirectory;
 
 + (instancetype)cityWithIdentifier:(NSString *)path;
++ (instancetype)cityWithIdentifier:(NSString *)path inContext:(NSManagedObjectContext *)context;
 
 - (MFAStation *)stationWithId:(NSNumber *)stationId;
 - (MFAInterchange *)interchangeFromStationId:(NSNumber *)fromStationId

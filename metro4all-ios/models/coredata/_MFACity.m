@@ -7,6 +7,7 @@ const struct MFACityAttributes MFACityAttributes = {
 	.metaDictionary = @"metaDictionary",
 	.name = @"name",
 	.path = @"path",
+	.updatedMeta = @"updatedMeta",
 	.version = @"version",
 };
 
@@ -55,6 +56,8 @@ const struct MFACityRelationships MFACityRelationships = {
 @dynamic name;
 
 @dynamic path;
+
+@dynamic updatedMeta;
 
 @dynamic version;
 

@@ -21,11 +21,7 @@
 
 #import "MFAStoryboardProxy.h"
 
-@interface MFASelectCityViewController () <UITableViewDataSource, UITableViewDelegate>
-
-@end
-
-@interface MFASelectCityViewController ()
+@interface MFASelectCityViewController () <UITableViewDataSource, UITableViewDelegate, MFASelectCityCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) IBOutlet UIView *noInternetFooterView;
@@ -98,6 +94,20 @@
     }];
 }
 
+- (void)openMainScreen
+{
+    if (self.sideMenuViewController) {
+        // if changing city, not loading first one
+        [(MFAMenuContainerViewController *)self.sideMenuViewController sideMenu:nil didSelectItem:0];
+    }
+    else {
+        MFAMenuContainerViewController *menuVC =
+        (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
+        
+        [self presentViewController:menuVC animated:YES completion:nil];
+    }
+}
+
 #pragma mark - UITableView Datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -139,24 +149,22 @@
     
     cell.viewModel = [self.viewModel viewModelForRow:indexPath.row inSection:indexPath.section];
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+    cell.delegate = self;
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self.viewModel selectCityAtIndexPath:indexPath completion:^{
-        if (self.sideMenuViewController) {
-            // if changing city, not loading first one
-            [(MFAMenuContainerViewController *)self.sideMenuViewController sideMenu:nil didSelectItem:0];
-        }
-        else {
-            MFAMenuContainerViewController *menuVC =
-            (MFAMenuContainerViewController *)[MFAStoryboardProxy menuContainerViewController];
-            
-            [self presentViewController:menuVC animated:YES completion:nil];
-        }
-    }];
+    if (indexPath.section == 1 || self.viewModel.numberOfSections == 1) {
+        [self.viewModel downloadCity:self.viewModel.cities[indexPath.row] completion:^{
+            [self openMainScreen];
+        }];
+    }
+    else {
+        [self.viewModel changeCity:self.viewModel.loadedCities[indexPath.row]];
+        [self openMainScreen];
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -182,6 +190,13 @@
         [self.tableView setEditing:NO];
         [self.tableView reloadData];
     }
+}
+
+- (void)selectCityCellDidRequestUpdate:(NSDictionary *)meta
+{
+    [self.viewModel downloadCity:meta completion:^{
+        [self openMainScreen];
+    }];
 }
 
 @end

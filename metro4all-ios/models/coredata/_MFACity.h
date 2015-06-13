@@ -7,6 +7,7 @@ extern const struct MFACityAttributes {
 	__unsafe_unretained NSString *metaDictionary;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *path;
+	__unsafe_unretained NSString *updatedMeta;
 	__unsafe_unretained NSString *version;
 } MFACityAttributes;
 
@@ -17,6 +18,8 @@ extern const struct MFACityRelationships {
 
 @class MFALine;
 @class MFAStation;
+
+@class NSObject;
 
 @class NSObject;
 
@@ -42,6 +45,10 @@ extern const struct MFACityRelationships {
 @property (nonatomic, strong) NSString* path;
 
 //- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
+
+@property (nonatomic, strong) id updatedMeta;
+
+//- (BOOL)validateUpdatedMeta:(id*)value_ error:(NSError**)error_;
 
 @property (nonatomic, strong) NSNumber* version;
 
@@ -87,6 +94,9 @@ extern const struct MFACityRelationships {
 
 - (NSString*)primitivePath;
 - (void)setPrimitivePath:(NSString*)value;
+
+- (id)primitiveUpdatedMeta;
+- (void)setPrimitiveUpdatedMeta:(id)value;
 
 - (NSNumber*)primitiveVersion;
 - (void)setPrimitiveVersion:(NSNumber*)value;

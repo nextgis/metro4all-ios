@@ -11,6 +11,7 @@
 @interface MFASelectCityTableViewCell ()
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UIButton *updateButton;
 
 @end
 
@@ -18,6 +19,7 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    self.updateButton.hidden = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -29,6 +31,8 @@
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+    
+    self.updateButton.hidden = YES;
     
     self.viewModel = nil;
     self.accessoryType = UITableViewCellAccessoryNone;
@@ -65,10 +69,20 @@
         }
         
         self.titleLabel.attributedText = title;
+        
+        
+        if ([viewModel[@"hasUpdate"] boolValue] == YES) {
+            self.updateButton.hidden = NO;
+        }
     }
     else {
         self.titleLabel.text = nil;
     }
+}
+
+- (IBAction)updateButtonClick:(id)sender
+{
+    [self.delegate selectCityCellDidRequestUpdate:self.viewModel];
 }
 
 @end

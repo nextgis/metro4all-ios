@@ -46,10 +46,10 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
 }
 
-- (MFASelectCityViewController *)setupSelectCityController
+- (UIViewController *)setupSelectCityController
 {
     MFACityArchiveService *archiveService =
-        [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/"]];
+        [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost:8000/"]];
     
     MFASelectCityViewModel *viewModel =
         [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];

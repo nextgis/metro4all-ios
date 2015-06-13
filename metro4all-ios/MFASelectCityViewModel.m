@@ -63,8 +63,9 @@
             RACSignal *loadMetaSignal = [RACSignal startEagerlyWithScheduler:[RACScheduler mainThreadScheduler]
                                                                        block:^(id<RACSubscriber> subscriber) {
                 [self.archiveService loadCitiesWithCompletion:^(NSArray *citiesMeta) {
-                    self.cities = citiesMeta;
-                
+                    
+                    self.cities = [self checkForUpdates:citiesMeta];
+                    
                     if (self.cities.count == 0) {
                         [subscriber sendError:[NSError errorWithDomain:@"org.metro4all.metro4all-ios"
                                                                   code:1
@@ -81,6 +82,32 @@
     }
     
     return _loadMetaFromServerCommand;
+}
+
+- (NSArray *)checkForUpdates:(NSArray *)citiesMeta
+{
+    NSMutableArray *mCitiesMeta = [[NSMutableArray alloc] initWithCapacity:citiesMeta.count];
+    
+    for (MFACityMeta *meta in citiesMeta) {
+        MFACity *city = [MFACity cityWithIdentifier:meta[@"path"]];
+        if (city == nil) {
+            // add only cities that are not loaded on the device
+            [mCitiesMeta addObject:meta];
+            continue;
+        }
+        
+        NSMutableDictionary *updatedMeta = [meta mutableCopy];
+        if ([meta[@"ver"] integerValue] > city.versionValue) {
+            updatedMeta[@"hasUpdate"] = @YES;
+        }
+        else {
+            updatedMeta[@"hasUpdate"] = @NO;
+        }
+        
+        city.updatedMeta = [updatedMeta copy];
+    }
+    
+    return [mCitiesMeta copy];
 }
 
 - (NSArray *)loadedCities
@@ -108,42 +135,26 @@
     return _loadedCities;
 }
 
-- (void)calculateArchiveSizeForCity:(MFACity *)city
-{
-    MFACityMeta *meta = city.metaDictionary;
-    NSMutableDictionary *dict = [meta mutableCopy];
-    dict[@"archiveSize"] = [self sizeOfFolder:meta.filesDirectory.path];
-    
-    city.metaDictionary = [dict copy];
-}
-
-- (NSString *)sizeOfFolder:(NSString *)folderPath
-{
-    NSArray *contents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:folderPath error:nil];
-    NSEnumerator *contentsEnumurator = [contents objectEnumerator];
-    
-    NSString *file;
-    unsigned long long int folderSize = 0;
-    
-    while (file = [contentsEnumurator nextObject]) {
-        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:file] error:nil];
-        folderSize += [[fileAttributes objectForKey:NSFileSize] intValue];
-    }
-    
-    //This line will give you formatted size from bytes ....
-    NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
-    return folderSizeStr;
-}
-
-- (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock
+- (void)processCityMeta:(NSDictionary *)selectedCity
+         withCompletion:(void (^)(void))completionBlock
+                  error:(void (^)(NSError *))errorBlock
 {
     self.completionBlock = completionBlock;
     self.errorBlock = errorBlock;
     
     RACSignal *downloadProgress = [self.archiveService getCityFilesForMetadata:selectedCity
-                                                                    completion:^(NSString *path, NSError *error) {
-        
+                                                                    completion:^(NSString *path, NSError *error)
+    {
         self.downloadProgress = nil;
+        
+        // we are updating city that was already downloaded
+        if ([selectedCity[@"hasUpdate"] boolValue] == YES) {
+            // delete old files
+            MFACity *city = [MFACity cityWithIdentifier:selectedCity[@"path"]];
+            NSURL *oldFilesPath = [city.metaDictionary filesDirectory];
+            [[NSFileManager defaultManager] removeItemAtURL:oldFilesPath error:nil];
+        }
+        
         NSMutableDictionary *meta = [selectedCity mutableCopy];
         meta[@"archiveSize"] = [self sizeOfFolder:path];
         
@@ -261,44 +272,34 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MFA_CHANGE_CITY" object:nil];
 }
 
-- (void)selectCityAtIndexPath:(NSIndexPath *)indexPath completion:(void (^)())completionBlock;
+- (void)downloadCity:(MFACityMeta *)meta completion:(void (^)())completionBlock
 {
-    if (indexPath.section == 1 || self.numberOfSections == 1) {
-        NSDictionary *selectedCity = self.cities[indexPath.row];
-        
-        [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
-        
-        [self processCityMeta:selectedCity withCompletion:^{
-            [SVProgressHUD dismiss];
-            [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
-            
-            if (completionBlock) {
-                self.loadedCities = nil; // reload lazily
-                completionBlock();
-            }
-        }
-                                  error:^(NSError *error) {
-                                      [SVProgressHUD dismiss];
-                                      [self showErrorMessage];
-                                  }];
-    }
-    else {
-        [self changeCity:(self.loadedCities[indexPath.row])];
+    [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
+    
+    [self processCityMeta:meta withCompletion:^{
+        [SVProgressHUD dismiss];
+        [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
         
         if (completionBlock) {
+            self.loadedCities = nil; // reload lazily
             completionBlock();
         }
     }
+                    error:^(NSError *error) {
+                        [SVProgressHUD dismiss];
+                        [self showErrorMessage];
+                    }];
 }
 
 - (void)showErrorMessage
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                                        message:@"Произошла ошибка при загрузке данных. Попробуйте повторить операцию или обратитесь в поддержку"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
+        UIAlertView *alert =
+            [[UIAlertView alloc] initWithTitle:@"Ошибка"
+                                       message:@"Произошла ошибка при загрузке данных. Попробуйте повторить операцию или обратитесь в поддержку"
+                                      delegate:nil
+                             cancelButtonTitle:@"OK"
+                             otherButtonTitles:nil];
         
         [alert show];
     });
@@ -331,7 +332,12 @@
         return self.cities[row];
     }
     else {
-        return [self.loadedCities[row] metaDictionary];
+        MFACity *city = self.loadedCities[row];
+        if (city.updatedMeta != nil) {
+            return city.updatedMeta;
+        }
+        
+        return city.metaDictionary;
     }
 }
 
@@ -347,5 +353,35 @@
         return @"На устройстве";
     }
 }
+
+#pragma mark - Helpers
+
+- (void)calculateArchiveSizeForCity:(MFACity *)city
+{
+    MFACityMeta *meta = city.metaDictionary;
+    NSMutableDictionary *dict = [meta mutableCopy];
+    dict[@"archiveSize"] = [self sizeOfFolder:meta.filesDirectory.path];
+    
+    city.metaDictionary = [dict copy];
+}
+
+- (NSString *)sizeOfFolder:(NSString *)folderPath
+{
+    NSArray *contents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:folderPath error:nil];
+    NSEnumerator *contentsEnumurator = [contents objectEnumerator];
+    
+    NSString *file;
+    unsigned long long int folderSize = 0;
+    
+    while (file = [contentsEnumurator nextObject]) {
+        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:file] error:nil];
+        folderSize += [[fileAttributes objectForKey:NSFileSize] intValue];
+    }
+    
+    //This line will give you formatted size from bytes ....
+    NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
+    return folderSizeStr;
+}
+
 
 @end

@@ -22,7 +22,7 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
-- (MFASelectCityViewController *)setupSelectCityController;
+- (UIViewController *)setupSelectCityController;
 - (MFACity *)currentCity;
 
 @end

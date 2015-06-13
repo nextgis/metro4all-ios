@@ -10,7 +10,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 #import "MFACityArchiveService.h"
-
+#import "NSDictionary+CityMeta.h"
 @class MFACity;
 
 @interface MFASelectCityViewModel : NSObject
@@ -18,7 +18,7 @@
 @property (nonatomic, strong, readonly) NSArray *cities;
 @property (nonatomic, strong, readonly) NSArray *loadedCities;
 
-@property (nonatomic, strong, readonly) NSDictionary *selectedCityMeta;
+@property (nonatomic, strong, readonly) MFACityMeta *selectedCityMeta;
 @property (nonatomic, strong, readonly) MFACity *selectedCity;
 
 @property (nonatomic, strong, readonly) RACCommand *loadMetaFromServerCommand;
@@ -29,7 +29,7 @@
 - (void)changeCity:(MFACity *)city;
 - (void)deleteCityAtIndex:(NSUInteger)index;
 
-- (void)selectCityAtIndexPath:(NSIndexPath *)indexPath completion:(void (^)())completionBlock;
+- (void)downloadCity:(MFACityMeta *)meta completion:(void (^)())completionBlock;
 
 #pragma mark - Table View
 

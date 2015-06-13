@@ -340,7 +340,7 @@
         
         // Delete the old city object.
         // It will cascade to all info related to this city: stations, lines, portals, etc.
-        [context deleteObject:city];
+        [context deleteObject:[city MR_inContext:context]];
         
         city = nil;
     }

@@ -16,6 +16,11 @@
     return [self MR_findFirstByAttribute:@"path" withValue:path];
 }
 
++ (instancetype)cityWithIdentifier:(NSString *)path inContext:(NSManagedObjectContext *)context
+{
+    return [self MR_findFirstByAttribute:@"path" withValue:path inContext:context];
+}
+
 - (NSString *)nameString
 {
     NSString *name = nil;
