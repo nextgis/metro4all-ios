@@ -104,6 +104,7 @@
             updatedMeta[@"hasUpdate"] = @NO;
         }
         
+        updatedMeta[@"archiveSize"] = city.metaDictionary[@"archiveSize"];
         city.updatedMeta = [updatedMeta copy];
     }
     
