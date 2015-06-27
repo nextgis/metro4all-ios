@@ -224,8 +224,14 @@
         return;
     }
     
-    [self.managedObjectContext deleteObject:city];
-    [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
+    NSError *error = nil;
+    NSURL *cityFilesURL = [((MFACityMeta *)city.metaDictionary) filesDirectory];
+    [[NSFileManager defaultManager] removeItemAtPath:cityFilesURL.path error:&error];
+     
+    if (!error) {
+       [self.managedObjectContext deleteObject:city];
+       [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
+    }
     
     self.loadedCities = nil; // force reload on next access
 }
@@ -283,6 +289,7 @@
         
         if (completionBlock) {
             self.loadedCities = nil; // reload lazily
+            self.cities = [self checkForUpdates:self.cities];
             completionBlock();
         }
     }

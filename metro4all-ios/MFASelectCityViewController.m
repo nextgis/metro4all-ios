@@ -158,6 +158,7 @@
 {
     if (indexPath.section == 1 || self.viewModel.numberOfSections == 1) {
         [self.viewModel downloadCity:self.viewModel.cities[indexPath.row] completion:^{
+            [tableView reloadData];
             [self openMainScreen];
         }];
     }
@@ -187,8 +188,12 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.viewModel deleteCityAtIndex:indexPath.row];
+        
         [self.tableView setEditing:NO];
-        [self.tableView reloadData];
+        
+        [[self.viewModel.loadMetaFromServerCommand execute:nil] subscribeCompleted:^{
+            [self.tableView reloadData];
+        }];
     }
 }
 

@@ -39,7 +39,7 @@
 - (void)loadCitiesWithCompletion:(void (^)(NSArray *citiesMeta))completionBlock;
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSURL *metaURL = [NSURL URLWithString:@"meta.json" relativeToURL:self.baseURL];
+    NSURL *metaURL = [NSURL URLWithString:@"fake.json" relativeToURL:self.baseURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:metaURL];
 
     id successBlock = ^(AFHTTPRequestOperation *operation, id responseObject) {
