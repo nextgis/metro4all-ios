@@ -7,6 +7,8 @@
 //
 
 #import "MFASelectCityTableViewCell.h"
+#import "AppDelegate.h"
+#import "MFACity.h"
 
 @interface MFASelectCityTableViewCell ()
 
@@ -73,6 +75,11 @@
         
         if ([viewModel[@"hasUpdate"] boolValue] == YES) {
             self.updateButton.hidden = NO;
+        }
+        
+        MFACity *currentCity = [(AppDelegate *)([UIApplication sharedApplication].delegate) currentCity];
+        if ([currentCity.name[@"en"] isEqualToString:viewModel[@"name"]]) {
+            self.accessoryType = UITableViewCellAccessoryCheckmark;
         }
     }
     else {

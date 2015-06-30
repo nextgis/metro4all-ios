@@ -180,6 +180,10 @@
         return NO;
     }
     
+    if ([[tableView cellForRowAtIndexPath:indexPath] accessoryType] == UITableViewCellAccessoryCheckmark) {
+        return NO;
+    }
+    
     return YES;
 }
 
