@@ -1,7 +1,7 @@
 
 #import "MFAStation.h"
 
-#import <MagicalRecord/CoreData+MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 @interface MFAStation ()
 

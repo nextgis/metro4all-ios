@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 
-#import <MagicalRecord/CoreData+MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <SSZipArchive/SSZipArchive.h>
 

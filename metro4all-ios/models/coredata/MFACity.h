@@ -1,6 +1,6 @@
 
 #define MR_SHORTHAND
-#import <MagicalRecord/CoreData+MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 #import "_MFACity.h"
 

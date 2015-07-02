@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		581091E01ACC6F6500FDCC61 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */; };
 		58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */; };
+		581A6DDE1B459A20001D7227 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581A6DDD1B459A20001D7227 /* Fabric.framework */; };
 		5823455F1ADED13C00BBBE24 /* MFARouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5823455E1ADED13C00BBBE24 /* MFARouter.m */; };
 		582345611ADED87400BBBE24 /* RouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 582345601ADED87400BBBE24 /* RouterTests.m */; };
 		582345631ADED8C100BBBE24 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345621ADED8C100BBBE24 /* stations.json */; };
@@ -76,6 +77,7 @@
 		581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		58136E881AA4B4CD00512D29 /* MFASelectCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFASelectCityTableViewCell.h; sourceTree = "<group>"; };
 		58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFASelectCityTableViewCell.m; sourceTree = "<group>"; };
+		581A6DDD1B459A20001D7227 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		582345581ADED05800BBBE24 /* metro4all_ios 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "metro4all_ios 2.xcdatamodel"; sourceTree = "<group>"; };
 		5823455D1ADED13C00BBBE24 /* MFARouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFARouter.h; path = models/router/MFARouter.h; sourceTree = "<group>"; };
 		5823455E1ADED13C00BBBE24 /* MFARouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFARouter.m; path = models/router/MFARouter.m; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 			files = (
 				581091E01ACC6F6500FDCC61 /* Crashlytics.framework in Frameworks */,
 				EA07EF5930494CD34D1FF1CB /* libPods-metro4all-ios.a in Frameworks */,
+				581A6DDE1B459A20001D7227 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +196,7 @@
 		0C4C889D0E040CF79D9A27C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				581A6DDD1B459A20001D7227 /* Fabric.framework */,
 				581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */,
 				650638ADED9348536CB287EB /* libPods-metro4all-ios.a */,
 			);

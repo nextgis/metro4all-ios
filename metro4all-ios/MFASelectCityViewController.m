@@ -8,7 +8,7 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <Reachability/Reachability.h>
-#import <MagicalRecord/CoreData+MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 #import "MFAMenuContainerViewController.h"
 #import "MFASelectCityViewController.h"
@@ -164,6 +164,7 @@
     }
     else {
         [self.viewModel changeCity:self.viewModel.loadedCities[indexPath.row]];
+        [tableView reloadData];
         [self openMainScreen];
     }
 }
