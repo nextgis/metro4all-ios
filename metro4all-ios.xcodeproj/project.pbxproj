@@ -10,11 +10,11 @@
 		581091E01ACC6F6500FDCC61 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */; };
 		58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */; };
 		581A6DDE1B459A20001D7227 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581A6DDD1B459A20001D7227 /* Fabric.framework */; };
+		581A6DE51B4BED90001D7227 /* metro4all_ios1-2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 581A6DE41B4BED90001D7227 /* metro4all_ios1-2.xcmappingmodel */; };
 		5823455F1ADED13C00BBBE24 /* MFARouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5823455E1ADED13C00BBBE24 /* MFARouter.m */; };
 		582345611ADED87400BBBE24 /* RouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 582345601ADED87400BBBE24 /* RouterTests.m */; };
 		582345631ADED8C100BBBE24 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345621ADED8C100BBBE24 /* stations.json */; };
 		582345651ADED97900BBBE24 /* edges.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345641ADED97900BBBE24 /* edges.json */; };
-		582345691AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 582345681AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel */; };
 		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
 		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
 		586061931AB6C7F700E1F565 /* legend_pl.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061901AB6C7F700E1F565 /* legend_pl.png */; };
@@ -78,13 +78,13 @@
 		58136E881AA4B4CD00512D29 /* MFASelectCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFASelectCityTableViewCell.h; sourceTree = "<group>"; };
 		58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFASelectCityTableViewCell.m; sourceTree = "<group>"; };
 		581A6DDD1B459A20001D7227 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		581A6DE41B4BED90001D7227 /* metro4all_ios1-2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = "metro4all_ios1-2.xcmappingmodel"; sourceTree = "<group>"; };
 		582345581ADED05800BBBE24 /* metro4all_ios 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "metro4all_ios 2.xcdatamodel"; sourceTree = "<group>"; };
 		5823455D1ADED13C00BBBE24 /* MFARouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFARouter.h; path = models/router/MFARouter.h; sourceTree = "<group>"; };
 		5823455E1ADED13C00BBBE24 /* MFARouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFARouter.m; path = models/router/MFARouter.m; sourceTree = "<group>"; };
 		582345601ADED87400BBBE24 /* RouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterTests.m; sourceTree = "<group>"; };
 		582345621ADED8C100BBBE24 /* stations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
 		582345641ADED97900BBBE24 /* edges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = edges.json; sourceTree = "<group>"; };
-		582345681AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = StoreMigration.xcmappingmodel; sourceTree = "<group>"; };
 		583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewModel.h; sourceTree = "<group>"; };
 		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
 		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
@@ -360,8 +360,8 @@
 				58F8954D1AE948CA001DF1DD /* Select Stations (Main Screen) */,
 				58F95ED41AA48FB600E22EF6 /* Main.storyboard */,
 				58F95ED71AA48FB600E22EF6 /* Images.xcassets */,
+				581A6DE41B4BED90001D7227 /* metro4all_ios1-2.xcmappingmodel */,
 				58F95ECE1AA48FB600E22EF6 /* metro4all_ios.xcdatamodeld */,
-				582345681AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel */,
 				58F95EC71AA48FB600E22EF6 /* Supporting Files */,
 				58F95EF31AA49C5B00E22EF6 /* Models */,
 				58CA3DE41AC936EF00205567 /* NSString+Utils.h */,
@@ -587,7 +587,6 @@
 				58CF18371ACBD5DD0042F898 /* _MFAPortal.m in Sources */,
 				58CF183C1ACBD5DD0042F898 /* MFAPortal.m in Sources */,
 				58F95ECD1AA48FB600E22EF6 /* AppDelegate.m in Sources */,
-				582345691AE3D7E800BBBE24 /* StoreMigration.xcmappingmodel in Sources */,
 				58CF18311ACBD5DD0042F898 /* _MFAStation.m in Sources */,
 				58CA3DE61AC936F000205567 /* NSString+Utils.m in Sources */,
 				58CF183B1ACBD5DD0042F898 /* MFANode.m in Sources */,
@@ -599,6 +598,7 @@
 				58F95ECA1AA48FB600E22EF6 /* main.m in Sources */,
 				58F895531AE95197001DF1DD /* MFAInterchangeLineColorView.m in Sources */,
 				58CE3D961AEFEE6700F91F0A /* MFASideMenuViewController.m in Sources */,
+				581A6DE51B4BED90001D7227 /* metro4all_ios1-2.xcmappingmodel in Sources */,
 				58CF18381ACBD5DD0042F898 /* MFACity.m in Sources */,
 				58B0DA451AA70DBB0011A4A4 /* MFAStationsListViewModel.m in Sources */,
 				58CF18361ACBD5DD0042F898 /* _MFANode.m in Sources */,

@@ -82,25 +82,57 @@
     id storeUrl = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"data/metro4all_ios.sqlite"];
     
     if (![NSPersistentStoreCoordinator MR_defaultStoreCoordinator]) {
-
         NSManagedObjectModel *model = [NSManagedObjectModel MR_defaultManagedObjectModel];
         NSPersistentStoreCoordinator *psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
         
         NSError *error = nil;
-        NSPersistentStore *store = [psc addPersistentStoreWithType:NSSQLiteStoreType
-                                                     configuration:nil
-                                                               URL:storeUrl
-                                                           options:nil
-                                                             error:&error];
+
+        NSDictionary *sourceMetadata = [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:nil
+                                                                                                  URL:storeUrl
+                                                                                                error:&error];
         
-        BOOL isMigrationError = [error code] == NSPersistentStoreIncompatibleVersionHashError || [error code] == NSMigrationMissingSourceModelError;
+        NSPersistentStore *store = nil;
         
-        if (!store && [[error domain] isEqualToString:NSCocoaErrorDomain] && isMigrationError) {
-            [self recreatePersistentStore];
-        }
-        else {
+        if (sourceMetadata == nil || [model isConfiguration:nil compatibleWithStoreMetadata:sourceMetadata]) {
+            // store does not exist or could be open without migration
+            store = [psc addPersistentStoreWithType:NSSQLiteStoreType
+                                      configuration:nil
+                                                URL:storeUrl
+                                            options:nil
+                                              error:&error];
+            
             [NSPersistentStoreCoordinator MR_setDefaultStoreCoordinator:psc];
             [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:psc];
+        }
+        else {
+            // try to migrate store
+            store = [psc addPersistentStoreWithType:NSSQLiteStoreType
+                                      configuration:nil
+                                                URL:storeUrl
+                                            options:@{ NSMigratePersistentStoresAutomaticallyOption : @YES,
+                                                       NSInferMappingModelAutomaticallyOption : @YES }
+                                              error:&error];
+            
+            BOOL isMigrationError = ([[error domain] isEqualToString:NSCocoaErrorDomain] &&
+                                     ([error code] == NSPersistentStoreIncompatibleVersionHashError ||
+                                      [error code] == NSMigrationMissingSourceModelError));
+            
+            if (!store && isMigrationError) {
+                // migration failed, typically in development mode
+                [self recreatePersistentStore];
+            }
+            else {
+                [NSPersistentStoreCoordinator MR_setDefaultStoreCoordinator:psc];
+                [NSManagedObjectContext MR_initializeDefaultContextWithCoordinator:psc];
+                
+                // migration succeeded, let's try to parse data back
+                NSMutableArray *cityMeta = [NSMutableArray new];
+                [[MFACity MR_findAll] enumerateObjectsUsingBlock:^(MFACity *city, NSUInteger idx, BOOL *stop) {
+                    [cityMeta addObject:city.metaDictionary];
+                }];
+                
+                [self parseCitiesFromLocalFiles:cityMeta];
+            }
         }
     }
 
@@ -151,6 +183,22 @@
     return [NSManagedObjectContext MR_defaultContext];
 }
 
+- (void)parseCitiesFromLocalFiles:(NSArray *)cities
+{
+    for (MFACityMeta *meta in cities) {
+        NSURL *csvDir = [meta filesDirectory];
+        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:csvDir.path]) {
+            MFACityDataParser *parser = [[MFACityDataParser alloc] initWithCityMeta:meta
+                                                                          pathToCSV:csvDir.path
+                                                               managedObjectContext:self.managedObjectContext
+                                                                           delegate:nil];
+            
+            [parser parseSync];
+        }
+    }
+}
+
 - (NSPersistentStoreCoordinator *)recreatePersistentStore
 {
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"data/metro4all_ios.sqlite"];
@@ -181,18 +229,7 @@
     NSArray *cities = [NSJSONSerialization JSONObjectWithData:jsonData
                                                       options:0 error:nil][@"packages"];
     
-    for (MFACityMeta *meta in cities) {
-        NSURL *csvDir = [meta filesDirectory];
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:csvDir.path]) {
-            MFACityDataParser *parser = [[MFACityDataParser alloc] initWithCityMeta:meta
-                                                                          pathToCSV:csvDir.path
-                                                               managedObjectContext:self.managedObjectContext
-                                                                           delegate:nil];
-            
-            [parser parseSync];
-        }
-    }
+    [self parseCitiesFromLocalFiles:cities];
     
     return coordinator;
 }
