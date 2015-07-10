@@ -21,6 +21,4 @@
 
 @property (nonatomic, readonly) NSString *screenTitle;
 
-- (UIViewController *)selectCityViewController;
-
 @end

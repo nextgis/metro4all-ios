@@ -46,6 +46,8 @@
 @property (nonatomic, strong) NSArray *steps;
 
 @property (nonatomic, strong) NSIndexPath *selectedRow;
+@property (strong, nonatomic) IBOutlet UIView *tableHeaderView;
+@property (weak, nonatomic) IBOutlet UILabel *travelTimeLabel;
 
 @end
 
@@ -72,6 +74,10 @@
     [super viewWillAppear:animated];
     
     [self updateButtonTitles];
+    
+    if (self.stationTo == nil || self.stationFrom == nil) {
+        self.tableView.tableHeaderView = nil;
+    }
 }
 
 - (void)updateButtonTitles
@@ -89,21 +95,6 @@
     else {
         [self.stationToButton setTitle:@"Финиш" forState:UIControlStateNormal];
     }
-    
-    self.stationFromButton.titleLabel.textColor = [UIColor blackColor];
-    self.stationToButton.titleLabel.textColor = [UIColor blackColor];
-}
-
-- (IBAction)showMenu:(id)sender
-{
-    [self.sideMenuViewController presentLeftMenuViewController];
-}
-
-- (IBAction)changeCityClick:(id)sender
-{
-    UIViewController *selectCityViewController =
-        [((AppDelegate *)[UIApplication sharedApplication].delegate) setupSelectCityController];
-    [self presentViewController:selectCityViewController animated:YES completion:nil];
 }
 
 - (void)changeCity:(NSNotification *)note
@@ -317,8 +308,35 @@
                                                        stations:stationsTable.rows
                                                           edges:edgesTable.rows];
             
-            self.steps = [router routeFromStation:self.stationFrom.stationId toStation:self.stationTo.stationId];
+            NSNumber *cost = nil;
+            self.steps = [router routeFromStation:self.stationFrom.stationId toStation:self.stationTo.stationId withCost:&cost];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            NSUInteger minutes = (NSUInteger)ceil((float)cost.unsignedIntegerValue / 60);
+            NSString *minuteString = nil;
+            if (minutes / 10 == 1) {
+                minuteString = @"минут";
+            }
+            else {
+                switch ((int)minutes % 10) {
+                    case 1:
+                        minuteString = @"минута";
+                        break;
+                    case 2:
+                    case 3:
+                    case 4:
+                        minuteString = @"минуты";
+                        break;
+                    default:
+                        minuteString = @"минут";
+                        break;
+                }
+            }
+            
+            NSString *timeString = [NSString stringWithFormat:@"%lu %@", (unsigned long)minutes, minuteString];
+            self.travelTimeLabel.text = timeString;
+            
+            self.tableView.tableHeaderView = self.tableHeaderView;
         });
     }
 }

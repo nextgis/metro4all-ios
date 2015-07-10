@@ -61,7 +61,7 @@
     return self;
 }
 
-- (NSArray *)routeFromStation:(NSNumber *)stationIdFrom toStation:(NSNumber *)stationIdTo
+- (NSArray *)routeFromStation:(NSNumber *)stationIdFrom toStation:(NSNumber *)stationIdTo withCost:(NSNumber **)cost
 {
     PESGraphNode *nodeFrom = [self.graph nodeInGraphWithIdentifier:stationIdFrom.stringValue];
     PESGraphNode *nodeTo = [self.graph nodeInGraphWithIdentifier:stationIdTo.stringValue];
@@ -76,20 +76,23 @@
     for (NSUInteger i = 0; i < route.steps.count; i++) {
         PESGraphRouteStep *step = route.steps[i];
         
-        if (!step.isEndingStep && [STEP_WEIGHT_CHANGEOVER isEqualToNumber:step.edge.weight]) {
+        if (!step.isEndingStep) {
             PESGraphRouteStep *nextStep = route.steps[i+1];
+            
             MFAInterchange *interchange = [self.city interchangeFromStationId:[f numberFromString:step.node.identifier]
                                                                   toStationId:[f numberFromString:nextStep.node.identifier]];
-            
-            [steps addObject:interchange];
-            
-            i++; // skip next step as we've already added it as part of interchange
+            if (interchange) {
+                [steps addObject:interchange];
+                i++; // skip next step as we've already added it as part of interchange
+                continue;
+            }
         }
-        else {
-            MFAStation *station = [self.city stationWithId:[f numberFromString:step.node.identifier]];
-            [steps addObject:station];
-        }
+        
+        MFAStation *station = [self.city stationWithId:[f numberFromString:step.node.identifier]];
+        [steps addObject:station];
     }
+    
+    *cost = @(route.length);
     
     return steps;
 }
