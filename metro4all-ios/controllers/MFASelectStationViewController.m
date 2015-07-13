@@ -312,28 +312,22 @@
             self.steps = [router routeFromStation:self.stationFrom.stationId toStation:self.stationTo.stationId withCost:&cost];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             
-            NSUInteger minutes = (NSUInteger)ceil((float)cost.unsignedIntegerValue / 60);
-            NSString *minuteString = nil;
-            if (minutes / 10 == 1) {
-                minuteString = @"минут";
-            }
-            else {
-                switch ((int)minutes % 10) {
-                    case 1:
-                        minuteString = @"минута";
-                        break;
-                    case 2:
-                    case 3:
-                    case 4:
-                        minuteString = @"минуты";
-                        break;
-                    default:
-                        minuteString = @"минут";
-                        break;
+            NSUInteger numberOfIntermediateStations = [self.steps filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+                if ([evaluatedObject isKindOfClass:[MFAStation class]]) {
+                    return YES;
                 }
-            }
+                return NO;
+            }]].count - 1;
             
-            NSString *timeString = [NSString stringWithFormat:@"%lu %@", (unsigned long)minutes, minuteString];
+            float seconds = cost.floatValue + 30 * numberOfIntermediateStations;
+
+            NSUInteger minutes = (NSUInteger)ceil(seconds / 60) % 60;
+            NSUInteger hours = floor(seconds / 3600);
+            
+            NSString *timeString = hours > 0 ?
+                                        [NSString stringWithFormat:@"%lu ч. %lu мин.", (unsigned long)hours, (unsigned long)minutes] :
+                                        [NSString stringWithFormat:@"%lu мин.", (unsigned long)minutes];
+            
             self.travelTimeLabel.text = timeString;
             
             self.tableView.tableHeaderView = self.tableHeaderView;
