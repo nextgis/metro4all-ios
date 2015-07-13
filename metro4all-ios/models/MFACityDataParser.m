@@ -76,13 +76,14 @@
     [childContext performBlock:^{
         MFACity *city = [self parseCityIntoContext:childContext];
         
-        if (city) {
-            [self.delegate cityDataParser:self didFinishParsingCity:[city MR_inContext:self.managedObjectContext]];
-        }
-        else {
-            [self.delegate cityDataParserDidFail:self];
-        }
-
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (city) {
+                [self.delegate cityDataParser:self didFinishParsingCityWithIdentifier:self.cityMetadata[@"path"]];
+            }
+            else {
+                [self.delegate cityDataParserDidFail:self];
+            }
+        });
     }];
     
 }

@@ -325,8 +325,8 @@
             NSUInteger hours = floor(seconds / 3600);
             
             NSString *timeString = hours > 0 ?
-                                        [NSString stringWithFormat:@"%lu ч. %lu мин.", (unsigned long)hours, (unsigned long)minutes] :
-                                        [NSString stringWithFormat:@"%lu мин.", (unsigned long)minutes];
+                                        [NSString stringWithFormat:@"%lu ч %lu мин", (unsigned long)hours, (unsigned long)minutes] :
+                                        [NSString stringWithFormat:@"%lu мин", (unsigned long)minutes];
             
             self.travelTimeLabel.text = timeString;
             

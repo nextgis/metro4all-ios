@@ -14,7 +14,7 @@
 @protocol MFACityDataParserDelegate <NSObject>
 
 @required
-- (void)cityDataParser:(MFACityDataParser *)parser didFinishParsingCity:(MFACity *)city;
+- (void)cityDataParser:(MFACityDataParser *)parser didFinishParsingCityWithIdentifier:(NSString *)city;
 - (void)cityDataParserDidFail:(MFACityDataParser *)parser;
 
 @optional

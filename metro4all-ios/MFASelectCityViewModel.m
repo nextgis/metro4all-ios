@@ -258,18 +258,16 @@
     self.parser = nil;
 }
 
-- (void)cityDataParser:(MFACityDataParser *)parser didFinishParsingCity:(MFACity *)city
+- (void)cityDataParser:(MFACityDataParser *)parser didFinishParsingCityWithIdentifier:(NSString *)cityIdentifier
 {
-    self.selectedCity = city;
+    self.selectedCity = [MFACity cityWithIdentifier:cityIdentifier];
     self.parser = nil;
 
-    [self changeCity:city];
+    [self changeCity:self.selectedCity];
 
     if (self.completionBlock) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.completionBlock();
-            self.completionBlock = nil;
-        });
+        self.completionBlock();
+        self.completionBlock = nil;
     }
 }
 
@@ -371,10 +369,13 @@
     dict[@"archiveSize"] = [self sizeOfFolder:meta.filesDirectory.path];
     
     city.metaDictionary = [dict copy];
+    
 }
 
 - (NSString *)sizeOfFolder:(NSString *)folderPath
 {
+    NSParameterAssert(folderPath != nil);
+    
     NSArray *contents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:folderPath error:nil];
     NSEnumerator *contentsEnumurator = [contents objectEnumerator];
     
