@@ -29,7 +29,6 @@
 @interface MFACityDataParser ()
 
 @property (nonatomic, copy, readwrite) NSDictionary *cityMetadata;
-@property (nonatomic, copy) NSString *csvPath;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSNumberFormatter *numberFormatter;
 
@@ -37,17 +36,14 @@
 
 @implementation MFACityDataParser
 
-- (instancetype)initWithCityMeta:(NSDictionary *)city pathToCSV:(NSString *)path
-            managedObjectContext:(NSManagedObjectContext *)moc delegate:(id<MFACityDataParserDelegate>)delegate
+- (instancetype)initWithCityMeta:(NSDictionary *)city managedObjectContext:(NSManagedObjectContext *)moc delegate:(id<MFACityDataParserDelegate>)delegate
 {
     NSParameterAssert(city != nil);
-    NSParameterAssert(path != nil);
     NSParameterAssert(moc  != nil);
     
     self = [super init];
     if (self) {
         self.cityMetadata = city;
-        self.csvPath = path;
         self.managedObjectContext = moc;
         self.delegate = delegate;
     }
@@ -71,7 +67,7 @@
 - (void)start
 {
     NSManagedObjectContext *childContext = [NSManagedObjectContext MR_contextWithParent:self.managedObjectContext];
-    
+
     // perform parsing in background
     [childContext performBlock:^{
         MFACity *city = [self parseCityIntoContext:childContext];
@@ -99,7 +95,7 @@
     NSDate *start = [NSDate date];
     
     MFACity *city = [self configureCityInContext:context];
-    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.csvPath error:nil];
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.cityMetadata.filesDirectory.path error:nil];
     
     NSMutableDictionary *linesCache = [[NSMutableDictionary alloc] init];
     NSMutableDictionary *stationsCache = [[NSMutableDictionary alloc] init];
@@ -185,7 +181,7 @@
 - (void)parseInterchangesFromFile:(NSString *)filePath stationsCache:(NSMutableDictionary *)stationsCache managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedLines = [self parseFileAtURL:[NSURL URLWithString:filePath
-                                                       relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+                                                       relativeToURL:[NSURL fileURLWithPath:self.cityMetadata.filesDirectory.path]]];
     
     for (NSDictionary *interchangeProperties in parsedLines) {
         NSNumber *stationFromId = interchangeProperties[@"station_from"];
@@ -212,7 +208,7 @@
       managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedLines = [self parseFileAtURL:[NSURL URLWithString:filePath
-                                                       relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+                                                       relativeToURL:[NSURL fileURLWithPath:self.cityMetadata.filesDirectory.path]]];
     
     NSString *lang = [filePath substringWithRange:NSMakeRange(6, 2)];
     
@@ -251,7 +247,7 @@
          managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedStations = [self parseFileAtURL:[NSURL URLWithString:filePath
-                                                          relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+                                                          relativeToURL:[NSURL fileURLWithPath:self.cityMetadata.filesDirectory.path]]];
     
     NSString *lang = [filePath substringWithRange:NSMakeRange(9, 2)];
     
@@ -297,7 +293,7 @@
         managedObjectContext:(NSManagedObjectContext *)context
 {
     NSArray *parsedPortals = [self parseFileAtURL:[NSURL URLWithString:filePath
-                                                         relativeToURL:[NSURL fileURLWithPath:self.csvPath]]];
+                                                         relativeToURL:[NSURL fileURLWithPath:self.cityMetadata.filesDirectory.path]]];
     
     NSString *lang = [filePath substringWithRange:NSMakeRange(8, 2)];
     

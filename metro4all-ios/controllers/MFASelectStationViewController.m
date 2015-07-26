@@ -205,7 +205,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    id routeStep = self.steps[indexPath.row];
+    id __unused routeStep = self.steps[indexPath.row];
     NSAssert(routeStep != nil, @"route step cannot be nil");
     
 //    [[(MFARouteTableViewStationCell *)[tableView cellForRowAtIndexPath:indexPath] lineColorView] setNeedsDisplay];

@@ -57,7 +57,8 @@
         
         name = name ?: self.viewModel[@"name"];
         
-        NSString *subtitle = self.viewModel[@"archiveSize"];
+        NSUInteger bytes = [self.viewModel[@"size"] unsignedIntegerValue] * 1024; // size is in KB
+        NSString *subtitle = [NSByteCountFormatter stringFromByteCount:bytes countStyle:NSByteCountFormatterCountStyleFile];
 
         NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:[name stringByAppendingString:@" "]
                                                                                   attributes:@{ NSFontAttributeName : [UIFont systemFontOfSize:17.0f],

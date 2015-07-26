@@ -16,5 +16,6 @@ typedef NSDictionary MFACityMeta;
 - (NSURL *)filesDirectory;
 
 + (NSURL *)metaJsonFileURL;
++ (NSString *)dataDirectoryPath;
 
 @end

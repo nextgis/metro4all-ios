@@ -57,11 +57,7 @@
 - (MFASelectCityViewController *)selectCityViewController
 {
     if (_selectCityViewController == nil) {
-        MFACityArchiveService *archiveService =
-            [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/"]];
-        
-        MFASelectCityViewModel *viewModel =
-            [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];
+        MFASelectCityViewModel *viewModel = [[MFASelectCityViewModel alloc] init];
         
         MFASelectCityViewController *selectCityController =
             (MFASelectCityViewController *)[MFAStoryboardProxy selectCityViewController];

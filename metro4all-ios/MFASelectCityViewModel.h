@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
-#import "MFACityArchiveService.h"
 #import "NSDictionary+CityMeta.h"
+
 @class MFACity;
 
 @interface MFASelectCityViewModel : NSObject
@@ -21,9 +21,7 @@
 @property (nonatomic, strong, readonly) MFACityMeta *selectedCityMeta;
 @property (nonatomic, strong, readonly) MFACity *selectedCity;
 
-@property (nonatomic, strong, readonly) RACCommand *loadMetaFromServerCommand;
-
-- (instancetype)initWithCityArchiveService:(MFACityArchiveService *)archiveService;
+@property (nonatomic, strong) RACCommand *loadMetaFromServerCommand;
 
 - (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock;
 - (void)changeCity:(MFACity *)city;

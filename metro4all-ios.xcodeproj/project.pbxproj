@@ -21,12 +21,12 @@
 		586061941AB6C7F700E1F565 /* legend_ru.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061911AB6C7F700E1F565 /* legend_ru.png */; };
 		586061951AB6C7F700E1F565 /* legend_en.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061921AB6C7F700E1F565 /* legend_en.png */; };
 		586061981AB6C83E00E1F565 /* MFALegendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 586061971AB6C83E00E1F565 /* MFALegendViewController.m */; };
-		588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */ = {isa = PBXBuildFile; fileRef = 588635131AAAE4E60038F924 /* MFACityArchiveService.m */; };
 		58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */; };
 		58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA391AA5F26C0011A4A4 /* MFACityDataParser.m */; };
 		58B0DA3D1AA707C20011A4A4 /* MFAStationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA3C1AA707C20011A4A4 /* MFAStationsListViewController.m */; };
 		58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA411AA709C80011A4A4 /* MFAStationListTableViewCell.m */; };
 		58B0DA451AA70DBB0011A4A4 /* MFAStationsListViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA441AA70DBB0011A4A4 /* MFAStationsListViewModel.m */; };
+		58B112041B64E7D400302F0C /* MFACityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B112031B64E7D400302F0C /* MFACityManager.m */; };
 		58C60AC81AE4FF7200FA1D1A /* MFASelectStationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */; };
 		58CA3DB91AC577EA00205567 /* MFAPortalAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DB81AC577EA00205567 /* MFAPortalAnnotation.m */; };
 		58CA3DE61AC936F000205567 /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 58CA3DE51AC936F000205567 /* NSString+Utils.m */; };
@@ -94,8 +94,6 @@
 		586061921AB6C7F700E1F565 /* legend_en.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = legend_en.png; sourceTree = "<group>"; };
 		586061961AB6C83E00E1F565 /* MFALegendViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFALegendViewController.h; path = controllers/MFALegendViewController.h; sourceTree = "<group>"; };
 		586061971AB6C83E00E1F565 /* MFALegendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFALegendViewController.m; path = controllers/MFALegendViewController.m; sourceTree = "<group>"; };
-		588635121AAAE4E60038F924 /* MFACityArchiveService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFACityArchiveService.h; sourceTree = "<group>"; };
-		588635131AAAE4E60038F924 /* MFACityArchiveService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFACityArchiveService.m; sourceTree = "<group>"; };
 		58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPortalAnnotationView.h; sourceTree = "<group>"; };
 		58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAPortalAnnotationView.m; sourceTree = "<group>"; };
 		58B0DA381AA5F26C0011A4A4 /* MFACityDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFACityDataParser.h; path = models/MFACityDataParser.h; sourceTree = "<group>"; };
@@ -106,6 +104,8 @@
 		58B0DA411AA709C80011A4A4 /* MFAStationListTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationListTableViewCell.m; sourceTree = "<group>"; };
 		58B0DA431AA70DBB0011A4A4 /* MFAStationsListViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationsListViewModel.h; sourceTree = "<group>"; };
 		58B0DA441AA70DBB0011A4A4 /* MFAStationsListViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationsListViewModel.m; sourceTree = "<group>"; };
+		58B112021B64E7D400302F0C /* MFACityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFACityManager.h; sourceTree = "<group>"; };
+		58B112031B64E7D400302F0C /* MFACityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFACityManager.m; sourceTree = "<group>"; };
 		58C60AC61AE4FF7200FA1D1A /* MFASelectStationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFASelectStationViewController.h; path = controllers/MFASelectStationViewController.h; sourceTree = "<group>"; };
 		58C60AC71AE4FF7200FA1D1A /* MFASelectStationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFASelectStationViewController.m; path = controllers/MFASelectStationViewController.m; sourceTree = "<group>"; };
 		58CA3DB71AC577EA00205567 /* MFAPortalAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFAPortalAnnotation.h; path = models/MFAPortalAnnotation.h; sourceTree = "<group>"; };
@@ -298,6 +298,15 @@
 			name = "Stations List";
 			sourceTree = "<group>";
 		};
+		58B112011B64E7C300302F0C /* City Manager */ = {
+			isa = PBXGroup;
+			children = (
+				58B112021B64E7D400302F0C /* MFACityManager.h */,
+				58B112031B64E7D400302F0C /* MFACityManager.m */,
+			);
+			name = "City Manager";
+			sourceTree = "<group>";
+		};
 		58CE3D901AEFEE2700F91F0A /* Side Menu Container */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +359,7 @@
 		58F95EC61AA48FB600E22EF6 /* metro4all-ios */ = {
 			isa = PBXGroup;
 			children = (
+				58B112011B64E7C300302F0C /* City Manager */,
 				58F95ECB1AA48FB600E22EF6 /* AppDelegate.h */,
 				58F95ECC1AA48FB600E22EF6 /* AppDelegate.m */,
 				58CE3D901AEFEE2700F91F0A /* Side Menu Container */,
@@ -409,8 +419,6 @@
 				58F95EF51AA4A16100E22EF6 /* MFAStoryboardProxy.m */,
 				58B0DA381AA5F26C0011A4A4 /* MFACityDataParser.h */,
 				58B0DA391AA5F26C0011A4A4 /* MFACityDataParser.m */,
-				588635121AAAE4E60038F924 /* MFACityArchiveService.h */,
-				588635131AAAE4E60038F924 /* MFACityArchiveService.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -477,7 +485,7 @@
 				TargetAttributes = {
 					58F95EC31AA48FB600E22EF6 = {
 						CreatedOnToolsVersion = 6.3;
-						DevelopmentTeam = A65C694QW9;
+						DevelopmentTeam = D2S3XA2U46;
 					};
 					58F95EDF1AA48FB600E22EF6 = {
 						CreatedOnToolsVersion = 6.3;
@@ -611,10 +619,10 @@
 				58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */,
 				58F8954C1AE946D1001DF1DD /* MFALineColorView.m in Sources */,
 				58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */,
-				588635141AAAE4E60038F924 /* MFACityArchiveService.m in Sources */,
 				5823455F1ADED13C00BBBE24 /* MFARouter.m in Sources */,
 				58F895561AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m in Sources */,
 				58CF18331ACBD5DD0042F898 /* _MFACity.m in Sources */,
+				58B112041B64E7D400302F0C /* MFACityManager.m in Sources */,
 				58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */,
 				58CE3D931AEFEE5700F91F0A /* MFAMenuContainerViewController.m in Sources */,
 				58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */,

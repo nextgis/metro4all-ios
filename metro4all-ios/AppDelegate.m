@@ -12,10 +12,9 @@
 
 #import "AppDelegate.h"
 
-#import "MFACityArchiveService.h"
-
 #import "MFAStoryboardProxy.h"
 
+#import "MFACityManager.h"
 #import "MFACity.h"
 
 #import "MFASelectCityViewController.h"
@@ -48,11 +47,7 @@
 
 - (UIViewController *)setupSelectCityController
 {
-    MFACityArchiveService *archiveService =
-        [[MFACityArchiveService alloc] initWithBaseURL:[NSURL URLWithString:@"http://metro4all.org/data/v2.7/"]];
-    
-    MFASelectCityViewModel *viewModel =
-        [[MFASelectCityViewModel alloc] initWithCityArchiveService:archiveService];
+    MFASelectCityViewModel *viewModel = [[MFASelectCityViewModel alloc] init];
     
     MFASelectCityViewController *selectCityController =
         (MFASelectCityViewController *)[MFAStoryboardProxy selectCityViewController];
@@ -167,6 +162,29 @@
     [self saveContext];
 }
 
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdatesAvailable:) name:@"MFA_UPDATES_AVAILABLE" object:nil];
+    
+    NSURL *baseUrl = [NSURL URLWithString:@"http://metro4all.org/data/v2.7/"];
+    [MFACityManager setSharedManager:[[MFACityManager alloc] initWithDataURL:baseUrl]];
+    [[MFACityManager sharedManager] updateMetaWithSuccess:nil error:nil];
+}
+
+- (void)dataUpdatesAvailable:(NSNotification *)note
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"MFA_UPDATES_AVAILABLE" object:nil];
+    
+    NSArray *cities = note.userInfo[@"cities"];
+    if (cities.count > 0) {
+        [[[UIAlertView alloc] initWithTitle:@"Доступны обновления"
+                                    message:[NSString stringWithFormat:@"Доступны обновления данных для городов: %@", [cities componentsJoinedByString:@", "]]
+                                   delegate:nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil] show];
+    }
+}
+
 #pragma mark - Core Data stack
 
 @synthesize managedObjectContext = _managedObjectContext;
@@ -185,12 +203,9 @@
 
 - (void)parseCitiesFromLocalFiles:(NSArray *)cities
 {
-    for (MFACityMeta *meta in cities) {
-        NSURL *csvDir = [meta filesDirectory];
-        
-        if ([[NSFileManager defaultManager] fileExistsAtPath:csvDir.path]) {
+    for (MFACityMeta *meta in cities) {        
+        if ([[NSFileManager defaultManager] fileExistsAtPath:meta.filesDirectory.path]) {
             MFACityDataParser *parser = [[MFACityDataParser alloc] initWithCityMeta:meta
-                                                                          pathToCSV:csvDir.path
                                                                managedObjectContext:self.managedObjectContext
                                                                            delegate:nil];
             

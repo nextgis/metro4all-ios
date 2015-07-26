@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "NSDictionary+CityMeta.h"
 
 @class MFACityDataParser, MFACity;
 
@@ -24,11 +25,10 @@
 
 @interface MFACityDataParser : NSObject
 
-- (instancetype)initWithCityMeta:(NSDictionary *)city pathToCSV:(NSString *)path
-            managedObjectContext:(NSManagedObjectContext *)moc delegate:(id<MFACityDataParserDelegate>)delegate;
+- (instancetype)initWithCityMeta:(NSDictionary *)city managedObjectContext:(NSManagedObjectContext *)moc delegate:(id<MFACityDataParserDelegate>)delegate;
 
 @property (nonatomic, weak) id<MFACityDataParserDelegate> delegate;
-@property (nonatomic, copy, readonly) NSDictionary *cityMetadata;
+@property (nonatomic, copy, readonly) MFACityMeta *cityMetadata;
 
 - (void)start;
 - (MFACity *)parseSync;

@@ -16,6 +16,7 @@
 #import "MFACityDataParser.h"
 #import "MFACity.h"
 #import "NSDictionary+CityMeta.h"
+#import "MFACityManager.h"
 
 @interface MFASelectCityViewModel () <MFACityDataParserDelegate>
 
@@ -31,7 +32,6 @@
 
 @property (nonatomic, strong, readwrite) MFACity *selectedCity;
 
-@property (nonatomic, strong) MFACityArchiveService *archiveService;
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @property (nonatomic, strong) RACSignal *downloadProgress;
@@ -40,16 +40,6 @@
 
 @implementation MFASelectCityViewModel
 @synthesize loadMetaFromServerCommand = _loadMetaFromServerCommand;
-
-- (instancetype)initWithCityArchiveService:(MFACityArchiveService *)archiveService
-{
-    self = [super init];
-    if (self) {
-        self.archiveService = archiveService;
-    }
-    
-    return self;
-}
 
 - (NSManagedObjectContext *)managedObjectContext
 {
@@ -60,20 +50,21 @@
 {
     if (!_loadMetaFromServerCommand) {
         _loadMetaFromServerCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
-            RACSignal *loadMetaSignal = [RACSignal startEagerlyWithScheduler:[RACScheduler mainThreadScheduler]
-                                                                       block:^(id<RACSubscriber> subscriber) {
-                [self.archiveService loadCitiesWithCompletion:^(NSArray *citiesMeta) {
+            RACSignal *loadMetaSignal = [RACSignal startEagerlyWithScheduler:[RACScheduler mainThreadScheduler] block:^(id<RACSubscriber> subscriber) {                
+                [SVProgressHUD showWithStatus:@"Загружаю список городов"
+                                     maskType:SVProgressHUDMaskTypeBlack];
+                
+                [[MFACityManager sharedManager] updateMetaWithSuccess:^(NSArray *meta) {
+                    [SVProgressHUD dismiss];
                     
-                    self.cities = [self checkForUpdates:citiesMeta];
+                    self.cities = meta;
+                    [subscriber sendCompleted];
+                } error:^(NSError *error) {
+                    [SVProgressHUD dismiss];
                     
-                    if (self.cities.count == 0) {
-                        [subscriber sendError:[NSError errorWithDomain:@"org.metro4all.metro4all-ios"
-                                                                  code:1
-                                                              userInfo:@{ NSLocalizedDescriptionKey : @"Failed to get list of available cities" }]];
-                    }
-                    else {
-                        [subscriber sendCompleted];
-                    }
+                    [subscriber sendError:[NSError errorWithDomain:@"org.metro4all.metro4all-ios"
+                                                              code:1
+                                                          userInfo:@{ NSLocalizedDescriptionKey : @"Failed to get list of available cities" }]];
                 }];
             }];
             
@@ -82,33 +73,6 @@
     }
     
     return _loadMetaFromServerCommand;
-}
-
-- (NSArray *)checkForUpdates:(NSArray *)citiesMeta
-{
-    NSMutableArray *mCitiesMeta = [[NSMutableArray alloc] initWithCapacity:citiesMeta.count];
-    
-    for (MFACityMeta *meta in citiesMeta) {
-        MFACity *city = [MFACity cityWithIdentifier:meta[@"path"]];
-        if (city == nil) {
-            // add only cities that are not loaded on the device
-            [mCitiesMeta addObject:meta];
-            continue;
-        }
-        
-        NSMutableDictionary *updatedMeta = [meta mutableCopy];
-        if ([meta[@"ver"] integerValue] > city.versionValue) {
-            updatedMeta[@"hasUpdate"] = @YES;
-        }
-        else {
-            updatedMeta[@"hasUpdate"] = @NO;
-        }
-        
-        updatedMeta[@"archiveSize"] = city.metaDictionary[@"archiveSize"];
-        city.updatedMeta = [updatedMeta copy];
-    }
-    
-    return [mCitiesMeta copy];
 }
 
 - (NSArray *)loadedCities
@@ -125,29 +89,24 @@
         NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
         
         _loadedCities = [fetchedObjects sortedArrayUsingDescriptors:@[ sortDescriptor ]];
-        
-        for (MFACity *city in _loadedCities) {
-            if (city.metaDictionary[@"archiveSize"] == nil) {
-                [self calculateArchiveSizeForCity:city];
-            }
-        }
     }
     
     return _loadedCities;
 }
 
-- (void)processCityMeta:(NSDictionary *)selectedCity
+- (void)processCityMeta:(MFACityMeta *)selectedCity
          withCompletion:(void (^)(void))completionBlock
                   error:(void (^)(NSError *))errorBlock
 {
     self.completionBlock = completionBlock;
     self.errorBlock = errorBlock;
-    
-    RACSignal *downloadProgress = [self.archiveService getCityFilesForMetadata:selectedCity
-                                                                    completion:^(NSString *path, NSError *error)
-    {
-        self.downloadProgress = nil;
-        
+
+    [[MFACityManager sharedManager] downloadCityWithIdentifier:selectedCity[@"path"]
+                                                   unzipToPath:[selectedCity filesDirectory].path progress:^(float progress) {
+        [SVProgressHUD showProgress:progress
+                             status:@"Загружаются данные города"
+                           maskType:SVProgressHUDMaskTypeBlack];
+    } success:^{
         // we are updating city that was already downloaded
         if ([selectedCity[@"hasUpdate"] boolValue] == YES) {
             // delete old files
@@ -156,52 +115,21 @@
             [[NSFileManager defaultManager] removeItemAtURL:oldFilesPath error:nil];
         }
         
-        NSMutableDictionary *meta = [selectedCity mutableCopy];
-        meta[@"archiveSize"] = [self sizeOfFolder:path];
+        NSManagedObjectContext *moc =
+        [[UIApplication sharedApplication].delegate performSelector:@selector(managedObjectContext)];
         
-        if (error) {
-            [self handleError:error];
-        }
-        else {
-            //    dispatch_async(dispatch_get_main_queue(), ^{
-            //        [SVProgressHUD dismiss];
-            //    });
-            
-            NSManagedObjectContext *moc =
-            [[UIApplication sharedApplication].delegate performSelector:@selector(managedObjectContext)];
-            
-            MFACityDataParser *parser =
-            [[MFACityDataParser alloc] initWithCityMeta:meta
-                                              pathToCSV:path
+        MFACityDataParser *parser =
+            [[MFACityDataParser alloc] initWithCityMeta:selectedCity
                                    managedObjectContext:moc
                                                delegate:self];
             
-            //    dispatch_async(dispatch_get_main_queue(), ^{
-            //        [SVProgressHUD showProgress:0.0
-            //                             status:@"Обработка данных"
-            //                           maskType:SVProgressHUDMaskTypeBlack];
-            //    });
-            
-            self.parser = parser;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [parser start];
-            });
-        }
+        self.parser = parser;
+        [parser start];
+        
+        [SVProgressHUD dismiss];
+    } error:^(NSError *error) {
+        [SVProgressHUD dismiss];
     }];
-    
-    [downloadProgress subscribeNext:^(NSNumber *progress) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD showProgress:progress.floatValue
-                                 status:@"Загружаются данные города"
-                               maskType:SVProgressHUDMaskTypeBlack];
-        });
-    } completed:^{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD dismiss];
-        });
-    }];
-    
-    self.downloadProgress = downloadProgress;
 }
 
 - (void)handleError:(NSError *)error
@@ -287,7 +215,6 @@
         
         if (completionBlock) {
             self.loadedCities = nil; // reload lazily
-            self.cities = [self checkForUpdates:self.cities];
             completionBlock();
         }
     }
@@ -361,36 +288,5 @@
 }
 
 #pragma mark - Helpers
-
-- (void)calculateArchiveSizeForCity:(MFACity *)city
-{
-    MFACityMeta *meta = city.metaDictionary;
-    NSMutableDictionary *dict = [meta mutableCopy];
-    dict[@"archiveSize"] = [self sizeOfFolder:meta.filesDirectory.path];
-    
-    city.metaDictionary = [dict copy];
-    
-}
-
-- (NSString *)sizeOfFolder:(NSString *)folderPath
-{
-    NSParameterAssert(folderPath != nil);
-    
-    NSArray *contents = [[NSFileManager defaultManager] subpathsOfDirectoryAtPath:folderPath error:nil];
-    NSEnumerator *contentsEnumurator = [contents objectEnumerator];
-    
-    NSString *file;
-    unsigned long long int folderSize = 0;
-    
-    while (file = [contentsEnumurator nextObject]) {
-        NSDictionary *fileAttributes = [[NSFileManager defaultManager] attributesOfItemAtPath:[folderPath stringByAppendingPathComponent:file] error:nil];
-        folderSize += [[fileAttributes objectForKey:NSFileSize] intValue];
-    }
-    
-    //This line will give you formatted size from bytes ....
-    NSString *folderSizeStr = [NSByteCountFormatter stringFromByteCount:folderSize countStyle:NSByteCountFormatterCountStyleFile];
-    return folderSizeStr;
-}
-
 
 @end
