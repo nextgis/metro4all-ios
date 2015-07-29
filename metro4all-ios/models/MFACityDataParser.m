@@ -29,22 +29,19 @@
 @interface MFACityDataParser ()
 
 @property (nonatomic, copy, readwrite) NSDictionary *cityMetadata;
-@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSNumberFormatter *numberFormatter;
 
 @end
 
 @implementation MFACityDataParser
 
-- (instancetype)initWithCityMeta:(NSDictionary *)city managedObjectContext:(NSManagedObjectContext *)moc delegate:(id<MFACityDataParserDelegate>)delegate
+- (instancetype)initWithCityMeta:(NSDictionary *)city delegate:(id<MFACityDataParserDelegate>)delegate
 {
     NSParameterAssert(city != nil);
-    NSParameterAssert(moc  != nil);
     
     self = [super init];
     if (self) {
         self.cityMetadata = city;
-        self.managedObjectContext = moc;
         self.delegate = delegate;
     }
     
@@ -66,7 +63,7 @@
 
 - (void)start
 {
-    NSManagedObjectContext *childContext = [NSManagedObjectContext MR_contextWithParent:self.managedObjectContext];
+    NSManagedObjectContext *childContext = [NSManagedObjectContext MR_contextWithParent:[NSManagedObjectContext MR_defaultContext]];
 
     // perform parsing in background
     [childContext performBlock:^{
@@ -87,7 +84,7 @@
 - (MFACity *)parseSync
 {
     // use main context
-    return [self parseCityIntoContext:self.managedObjectContext];
+    return [self parseCityIntoContext:[NSManagedObjectContext MR_defaultContext]];
 }
 
 - (MFACity *)parseCityIntoContext:(NSManagedObjectContext *)context

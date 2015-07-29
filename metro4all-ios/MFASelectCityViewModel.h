@@ -15,19 +15,17 @@
 
 @interface MFASelectCityViewModel : NSObject
 
-@property (nonatomic, strong, readonly) NSArray *cities;
-@property (nonatomic, strong, readonly) NSArray *loadedCities;
-
 @property (nonatomic, strong, readonly) MFACityMeta *selectedCityMeta;
 @property (nonatomic, strong, readonly) MFACity *selectedCity;
+@property (nonatomic, readonly) BOOL hasData;
 
 @property (nonatomic, strong) RACCommand *loadMetaFromServerCommand;
 
 - (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock;
 - (void)changeCity:(MFACity *)city;
 - (void)deleteCityAtIndex:(NSUInteger)index;
-
 - (void)downloadCity:(MFACityMeta *)meta completion:(void (^)())completionBlock;
+- (void)downloadCityAtIndexPath:(NSIndexPath *)indexPath completion:(void (^)())completionBlock;
 
 #pragma mark - Table View
 

@@ -217,7 +217,6 @@
     for (MFACityMeta *meta in cities) {        
         if ([[NSFileManager defaultManager] fileExistsAtPath:meta.filesDirectory.path]) {
             MFACityDataParser *parser = [[MFACityDataParser alloc] initWithCityMeta:meta
-                                                               managedObjectContext:self.managedObjectContext
                                                                            delegate:nil];
             
             [parser parseSync];

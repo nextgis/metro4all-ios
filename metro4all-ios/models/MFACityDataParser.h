@@ -25,7 +25,7 @@
 
 @interface MFACityDataParser : NSObject
 
-- (instancetype)initWithCityMeta:(NSDictionary *)city managedObjectContext:(NSManagedObjectContext *)moc delegate:(id<MFACityDataParserDelegate>)delegate;
+- (instancetype)initWithCityMeta:(NSDictionary *)city delegate:(id<MFACityDataParserDelegate>)delegate;
 
 @property (nonatomic, weak) id<MFACityDataParserDelegate> delegate;
 @property (nonatomic, copy, readonly) MFACityMeta *cityMetadata;

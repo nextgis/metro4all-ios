@@ -59,7 +59,7 @@
             [welf loadCities];
         };
         
-        if (self.viewModel.loadedCities.count) {
+        if (self.viewModel.hasData) {
             self.noInternetFooterView.frame = CGRectMake(0, 0, CGRectGetWidth(self.tableView.bounds), 500);
             CGRect newFrame = self.noInternetFooterView.frame;
             
@@ -112,12 +112,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.viewModel numberOfSections];
+    NSUInteger sections = [self.viewModel numberOfSections];
+//    NSLog(@"there're %tu sections", sections);
+    return sections;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.viewModel numberOfRowsInSection:section];
+    NSUInteger rows = [self.viewModel numberOfRowsInSection:section];
+//    NSLog(@"there're %tu rows in section %td", rows, section);
+    return rows;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
@@ -156,17 +160,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1 || self.viewModel.numberOfSections == 1) {
-        [self.viewModel downloadCity:self.viewModel.cities[indexPath.row] completion:^{
-            [tableView reloadData];
-            [self openMainScreen];
-        }];
-    }
-    else {
-        [self.viewModel changeCity:self.viewModel.loadedCities[indexPath.row]];
+    [self.viewModel downloadCityAtIndexPath:indexPath completion:^{
         [tableView reloadData];
         [self openMainScreen];
-    }
+    }];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

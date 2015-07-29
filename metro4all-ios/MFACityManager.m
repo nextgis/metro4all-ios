@@ -8,6 +8,7 @@
 
 #import <AFNetworking/AFNetworking.h>
 #import <SSZipArchive/SSZipArchive.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 #import "MFACityManager.h"
 #import "NSDictionary+CityMeta.h"
@@ -20,7 +21,6 @@ static MFACityManager *sharedManager = nil;
 @property (nonatomic, strong) NSURL *dataURL;
 @property (nonatomic, strong) NSDictionary *meta;
 
-@property (nonatomic, readwrite, strong) NSArray *downloadedCities;
 @property (nonatomic, readwrite, strong) NSArray *availableCities;
 
 @end
@@ -71,16 +71,22 @@ static MFACityManager *sharedManager = nil;
             MFACityMeta *meta = sorted[i];
             MFACity *city = [MFACity cityWithIdentifier:meta[@"path"]];
 
-            if (city && city.version.unsignedIntegerValue < [meta[@"ver"] unsignedIntegerValue]) {
-                NSMutableDictionary *mutableMeta = [meta mutableCopy];
-                mutableMeta[@"updateAvailable"] = @YES;
-                city.updatedMeta = mutableMeta;
-                
+            if (city) {
                 [sorted removeObjectAtIndex:i];
-                [citiesToUpdate addObject:meta.localizedName];
+                
+                if (city.version.unsignedIntegerValue < [meta[@"ver"] unsignedIntegerValue]) {
+                    NSMutableDictionary *mutableMeta = [meta mutableCopy];
+                    mutableMeta[@"updateAvailable"] = @YES;
+                    city.updatedMeta = mutableMeta;
+                    
+                    
+                    [citiesToUpdate addObject:meta.localizedName];
+                }
             }
         }
         
+        self.availableCities = [sorted copy];
+
         if (successBlock) {
             successBlock(sorted);
         }
@@ -117,7 +123,11 @@ static MFACityManager *sharedManager = nil;
             NSLog(@"Succesfully downloaded %@", zipPath);
             
             NSError *error = nil;
-            BOOL unzippedSuccessfully = [SSZipArchive unzipFileAtPath:zipPath toDestination:path overwrite:NO password:nil error:&error];
+            BOOL unzippedSuccessfully = [SSZipArchive unzipFileAtPath:zipPath
+                                                        toDestination:path
+                                                            overwrite:NO
+                                                             password:nil
+                                                                error:&error];
             
             if (!unzippedSuccessfully) {
                 if (errorBlock) {
@@ -128,6 +138,14 @@ static MFACityManager *sharedManager = nil;
             }
             
             [[NSFileManager defaultManager] removeItemAtPath:zipPath error:nil];
+            
+            NSMutableArray *mAvailableCities = [self.availableCities mutableCopy];
+            [self.availableCities enumerateObjectsUsingBlock:^(MFACityMeta *meta, NSUInteger idx, BOOL *stop) {
+                if ([meta[@"path"] isEqualToString:identifier]) {
+                    [mAvailableCities removeObject:meta];
+                }
+            }];
+            self.availableCities = [mAvailableCities copy];
             
             if (successBlock) {
                 successBlock();
@@ -159,5 +177,23 @@ static MFACityManager *sharedManager = nil;
     }
 }
 
+- (void)deleteCity:(MFACity *)city
+{
+    NSError *error = nil;
+    NSURL *cityFilesURL = [((MFACityMeta *)city.metaDictionary) filesDirectory];
+    [[NSFileManager defaultManager] removeItemAtPath:cityFilesURL.path error:&error];
+    
+    NSManagedObjectContext *moc = city.managedObjectContext;
+    
+    if (!error) {
+        [moc deleteObject:city];
+        [moc MR_saveToPersistentStoreWithCompletion:nil];
+    }
+}
+
+- (NSArray *)downloadedCities
+{
+    return [MFACity MR_findAll];
+}
 
 @end

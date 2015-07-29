@@ -12,23 +12,17 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import <SSZipArchive/SSZipArchive.h>
 
+#import "MFACityManager.h"
+
 #import "MFASelectCityViewModel.h"
 #import "MFACityDataParser.h"
-#import "MFACity.h"
 #import "NSDictionary+CityMeta.h"
-#import "MFACityManager.h"
 
 @interface MFASelectCityViewModel () <MFACityDataParserDelegate>
 
 @property (nonatomic, strong) MFACityDataParser *parser;
 @property (nonatomic, strong) void (^completionBlock)(void);
 @property (nonatomic, strong) void (^errorBlock)(NSError *);
-
-/// Cities that are already downloaded on the device (MFACity *)
-@property (nonatomic, strong, readwrite) NSArray *loadedCities;
-
-/// Cities loaded from server (NSDictionary * meta)
-@property (nonatomic, strong, readwrite) NSArray *cities;
 
 @property (nonatomic, strong, readwrite) MFACity *selectedCity;
 
@@ -56,8 +50,6 @@
                 
                 [[MFACityManager sharedManager] updateMetaWithSuccess:^(NSArray *meta) {
                     [SVProgressHUD dismiss];
-                    
-                    self.cities = meta;
                     [subscriber sendCompleted];
                 } error:^(NSError *error) {
                     [SVProgressHUD dismiss];
@@ -75,63 +67,6 @@
     return _loadMetaFromServerCommand;
 }
 
-- (NSArray *)loadedCities
-{
-    if (_loadedCities == nil) {
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        fetchRequest.entity = [NSEntityDescription entityForName:@"City" inManagedObjectContext:self.managedObjectContext];
-
-        // Specify how the fetched objects should be sorted
-        NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"nameString"
-                                                                       ascending:YES];
-        
-        NSError *error = nil;
-        NSArray *fetchedObjects = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-        
-        _loadedCities = [fetchedObjects sortedArrayUsingDescriptors:@[ sortDescriptor ]];
-    }
-    
-    return _loadedCities;
-}
-
-- (void)processCityMeta:(MFACityMeta *)selectedCity
-         withCompletion:(void (^)(void))completionBlock
-                  error:(void (^)(NSError *))errorBlock
-{
-    self.completionBlock = completionBlock;
-    self.errorBlock = errorBlock;
-
-    [[MFACityManager sharedManager] downloadCityWithIdentifier:selectedCity[@"path"]
-                                                   unzipToPath:[selectedCity filesDirectory].path progress:^(float progress) {
-        [SVProgressHUD showProgress:progress
-                             status:@"Загружаются данные города"
-                           maskType:SVProgressHUDMaskTypeBlack];
-    } success:^{
-        // we are updating city that was already downloaded
-        if ([selectedCity[@"hasUpdate"] boolValue] == YES) {
-            // delete old files
-            MFACity *city = [MFACity cityWithIdentifier:selectedCity[@"path"]];
-            NSURL *oldFilesPath = [city.metaDictionary filesDirectory];
-            [[NSFileManager defaultManager] removeItemAtURL:oldFilesPath error:nil];
-        }
-        
-        NSManagedObjectContext *moc =
-        [[UIApplication sharedApplication].delegate performSelector:@selector(managedObjectContext)];
-        
-        MFACityDataParser *parser =
-            [[MFACityDataParser alloc] initWithCityMeta:selectedCity
-                                   managedObjectContext:moc
-                                               delegate:self];
-            
-        self.parser = parser;
-        [parser start];
-        
-        [SVProgressHUD dismiss];
-    } error:^(NSError *error) {
-        [SVProgressHUD dismiss];
-    }];
-}
-
 - (void)handleError:(NSError *)error
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -147,21 +82,10 @@
 
 - (void)deleteCityAtIndex:(NSUInteger)index
 {
-    MFACity *city = self.loadedCities[index];
-    if (city == nil) {
-        return;
-    }
-    
-    NSError *error = nil;
-    NSURL *cityFilesURL = [((MFACityMeta *)city.metaDictionary) filesDirectory];
-    [[NSFileManager defaultManager] removeItemAtPath:cityFilesURL.path error:&error];
-     
-    if (!error) {
-       [self.managedObjectContext deleteObject:city];
-       [self.managedObjectContext MR_saveToPersistentStoreWithCompletion:nil];
-    }
-    
-    self.loadedCities = nil; // force reload on next access
+    MFACity *city = [MFACityManager sharedManager].downloadedCities[index];
+    NSAssert(city, @"city to delete not found");
+
+    [[MFACityManager sharedManager] deleteCity:city];
 }
 
 #pragma mark - MFACityDataParser Delegate
@@ -205,23 +129,62 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"MFA_CHANGE_CITY" object:nil];
 }
 
-- (void)downloadCity:(MFACityMeta *)meta completion:(void (^)())completionBlock
+- (void)downloadCityAtIndexPath:(NSIndexPath *)indexPath completion:(void (^)())completionBlock
+{
+    if (indexPath.section == 1 || self.numberOfSections == 1) {
+        MFACityMeta *selectedCity = [self viewModelForRow:indexPath.row inSection:indexPath.section];
+        [self downloadCity:selectedCity completion:completionBlock];
+    }
+    else {
+        [self changeCity:[MFACityManager sharedManager].downloadedCities[indexPath.row]];
+        completionBlock();
+    }
+}
+
+- (void)downloadCity:(MFACityMeta *)selectedCity completion:(void (^)())completionBlock
 {
     [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
     
-    [self processCityMeta:meta withCompletion:^{
+    self.completionBlock = ^{
         [SVProgressHUD dismiss];
         [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
         
         if (completionBlock) {
-            self.loadedCities = nil; // reload lazily
             completionBlock();
-        }
-    }
-                    error:^(NSError *error) {
-                        [SVProgressHUD dismiss];
-                        [self showErrorMessage];
-                    }];
+        };
+    };
+    
+    __weak typeof(self) welf = self;
+    self.errorBlock = ^(NSError *error) {
+        [SVProgressHUD dismiss];
+        [welf showErrorMessage];
+    };
+    
+    [[MFACityManager sharedManager] downloadCityWithIdentifier:selectedCity[@"path"]
+                                                   unzipToPath:[selectedCity filesDirectory].path progress:^(float progress) {
+                                                       [SVProgressHUD showProgress:progress
+                                                                            status:@"Загружаются данные города"
+                                                                          maskType:SVProgressHUDMaskTypeBlack];
+                                                   } success:^{
+                                                       // we are updating city that was already downloaded
+                                                       if ([selectedCity[@"hasUpdate"] boolValue] == YES) {
+                                                           // delete old files
+                                                           MFACity *city = [MFACity cityWithIdentifier:selectedCity[@"path"]];
+                                                           NSURL *oldFilesPath = [city.metaDictionary filesDirectory];
+                                                           [[NSFileManager defaultManager] removeItemAtURL:oldFilesPath error:nil];
+                                                       }
+                                                       
+                                                       MFACityDataParser *parser =
+                                                       [[MFACityDataParser alloc] initWithCityMeta:selectedCity
+                                                                                          delegate:self];
+                                                       
+                                                       self.parser = parser;
+                                                       [parser start];
+                                                       
+                                                       [SVProgressHUD dismiss];
+                                                   } error:^(NSError *error) {
+                                                       [SVProgressHUD dismiss];
+                                                   }];
 }
 
 - (void)showErrorMessage
@@ -242,7 +205,7 @@
 
 - (NSUInteger)numberOfSections
 {
-    if (self.loadedCities.count > 0) {
+    if ([MFACityManager sharedManager].downloadedCities.count > 0) {
         return 2;
     }
     
@@ -252,20 +215,22 @@
 - (NSUInteger)numberOfRowsInSection:(NSUInteger)section
 {
     if (section == 1 || self.numberOfSections == 1) {
-        return self.cities.count;
+        NSUInteger rows = [MFACityManager sharedManager].availableCities.count;
+//        NSLog(@"# there're %tu rows in section %td", rows, section);
+        return rows;
     }
     else {
-        return self.loadedCities.count;
+        return [MFACityManager sharedManager].downloadedCities.count;
     }
 }
 
 - (NSDictionary *)viewModelForRow:(NSUInteger)row inSection:(NSUInteger)section
 {
     if (section == 1 || self.numberOfSections == 1) {
-        return self.cities[row];
+        return [MFACityManager sharedManager].availableCities[row];
     }
     else {
-        MFACity *city = self.loadedCities[row];
+        MFACity *city = [MFACityManager sharedManager].downloadedCities[row];
         if (city.updatedMeta != nil) {
             return city.updatedMeta;
         }
@@ -287,6 +252,9 @@
     }
 }
 
-#pragma mark - Helpers
+- (BOOL)hasData
+{
+    return [MFACityManager sharedManager].availableCities.count > 0;
+}
 
 @end

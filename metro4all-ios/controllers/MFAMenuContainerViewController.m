@@ -54,7 +54,7 @@
     self.contentViewInPortraitOffsetCenterX = 190.0f - CGRectGetWidth(self.view.frame)/2;
 }
 
-- (MFASelectCityViewController *)selectCityViewController
+- (UIViewController *)selectCityViewController
 {
     if (_selectCityViewController == nil) {
         MFASelectCityViewModel *viewModel = [[MFASelectCityViewModel alloc] init];
@@ -70,7 +70,7 @@
     return _selectCityViewController;
 }
 
-- (MFASelectStationViewController *)mainViewController
+- (UIViewController *)mainViewController
 {
     if (_mainViewController == nil) {
         MFACity *city = [(AppDelegate *)[UIApplication sharedApplication].delegate currentCity];
@@ -85,7 +85,7 @@
     return _mainViewController;
 }
 
-- (MFAStationsListViewController *)stationsListViewController
+- (UIViewController *)stationsListViewController
 {
     if (_stationsListViewController == nil) {
         MFACity *city = [(AppDelegate *)[UIApplication sharedApplication].delegate currentCity];

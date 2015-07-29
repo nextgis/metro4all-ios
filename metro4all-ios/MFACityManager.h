@@ -9,13 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+#import "MFACity.h"
+
 @interface MFACityManager : NSObject
 
 + (instancetype)sharedManager;
 + (void)setSharedManager:(id)manager;
 
 @property (nonatomic, readonly) NSArray *downloadedCities;
-@property (nonatomic, readonly) NSArray *availbleCities;
+@property (nonatomic, readonly) NSArray *availableCities;
 
 - (instancetype)initWithDataURL:(NSURL *)url NS_DESIGNATED_INITIALIZER;
 
@@ -24,4 +26,6 @@
                           progress:(void (^)(float progress))progressBlock
                            success:(void (^)())successBlock
                              error:(void (^)(NSError *error))errorBlock;
+- (void)deleteCity:(MFACity *)city;
+
 @end
