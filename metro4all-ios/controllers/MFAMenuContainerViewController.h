@@ -12,4 +12,8 @@
 
 @interface MFAMenuContainerViewController : RESideMenu <MFASideMenuDelegate>
 
+@property (nonatomic, readonly) UIViewController *selectCityViewController;
+@property (nonatomic, readonly) UIViewController *mainViewController;
+@property (nonatomic, readonly) UIViewController *stationsListViewController;
+
 @end

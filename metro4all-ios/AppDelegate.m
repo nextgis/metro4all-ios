@@ -12,6 +12,8 @@
 
 #import "AppDelegate.h"
 
+#import <OHAlertView/OHAlertView.h>
+
 #import "MFAStoryboardProxy.h"
 
 #import "MFACityManager.h"
@@ -177,11 +179,20 @@
     
     NSArray *cities = note.userInfo[@"cities"];
     if (cities.count > 0) {
-        [[[UIAlertView alloc] initWithTitle:@"Доступны обновления"
-                                    message:[NSString stringWithFormat:@"Доступны обновления данных для городов: %@", [cities componentsJoinedByString:@", "]]
-                                   delegate:nil
-                          cancelButtonTitle:@"OK"
-                          otherButtonTitles:nil] show];
+        [OHAlertView showAlertWithTitle:@"Доступны обновления"
+                                message:[NSString stringWithFormat:@"Доступны обновления данных для городов: %@", [cities componentsJoinedByString:@", "]]
+                           cancelButton:@"OK"
+                               okButton:@"Обновить"
+                          buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
+                              if (buttonIndex != alert.cancelButtonIndex) {
+                                  
+                                  NSAssert([self.window.rootViewController isKindOfClass:[MFAMenuContainerViewController class]],
+                                           @"trying to open update city screen, but root view controller is not menu");
+                                  
+                                  MFAMenuContainerViewController *menuContainer = (MFAMenuContainerViewController *)self.window.rootViewController;
+                                  [menuContainer sideMenu:nil didSelectItem:2];
+                              }
+                          }];
     }
 }
 
