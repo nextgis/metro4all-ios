@@ -22,6 +22,8 @@
 - (void)awakeFromNib {
     // Initialization code
     self.updateButton.hidden = YES;
+    [self.updateButton setTitle:NSLocalizedString(@"Update City", nil)
+                       forState:UIControlStateNormal];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -179,10 +179,10 @@
     
     NSArray *cities = note.userInfo[@"cities"];
     if (cities.count > 0) {
-        [OHAlertView showAlertWithTitle:@"Доступны обновления"
-                                message:[NSString stringWithFormat:@"Доступны обновления данных для городов: %@", [cities componentsJoinedByString:@", "]]
-                           cancelButton:@"OK"
-                               okButton:@"Обновить"
+        [OHAlertView showAlertWithTitle:NSLocalizedString(@"Updates are available", nil)
+                                message:[NSString stringWithFormat:NSLocalizedString(@"Updates are available for the following cities: %@", nil), [cities componentsJoinedByString:@", "]]
+                           cancelButton:NSLocalizedString(@"OK", nil)
+                               okButton:NSLocalizedString(@"Update", nil)
                           buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
                               if (buttonIndex != alert.cancelButtonIndex) {
                                   

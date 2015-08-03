@@ -15,6 +15,7 @@
 		582345611ADED87400BBBE24 /* RouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 582345601ADED87400BBBE24 /* RouterTests.m */; };
 		582345631ADED8C100BBBE24 /* stations.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345621ADED8C100BBBE24 /* stations.json */; };
 		582345651ADED97900BBBE24 /* edges.json in Resources */ = {isa = PBXBuildFile; fileRef = 582345641ADED97900BBBE24 /* edges.json */; };
+		583A4EC01B6F61D80028148D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 583A4EBE1B6F61D80028148D /* Localizable.strings */; };
 		583B48F81AA74BA500138E1F /* MFAStationMapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */; };
 		583B48FB1AA74BB200138E1F /* MFAStationMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */; };
 		586061931AB6C7F700E1F565 /* legend_pl.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061901AB6C7F700E1F565 /* legend_pl.png */; };
@@ -85,6 +86,11 @@
 		582345601ADED87400BBBE24 /* RouterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RouterTests.m; sourceTree = "<group>"; };
 		582345621ADED8C100BBBE24 /* stations.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stations.json; sourceTree = "<group>"; };
 		582345641ADED97900BBBE24 /* edges.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = edges.json; sourceTree = "<group>"; };
+		583A4EBF1B6F61D80028148D /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		583A4EC21B6F62860028148D /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		583A4EC31B6F629F0028148D /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		583A4EC41B6F62C20028148D /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		583A4EC51B6F62E50028148D /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
 		583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewModel.h; sourceTree = "<group>"; };
 		583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAStationMapViewModel.m; sourceTree = "<group>"; };
 		583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationMapViewController.h; sourceTree = "<group>"; };
@@ -307,6 +313,14 @@
 			name = "City Manager";
 			sourceTree = "<group>";
 		};
+		58B6422E1B6B6444002F2F23 /* Translations */ = {
+			isa = PBXGroup;
+			children = (
+				583A4EBE1B6F61D80028148D /* Localizable.strings */,
+			);
+			name = Translations;
+			sourceTree = "<group>";
+		};
 		58CE3D901AEFEE2700F91F0A /* Side Menu Container */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +397,7 @@
 		58F95EC71AA48FB600E22EF6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				58B6422E1B6B6444002F2F23 /* Translations */,
 				58F95EC81AA48FB600E22EF6 /* Info.plist */,
 				58F95EC91AA48FB600E22EF6 /* main.m */,
 			);
@@ -500,6 +515,10 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
+				uk,
+				pl,
+				be,
 			);
 			mainGroup = 58F95EBB1AA48FB600E22EF6;
 			productRefGroup = 58F95EC51AA48FB600E22EF6 /* Products */;
@@ -518,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				586061941AB6C7F700E1F565 /* legend_ru.png in Resources */,
+				583A4EC01B6F61D80028148D /* Localizable.strings in Resources */,
 				58F95ED61AA48FB600E22EF6 /* Main.storyboard in Resources */,
 				586061931AB6C7F700E1F565 /* legend_pl.png in Resources */,
 				58F95ED81AA48FB600E22EF6 /* Images.xcassets in Resources */,
@@ -651,6 +671,18 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		583A4EBE1B6F61D80028148D /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				583A4EBF1B6F61D80028148D /* Base */,
+				583A4EC21B6F62860028148D /* ru */,
+				583A4EC31B6F629F0028148D /* uk */,
+				583A4EC41B6F62C20028148D /* pl */,
+				583A4EC51B6F62E50028148D /* be */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		58F95ED41AA48FB600E22EF6 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

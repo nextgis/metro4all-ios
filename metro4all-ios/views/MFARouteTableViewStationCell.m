@@ -14,6 +14,9 @@
 {
     self.mapButton.hidden = YES;
     self.schemeButton.hidden = YES;
+    
+    [self.mapButton setTitle:NSLocalizedString(@"Map", nil) forState:UIControlStateNormal];
+    [self.schemeButton setTitle:NSLocalizedString(@"Scheme", nil) forState:UIControlStateNormal];
 }
 
 - (void)prepareForReuse

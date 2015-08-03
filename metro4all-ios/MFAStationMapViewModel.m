@@ -55,7 +55,7 @@
             annotation.coordinate = CLLocationCoordinate2DMake(portal.lat.doubleValue,
                                                                portal.lon.doubleValue);
             
-            annotation.title = [NSString stringWithFormat:@"Выход #%@", [portal.portalNumber stringValue]];
+            annotation.title = [NSString stringWithFormat:NSLocalizedString(@"Exit #%@", nil), [portal.portalNumber stringValue]];
             
             NSUInteger count = [[self.station.portals objectsPassingTest:^BOOL(id obj, BOOL *stop) {
                 return [[obj portalNumber] isEqualToNumber:portal.portalNumber];

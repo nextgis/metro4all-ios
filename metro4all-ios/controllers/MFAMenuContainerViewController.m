@@ -103,7 +103,7 @@
 - (UIBarButtonItem *)menuButton
 {
     if (_menuButton == nil) {
-        UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:@"Меню"
+        UIBarButtonItem *changeCityButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Menu", nil)
                                                                              style:UIBarButtonItemStylePlain
                                                                             target:self
                                                                             action:@selector(presentLeftMenuViewController)];
@@ -144,9 +144,9 @@
             NSURL *infoUrl = [NSURL URLWithString:@"http://metro4all.org"];
             if ([[UIApplication sharedApplication] canOpenURL:infoUrl]) {
                 [OHAlertView showAlertWithTitle:@"merto4all.org"
-                                        message:@"Открыть страницу \"http://metro4all.org\" в Safari?"
-                                   cancelButton:@"Нет"
-                                       okButton:@"Да"
+                                        message:NSLocalizedString(@"Do you want to browse \"http://metro4all.org\" in Safari?", nil)
+                                   cancelButton:NSLocalizedString(@"No", nil)
+                                       okButton:NSLocalizedString(@"YES", nil)
                                   buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
                                       if (buttonIndex != [(UIAlertView *)alert cancelButtonIndex]) {
                                           [[UIApplication sharedApplication] openURL:infoUrl];

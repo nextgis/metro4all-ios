@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.title = @"Условные обозначения";
+    self.title = NSLocalizedString(@"Map legend", nil);
     
     UIImage *image = nil;
     

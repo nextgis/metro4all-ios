@@ -38,7 +38,8 @@
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
 @property (nonatomic, weak) IBOutlet UIButton *stationFromButton;
 @property (nonatomic, weak) IBOutlet UIButton *stationToButton;
-@property (nonatomic, weak) IBOutlet UIImageView *cityLogoImageView;
+@property (weak, nonatomic) IBOutlet UILabel *travelTimeLabel;
+@property (weak, nonatomic) IBOutlet UILabel *travelTimeDescriptionLabel;
 
 @property (nonatomic, strong) MFAStation *stationFrom;
 @property (nonatomic, strong) MFAStation *stationTo;
@@ -47,7 +48,6 @@
 
 @property (nonatomic, strong) NSIndexPath *selectedRow;
 @property (strong, nonatomic) IBOutlet UIView *tableHeaderView;
-@property (weak, nonatomic) IBOutlet UILabel *travelTimeLabel;
 
 @end
 
@@ -62,8 +62,9 @@
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
     self.tableView.tableFooterView = [UIView new];
     
-    self.title = @"Метро для всех";
-        
+    self.title = NSLocalizedString(@"Metro For All", @"Route screen title");
+    self.travelTimeDescriptionLabel.text = NSLocalizedString(@"Travel time:", nil);
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCity:)
                                                  name:@"MFA_CHANGE_CITY"
                                                object:nil];
@@ -83,17 +84,22 @@
 - (void)updateButtonTitles
 {
     if (self.stationFrom) {
-        [self.stationFromButton setTitle:self.stationFrom.nameString forState:UIControlStateNormal];
+        [self.stationFromButton setTitle:self.stationFrom.nameString
+                                forState:UIControlStateNormal];
     }
     else {
-        [self.stationFromButton setTitle:@"Старт" forState:UIControlStateNormal];
+        [self.stationFromButton setTitle:NSLocalizedString(@"Start", @"Choose start station (route screen)")
+                                forState:UIControlStateNormal];
     }
     
     if (self.stationTo) {
-        [self.stationToButton setTitle:self.stationTo.nameString forState:UIControlStateNormal];
+        [self.stationToButton setTitle:self.stationTo.nameString
+                              forState:UIControlStateNormal];
     }
     else {
-        [self.stationToButton setTitle:@"Финиш" forState:UIControlStateNormal];
+        [self.stationToButton setTitle:NSLocalizedString(@"Destination", @"Choose destination station (route screen)")
+                              forState:UIControlStateNormal];
+        
     }
 }
 
@@ -325,8 +331,8 @@
             NSUInteger hours = floor(seconds / 3600);
             
             NSString *timeString = hours > 0 ?
-                                        [NSString stringWithFormat:@"%lu ч %lu мин", (unsigned long)hours, (unsigned long)minutes] :
-                                        [NSString stringWithFormat:@"%lu мин", (unsigned long)minutes];
+                                        [NSString stringWithFormat:NSLocalizedString(@"%lu h %lu min", @"travel time with hours"), (unsigned long)hours, (unsigned long)minutes] :
+                                        [NSString stringWithFormat:NSLocalizedString(@"%lu min", @"travel time minutes only"), (unsigned long)minutes];
             
             self.travelTimeLabel.text = timeString;
             

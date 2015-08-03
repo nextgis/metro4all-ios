@@ -24,7 +24,11 @@
 @interface MFASelectCityViewController () <UITableViewDataSource, UITableViewDelegate, MFASelectCityCellDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+
 @property (nonatomic, strong) IBOutlet UIView *noInternetFooterView;
+@property (weak, nonatomic) IBOutlet UILabel *noInternetTitle;
+@property (weak, nonatomic) IBOutlet UILabel *noInternetDescription;
+
 @property (nonatomic, strong) Reachability *reachability;
 
 @end
@@ -34,7 +38,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"Выберите ваш город";
+    self.title = NSLocalizedString(@"Choose your city", nil);
+    self.noInternetTitle.text = NSLocalizedString(@"No Internet connection", nil);
+    self.noInternetDescription.text = NSLocalizedString(@"No Internet Description", nil);
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -73,10 +79,10 @@
             self.tableView.tableFooterView = self.noInternetFooterView;
         }
         else {
-            [[[UIAlertView alloc] initWithTitle:@"Отсутствует соединение с интернетом"
-                                        message:@"Приложение «Метро для всех» требует для работы соединение с интернетом. Проверьте настройки или повторите запрос позднее"
+            [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"No Internet Connection Alert Title", nil)
+                                        message:NSLocalizedString(@"No Internet Connection Alert Description", nil)
                                        delegate:nil
-                              cancelButtonTitle:@"OK"
+                              cancelButtonTitle:NSLocalizedString(@"OK", nil)
                               otherButtonTitles:nil] show];
         }
     }
@@ -85,7 +91,7 @@
 - (void)loadCities
 {
     [[[[self.viewModel.loadMetaFromServerCommand execute:nil] initially:^{
-        [SVProgressHUD showWithStatus:@"Загружаю список городов"
+        [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading cities list", nil)
                              maskType:SVProgressHUDMaskTypeBlack];
     }] finally:^{
         [SVProgressHUD dismiss];

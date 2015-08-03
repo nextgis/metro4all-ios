@@ -58,7 +58,12 @@
             else { return @1; }
         }];
     
-    self.detailsSwitchLabel.text = @"Отображать\nпрепятствия";
+    self.detailsSwitchLabel.text = NSLocalizedString(@"Display obstacles", nil);
+    [self.modeSwitch setTitle:NSLocalizedString(@"Map", nil)
+            forSegmentAtIndex:0];
+    [self.modeSwitch setTitle:NSLocalizedString(@"Scheme", nil)
+            forSegmentAtIndex:1];
+    
     RAC(self.detailsSwitch, on) = RACObserve(self.viewModel, showsObstacles);
     
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self

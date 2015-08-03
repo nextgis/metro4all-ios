@@ -45,7 +45,7 @@
     if (!_loadMetaFromServerCommand) {
         _loadMetaFromServerCommand = [[RACCommand alloc] initWithSignalBlock:^RACSignal *(id input) {
             RACSignal *loadMetaSignal = [RACSignal startEagerlyWithScheduler:[RACScheduler mainThreadScheduler] block:^(id<RACSubscriber> subscriber) {                
-                [SVProgressHUD showWithStatus:@"Загружаю список городов"
+                [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading cities list", nil)
                                      maskType:SVProgressHUDMaskTypeBlack];
                 
                 [[MFACityManager sharedManager] updateMetaWithSuccess:^(NSArray *meta) {
@@ -89,15 +89,6 @@
 }
 
 #pragma mark - MFACityDataParser Delegate
-
-- (void)cityDataParser:(MFACityDataParser *)parser didProcessFiles:(NSUInteger)precessedFiles ofTotalFiles:(NSUInteger)totalFiles
-{
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        [SVProgressHUD showProgress:(((float)precessedFiles)/totalFiles)
-//                             status:@"Обработка данных"
-//                           maskType:SVProgressHUDMaskTypeBlack];
-//    });
-}
 
 - (void)cityDataParserDidFail:(MFACityDataParser *)parser
 {
@@ -143,11 +134,11 @@
 
 - (void)downloadCity:(MFACityMeta *)selectedCity completion:(void (^)())completionBlock
 {
-    [SVProgressHUD showWithStatus:@"Загружаются данные города" maskType:SVProgressHUDMaskTypeBlack];
+    [SVProgressHUD showWithStatus:NSLocalizedString(@"Loading city data", nil) maskType:SVProgressHUDMaskTypeBlack];
     
     self.completionBlock = ^{
         [SVProgressHUD dismiss];
-        [SVProgressHUD showSuccessWithStatus:@"Данные загружены" maskType:SVProgressHUDMaskTypeBlack];
+        [SVProgressHUD showSuccessWithStatus:NSLocalizedString(@"Finished loading data", nil) maskType:SVProgressHUDMaskTypeBlack];
         
         if (completionBlock) {
             completionBlock();
@@ -163,7 +154,7 @@
     [[MFACityManager sharedManager] downloadCityWithIdentifier:selectedCity[@"path"]
                                                    unzipToPath:[selectedCity filesDirectory].path progress:^(float progress) {
                                                        [SVProgressHUD showProgress:progress
-                                                                            status:@"Загружаются данные города"
+                                                                            status:NSLocalizedString(@"Loading city data", nil)
                                                                           maskType:SVProgressHUDMaskTypeBlack];
                                                    } success:^{
                                                        // we are updating city that was already downloaded
@@ -191,10 +182,10 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
         UIAlertView *alert =
-            [[UIAlertView alloc] initWithTitle:@"Ошибка"
-                                       message:@"Произошла ошибка при загрузке данных. Попробуйте повторить операцию или обратитесь в поддержку"
+            [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
+                                       message:NSLocalizedString(@"Error occured during processing data. Please try again or contact support", nil)
                                       delegate:nil
-                             cancelButtonTitle:@"OK"
+                             cancelButtonTitle:NSLocalizedString(@"OK", nil)
                              otherButtonTitles:nil];
         
         [alert show];
@@ -242,13 +233,13 @@
 - (NSString *)titleForHeaderInSection:(NSUInteger)section
 {
     if (section == 1) {
-        return @"Доступные";
+        return NSLocalizedString(@"Available for download", nil);
     }
     else if (self.numberOfSections == 1) {
         return nil;
     }
     else {
-        return @"На устройстве";
+        return NSLocalizedString(@"Downloaded", nil);
     }
 }
 
