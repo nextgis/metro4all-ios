@@ -15,6 +15,9 @@
 @property (nonatomic, weak) IBOutlet UIView *lineColorView;
 @property (nonatomic, weak) IBOutlet UILabel *stationTitleLabel;
 
+@property (nonatomic, weak) IBOutlet UIButton *mapButton;
+@property (nonatomic, weak) IBOutlet UIButton *schemeButton;
+
 @end
 
 @implementation MFAStationListTableViewCell
@@ -22,6 +25,9 @@
 - (void)awakeFromNib {
     // make round line color indicator
     self.lineColorView.layer.cornerRadius = self.lineColorView.frame.size.width / 2;
+    
+    [self.mapButton setTitle:NSLocalizedString(@"Map", nil) forState:UIControlStateNormal];
+    [self.schemeButton setTitle:NSLocalizedString(@"Scheme", nil) forState:UIControlStateNormal];
 }
 
 - (void)setStation:(MFAStation *)station

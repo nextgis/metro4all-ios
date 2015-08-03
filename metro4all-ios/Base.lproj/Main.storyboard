@@ -314,6 +314,8 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="lineColorView" destination="AFE-Ki-n8R" id="R4P-9z-X3g"/>
+                                            <outlet property="mapButton" destination="1y0-HI-Iad" id="lWe-NR-fLX"/>
+                                            <outlet property="schemeButton" destination="PtM-Uf-teX" id="wQN-9O-JcR"/>
                                             <outlet property="stationTitleLabel" destination="hJ5-ZO-RHf" id="nZ2-lQ-UOg"/>
                                         </connections>
                                     </tableViewCell>
