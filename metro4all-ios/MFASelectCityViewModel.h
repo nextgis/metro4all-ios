@@ -21,7 +21,6 @@
 
 @property (nonatomic, strong) RACCommand *loadMetaFromServerCommand;
 
-- (void)processCityMeta:(NSDictionary *)selectedCity withCompletion:(void (^)(void))completionBlock error:(void (^)(NSError *))errorBlock;
 - (void)changeCity:(MFACity *)city;
 - (void)deleteCityAtIndex:(NSUInteger)index;
 - (void)downloadCity:(MFACityMeta *)meta completion:(void (^)())completionBlock;

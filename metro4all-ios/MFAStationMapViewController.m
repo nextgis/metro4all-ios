@@ -36,6 +36,7 @@
 @property (nonatomic, weak) IBOutlet UIView *controlsView;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *controlsPinRightConstraint;
 @property (nonatomic, strong) IBOutlet NSLayoutConstraint *controlsWidthConstraint;
+@property (nonatomic, strong) IBOutlet UIBarButtonItem *infoButton;
 
 @end
 
@@ -94,14 +95,10 @@
     
     self.controlsView.layer.cornerRadius = 4.0f;
     
-    UIBarButtonItem *infoButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"InfoIcon"]
-                                                                   style:UIBarButtonItemStylePlain
-                                                                  target:self
-                                                                  action:@selector(infoButtonClick:)];
     
     [[showsMapSignal not] subscribeNext:^(NSNumber *showsScheme) {
         if (showsScheme.boolValue == YES) {
-            self.navigationItem.rightBarButtonItem = infoButton;
+            self.navigationItem.rightBarButtonItem = self.infoButton;
         }
         else {
             self.navigationItem.rightBarButtonItem = nil;
@@ -250,12 +247,6 @@
     else {
         self.viewModel.showsObstacles = sender.isOn;
     }
-}
-
-- (IBAction)infoButtonClick:(id)sender
-{
-    [self.navigationController pushViewController:[MFAStoryboardProxy legendViewController]
-                                         animated:YES];
 }
 
 /**

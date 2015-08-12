@@ -27,22 +27,26 @@
 @property (nonatomic, strong) MFASelectCityViewController *selectCityViewController;
 @property (nonatomic, strong) MFAStationsListViewController *stationsListViewController;
 @property (nonatomic, strong) UIBarButtonItem *menuButton;
-
+@property (nonatomic, strong) UIBarButtonItem *optionsButton;
 @end
 
 @implementation MFAMenuContainerViewController
 
 - (void)awakeFromNib
 {
-    MFASideMenuViewController *sideMenuController =
-        (MFASideMenuViewController *)[MFAStoryboardProxy sideMenuViewController];
+    MFASideMenuViewController *leftMenuController =
+        (MFASideMenuViewController *)[MFAStoryboardProxy leftMenuViewController];
+    leftMenuController.delegate = self;
+    self.leftMenuViewController = leftMenuController;
     
-    sideMenuController.delegate = self;
-    
-    self.leftMenuViewController = sideMenuController;
+    MFASideMenuViewController *rightMenuController =
+        (MFASideMenuViewController *)[MFAStoryboardProxy rightMenuViewController];
+    rightMenuController.delegate = self;
+    self.rightMenuViewController = rightMenuController;
     
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
     self.mainViewController.navigationItem.leftBarButtonItem = self.menuButton;
+    self.mainViewController.navigationItem.rightBarButtonItem = self.optionsButton;
     
     self.contentViewController = navController;
 }
@@ -114,51 +118,74 @@
     return _menuButton;
 }
 
+- (UIBarButtonItem *)optionsButton
+{
+    if (_optionsButton == nil) {
+        UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"X", nil)
+                                                                style:UIBarButtonItemStylePlain
+                                                               target:self
+                                                               action:@selector(presentRightMenuViewController)];
+        
+        _optionsButton = btn;
+    }
+    
+    return _optionsButton;
+}
 
 - (void)sideMenu:(MFASideMenuViewController *)menuController didSelectItem:(NSUInteger)item
 {
-    switch (item) {
-        case 0: {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
-            self.mainViewController.navigationItem.leftBarButtonItem = self.menuButton;
-            [self setContentViewController:navController animated:YES];
-            break;
-        }
-            
-        case 2: {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.selectCityViewController];
-            self.selectCityViewController.navigationItem.leftBarButtonItem = self.menuButton;
-            
-            [self setContentViewController:navController animated:YES];
-            break;
-        }
-            
-        case 1: {
-            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.stationsListViewController];
-            self.stationsListViewController.navigationItem.leftBarButtonItem = self.menuButton;
-            [self setContentViewController:navController animated:YES];
-            break;
-        }
-            
-        case 99: {
-            NSURL *infoUrl = [NSURL URLWithString:@"http://metro4all.org"];
-            if ([[UIApplication sharedApplication] canOpenURL:infoUrl]) {
-                [OHAlertView showAlertWithTitle:@"merto4all.org"
-                                        message:NSLocalizedString(@"Do you want to browse \"http://metro4all.org\" in Safari?", nil)
-                                   cancelButton:NSLocalizedString(@"No", nil)
-                                       okButton:NSLocalizedString(@"YES", nil)
-                                  buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
-                                      if (buttonIndex != [(UIAlertView *)alert cancelButtonIndex]) {
-                                          [[UIApplication sharedApplication] openURL:infoUrl];
-                                      }
-                                  }];
+    if (menuController == self.rightMenuViewController) {
+        [self performSegueWithIdentifier:@"feedback" sender:nil];
+    }
+    else {
+        switch (item) {
+            case 0: {
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.mainViewController];
+                self.mainViewController.navigationItem.leftBarButtonItem = self.menuButton;
+                [self setContentViewController:navController animated:YES];
+                break;
             }
+                
+            case 2: {
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.selectCityViewController];
+                self.selectCityViewController.navigationItem.leftBarButtonItem = self.menuButton;
+                
+                [self setContentViewController:navController animated:YES];
+                break;
+            }
+                
+            case 1: {
+                UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.stationsListViewController];
+                self.stationsListViewController.navigationItem.leftBarButtonItem = self.menuButton;
+                [self setContentViewController:navController animated:YES];
+                break;
+            }
+                
+            case 99: {
+                NSURL *infoUrl = [NSURL URLWithString:@"http://metro4all.org"];
+                if ([[UIApplication sharedApplication] canOpenURL:infoUrl]) {
+                    [OHAlertView showAlertWithTitle:@"merto4all.org"
+                                            message:NSLocalizedString(@"Do you want to browse \"http://metro4all.org\" in Safari?", nil)
+                                       cancelButton:NSLocalizedString(@"No", nil)
+                                           okButton:NSLocalizedString(@"YES", nil)
+                                      buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
+                                          if (buttonIndex != [(UIAlertView *)alert cancelButtonIndex]) {
+                                              [[UIApplication sharedApplication] openURL:infoUrl];
+                                          }
+                                      }];
+                }
+            }
+            default:
+                break;
         }
-        default:
-            break;
     }
     
     [self hideMenuViewController];
+}
+
+- (IBAction)unwindToMain:(UIStoryboardSegue *)segue
+{
+    
 }
 
 @end

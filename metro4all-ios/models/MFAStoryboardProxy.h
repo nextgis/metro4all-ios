@@ -18,7 +18,8 @@
 + (UIViewController *)stationMapViewController;
 + (UIViewController *)legendViewController;
 + (UIViewController *)selectStationViewController;
-+ (UIViewController *)sideMenuViewController;
++ (UIViewController *)leftMenuViewController;
++ (UIViewController *)rightMenuViewController;
 + (UIViewController *)menuContainerViewController;
 
 @end

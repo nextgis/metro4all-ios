@@ -49,13 +49,19 @@ static UIStoryboard *mainStoryboard = nil;
     return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_selectStationViewController"];
 }
 
-+ (UIViewController *)sideMenuViewController
++ (UIViewController *)leftMenuViewController
 {
-    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_sideMenuViewController"];
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_leftMenuViewController"];
+}
+
++ (UIViewController *)rightMenuViewController
+{
+    return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_rightMenuViewController"];
 }
 
 + (UIViewController *)menuContainerViewController
 {
     return [[self mainStoryboard] instantiateViewControllerWithIdentifier:@"MFA_menuContainerViewController"];
 }
+
 @end

@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *allStationsButton;
 @property (weak, nonatomic) IBOutlet UIButton *selectCityButton;
 @property (weak, nonatomic) IBOutlet UIButton *logoImageView;
+@property (weak, nonatomic) IBOutlet UIButton *feedbackButton;
 
 @end
 
@@ -36,6 +37,8 @@
     [self.allStationsButton setTitle:NSLocalizedString(@"All stations", nil)
                             forState:UIControlStateNormal];
     [self.selectCityButton setTitle:NSLocalizedString(@"Change city", nil)
+                           forState:UIControlStateNormal];
+    [self.feedbackButton setTitle:NSLocalizedString(@"Send feedback", nil)
                            forState:UIControlStateNormal];
 }
 

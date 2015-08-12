@@ -15,6 +15,7 @@ pod 'SMCalloutView'
 pod 'Reachability'
 pod 'RESideMenu'
 pod 'OHAlertView', :git => "https://github.com/marvin-yorke/OHAlertView.git"
+pod 'GCPlaceholderTextView'
 
 pod 'SSZipArchive'
 pod 'NTYCSVTable', :git => "https://github.com/marvin-yorke/NTYCSVTable.git"
