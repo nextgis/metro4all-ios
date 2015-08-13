@@ -32,7 +32,8 @@
                                          UIAlertViewDelegate,
                                          UIActionSheetDelegate,
                                          PhotoCellDelegate,
-                                         MFAStationListDelegate>
+                                         MFAStationListDelegate,
+                                         MFAPickPointDelegate>
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
@@ -47,6 +48,8 @@
 
 @property (nonatomic, strong) MFAStation *selectedStation;
 @property (nonatomic, strong) NSNumber *selectedCategory;
+@property (nonatomic, strong) UIImage *pointScreenshot;
+
 @property (weak, nonatomic) IBOutlet UIButton *pickPointButton;
 @property (nonatomic, readonly) NSArray *categoryTitles;
 
@@ -187,6 +190,10 @@
     
     if (self.selectedStation) {
         params[@"id_node"] = self.selectedStation.node.nodeId;
+    }
+    
+    if (self.pointScreenshot) {
+        params[@"screenshot"] = [UIImagePNGRepresentation(self.pointScreenshot) base64EncodedStringWithOptions:0];
     }
     
     NSMutableArray *photos = [NSMutableArray arrayWithCapacity:self.photos.count];
@@ -371,6 +378,12 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)pickPointController:(MFAPickPointViewController *)controller didFinishWithImage:(UIImage *)image
+{
+    self.pointScreenshot = image;
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - Keyboard avoiding
 
 - (void)observeKeyboard
@@ -454,6 +467,7 @@
     if ([segue.identifier isEqualToString:@"pickPoint"]) {
         MFAPickPointViewController *dest = segue.destinationViewController;
         dest.station = self.selectedStation;
+        dest.delegate = self;
     }
 }
 

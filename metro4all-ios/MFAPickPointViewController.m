@@ -19,12 +19,25 @@
 @property (nonatomic, weak) UIView *containerView;
 @property (nonatomic, readonly) UIImage *stationSchemeImage;
 @property (nonatomic, readonly) UIImage *stationSchemeOverlayImage;
+@property (nonatomic, strong) UIView *tapIndicator;
 
 @end
 
 @implementation MFAPickPointViewController
 @synthesize stationSchemeImage = _stationSchemeImage;
 @synthesize stationSchemeOverlayImage = _stationSchemeOverlayImage;
+
+- (UIView *)tapIndicator
+{
+    if (_tapIndicator == nil) {
+        _tapIndicator = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 16, 16)];
+        _tapIndicator.backgroundColor = [UIColor redColor];
+        _tapIndicator.alpha = 0.5;
+        _tapIndicator.layer.cornerRadius = 8;
+    }
+    
+    return _tapIndicator;
+}
 
 - (UIImage *)stationSchemeImage
 {
@@ -98,10 +111,6 @@
         [container addSubview:schemeView];
         [container addSubview:overlayView];
         
-//        [container autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
-//        [schemeView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
-//        [overlayView autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
-        
         [self.schemeScrollView addSubview:container];
         self.schemeScrollView.contentSize = container.frame.size;
         
@@ -109,6 +118,10 @@
         self.schemeOverlayView = overlayView;
         
         self.schemeScrollView.maximumZoomScale = 1.0f;
+        
+        UITapGestureRecognizer *tapRecognizer = [UITapGestureRecognizer new];
+        [tapRecognizer addTarget:self action:@selector(tapRecognized:)];
+        [container addGestureRecognizer:tapRecognizer];
     }
 }
 
@@ -116,6 +129,37 @@
 {
     [self setMinimumZoomScale];
     [self centerScrollViewContents];
+}
+
+- (IBAction)doneButtonClick:(id)sender
+{
+    UIImage *img = nil;
+    
+    if (_tapIndicator) {
+        UIView *contentView = self.schemeScrollView.subviews[0];
+        
+        UIGraphicsBeginImageContextWithOptions(contentView.bounds.size, contentView.opaque, 0.0);
+        [contentView.layer renderInContext:UIGraphicsGetCurrentContext()];
+        
+        img = UIGraphicsGetImageFromCurrentImageContext();
+        
+        UIGraphicsEndImageContext();
+    }
+    
+    [self.delegate pickPointController:self didFinishWithImage:img];
+}
+
+- (void)tapRecognized:(UITapGestureRecognizer *)recognizer
+{
+    [self.tapIndicator removeFromSuperview];
+    
+    CGRect frame = self.tapIndicator.frame;
+    frame.origin = [recognizer locationOfTouch:0 inView:recognizer.view];
+    frame.origin.x -= frame.size.width / 2;
+    frame.origin.y -= frame.size.height / 2;
+    
+    self.tapIndicator.frame = frame;
+    [self.schemeScrollView.subviews[0] addSubview:self.tapIndicator];
 }
 
 - (void)setMinimumZoomScale

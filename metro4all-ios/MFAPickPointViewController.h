@@ -9,8 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "MFAStation.h"
 
+@class MFAPickPointViewController;
+
+@protocol MFAPickPointDelegate <NSObject>
+
+- (void)pickPointController:(MFAPickPointViewController *)controller
+         didFinishWithImage:(UIImage *)image;
+
+@end
+
 @interface MFAPickPointViewController : UIViewController
 
 @property (nonatomic, strong) MFAStation *station;
+@property (nonatomic, weak) id<MFAPickPointDelegate> delegate;
 
 @end
