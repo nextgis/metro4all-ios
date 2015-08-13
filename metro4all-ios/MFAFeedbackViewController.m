@@ -8,13 +8,19 @@
 
 #import <objc/runtime.h>
 #import <OHAlertView/OHAlertView.h>
+#import <AFNetworking/AFNetworking.h>
+#import <SVProgressHUD/SVProgressHUD.h>
 
 #import "MFAFeedbackViewController.h"
 #import "PhotoCollectionViewCell.h"
 #import "MFAStationsListViewController.h"
 #import "AppDelegate.h"
+#import "MFACity.h"
 #import "MFAStation.h"
+#import "MFANode.h"
 #import "MFAStoryboardProxy.h"
+#import "Buttons.h"
+#import "MFAPickPointViewController.h"
 
 #define ACTIONSHEET_TAG_CHOOSE_CATEGORY 1
 #define ACTIONSHEET_TAG_ADD_PHOTO 2
@@ -33,17 +39,40 @@
 @property (nonatomic, strong) NSMutableArray *photos;
 @property (nonatomic, weak) IBOutlet UICollectionView *imagesCollectionView;
 @property (weak, nonatomic) IBOutlet UIButton *addPhotoButtonSide;
-@property (weak, nonatomic) IBOutlet UIButton *addPhotoButton;
+@property (weak, nonatomic) IBOutlet AddPhotoButton *addPhotoButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *selectStationButton;
 @property (weak, nonatomic) IBOutlet UIButton *selectCategoryButton;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @property (nonatomic, strong) MFAStation *selectedStation;
-@property (nonatomic, copy) NSString *selectedCategory;
+@property (nonatomic, strong) NSNumber *selectedCategory;
+@property (weak, nonatomic) IBOutlet UIButton *pickPointButton;
+@property (nonatomic, readonly) NSArray *categoryTitles;
+
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *selectStationLabel;
+@property (weak, nonatomic) IBOutlet UILabel *selectCategorylabel;
+@property (weak, nonatomic) IBOutlet UILabel *addMessageLabel;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UILabel *photoslabel;
 
 @end
 
 @implementation MFAFeedbackViewController
+@synthesize categoryTitles = _categoryTitles;
+
+- (NSArray *)categoryTitles
+{
+    if (_categoryTitles == nil) {
+        _categoryTitles = @[
+                            NSLocalizedString(@"Information", nil),
+                            NSLocalizedString(@"Accessibility problems", nil),
+                            NSLocalizedString(@"Report mistake", nil) ];
+    }
+    
+    return _categoryTitles;
+}
 
 - (void)viewDidLoad
 {
@@ -68,6 +97,21 @@
     self.imagesCollectionView.collectionViewLayout = layout;
     
     self.photos = [NSMutableArray new];
+    
+    self.descriptionLabel.text = NSLocalizedString(@"Please leave us a message", nil);
+    self.selectStationLabel.text = NSLocalizedString(@"Station", @"select station");
+    self.selectCategorylabel.text = NSLocalizedString(@"Category", @"selectCategory");
+    self.addMessageLabel.text = NSLocalizedString(@"Message", @"add text message");
+    self.photoslabel.text = NSLocalizedString(@"Photos", nil);
+    self.addPhotoButton.placeholderText = NSLocalizedString(@"Add photo", nil);
+    
+    [self.sendButton setTitle:NSLocalizedString(@"Send report", @"") forState:UIControlStateNormal];
+    [self.selectStationButton setTitle:NSLocalizedString(@"Select station", nil) forState:UIControlStateNormal];
+    [self.selectCategoryButton setTitle:NSLocalizedString(@"Select category", nil) forState:UIControlStateNormal];
+    [self.textView
+     setValue:NSLocalizedString(@"Your message here", @"message placeholder") forKey:@"placeholder"];
+    
+    self.pickPointButton.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -82,11 +126,16 @@
     [self stopObservingKeyboard];
 }
 
+- (IBAction)pickPointClick:(id)sender
+{
+    
+}
+
 - (IBAction)selectStationClick:(id)sender
 {
     MFACity *currentCity = [(AppDelegate *)([UIApplication sharedApplication].delegate) currentCity];
     MFAStationsListViewModel *vm = [[MFAStationsListViewModel alloc] initWithCity:currentCity];
-    MFAStationsListViewController *vc = (MFAStationsListViewController *)[MFAStoryboardProxy selectStationViewController];
+    MFAStationsListViewController *vc = (MFAStationsListViewController *)[MFAStoryboardProxy stationsListViewController];
     
     vc.viewModel = vm;
     vc.delegate = self;
@@ -102,18 +151,78 @@
                                                        delegate:self
                                               cancelButtonTitle:NSLocalizedString(@"Cancel", nil)
                                          destructiveButtonTitle:nil
-                                              otherButtonTitles:NSLocalizedString(@"Information", nil),
-                                                                NSLocalizedString(@"Accessibility problems", nil),
-                                                                NSLocalizedString(@"Report mistake", nil), nil];
+                                              otherButtonTitles:nil];
+
+    for (NSString *title in self.categoryTitles) {
+        [sheet addButtonWithTitle:title];
+    }
+
     sheet.tag = ACTIONSHEET_TAG_CHOOSE_CATEGORY;
     [sheet showInView:self.view];
 }
 
 - (IBAction)doneButtonClick:(id)sender {
-    [self uploadPhotosWithSuccess:^(NSArray *photoIDs) {
-        
-    } error:^(NSError *error) {
-        NSLog(@"Failed to upload photos: %@", error.localizedDescription);
+    if (self.selectedCategory == nil) {
+        [[[UIAlertView alloc] initWithTitle:nil
+                                    message:NSLocalizedString(@"Please choose message category", nil)
+                                   delegate:nil
+                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                          otherButtonTitles:nil] show];
+        return;
+    }
+    
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://reports.metro4all.org"]];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+
+    MFACity *currentCity = [(AppDelegate *)([UIApplication sharedApplication].delegate) currentCity];
+    NSString *lang = [NSLocale componentsFromLocaleIdentifier:[NSLocale currentLocale].localeIdentifier][NSLocaleLanguageCode];
+    
+    NSMutableDictionary *params = @{ @"time" : @(floor([[NSDate date] timeIntervalSince1970] * 1000)),
+                                     @"city_name" : currentCity.path,
+                                     @"package_version" : currentCity.version,
+                                     @"lang_device" : lang,
+                                     @"lang_data" : lang,
+                                     @"text" : self.textView.text ?: @"",
+                                     @"cat_id" : self.selectedCategory }.mutableCopy;
+    
+    if (self.selectedStation) {
+        params[@"id_node"] = self.selectedStation.node.nodeId;
+    }
+    
+    NSMutableArray *photos = [NSMutableArray arrayWithCapacity:self.photos.count];
+    [self.photos enumerateObjectsUsingBlock:^(UIImage *photo, NSUInteger idx, BOOL *stop) {
+        NSData *data = UIImageJPEGRepresentation(photo, 0.8);
+        NSString *base64 = [data base64EncodedStringWithOptions:0];
+        [photos addObject:base64];
+    }];
+    
+    if (photos.count > 0) {
+        params[@"photos"] = photos;
+        [SVProgressHUD showWithStatus:NSLocalizedString(@"Uploading photos", nil) maskType:SVProgressHUDMaskTypeBlack];
+    }
+    else {
+        [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeBlack];
+    }
+    
+    [manager POST:@"/reports" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [SVProgressHUD dismiss];
+        if (operation.response.statusCode != 200) {
+            [OHAlertView showAlertWithTitle:NSLocalizedString(@"Error", nil)
+                                    message:NSLocalizedString(@"Error occured while sending the feedback", nil)
+                              dismissButton:NSLocalizedString(@"OK", nil)];
+        }
+        else {
+            [OHAlertView showAlertWithTitle:NSLocalizedString(@"Thank you!", @"feedback was sent")
+                                    message:NSLocalizedString(@"Your message was sent", nil)
+                              cancelButton:NSLocalizedString(@"OK", nil)
+                               otherButtons:nil buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
+                                   [self performSegueWithIdentifier:@"unwindToMain" sender:nil];
+                               }];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [OHAlertView showAlertWithTitle:NSLocalizedString(@"Error", nil)
+                                message:NSLocalizedString(@"Error occured while sending the feedback", nil)
+                          dismissButton:NSLocalizedString(@"OK", nil)];
     }];
 }
 
@@ -173,31 +282,17 @@
 
 - (void)photoCellHitDeleteButton:(PhotoCollectionViewCell *)cell
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Warning", @"")
-                                                    message:NSLocalizedString(@"DeletePhoto", @"")
-                                                   delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", @"")
-                                          otherButtonTitles:NSLocalizedString(@"Yes", @""), nil];
-    
     NSIndexPath *indexPath = [self.imagesCollectionView indexPathForCell:cell];
-    objc_setAssociatedObject(alert, @"photoIndexPathToDelete", indexPath, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    [alert show];
-}
-
-#pragma mark - UIAlertView delegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex != alertView.cancelButtonIndex) {
-        
-        NSIndexPath *indexPath = objc_getAssociatedObject(alertView, @"photoIndexPathToDelete");
-        objc_setAssociatedObject(alertView, @"photoIndexPathToDelete", nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-        
-        if (indexPath) {
-            [self deletePhotoAtIndexPath:indexPath];
-        }
-    }
+    [OHAlertView showAlertWithTitle:NSLocalizedString(@"Warning", @"")
+                            message:NSLocalizedString(@"DeletePhoto", @"")
+                       cancelButton:NSLocalizedString(@"Cancel", @"")
+                           okButton:NSLocalizedString(@"Yes", @"")
+                      buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
+                          if (buttonIndex != alert.cancelButtonIndex) {
+                              [self deletePhotoAtIndexPath:indexPath];
+                          }
+                      }];
 }
 
 #pragma mark - UIActionSheet delegate
@@ -228,8 +323,8 @@
         [self presentViewController:picker animated:YES completion:nil];
     }
     else if (actionSheet.tag == ACTIONSHEET_TAG_CHOOSE_CATEGORY) {
-        self.selectedCategory = [actionSheet buttonTitleAtIndex:buttonIndex];
-        [self.selectCategoryButton setTitle:self.selectedCategory forState:UIControlStateNormal];
+        self.selectedCategory = @(buttonIndex);
+        [self.selectCategoryButton setTitle:self.categoryTitles[buttonIndex - 1] forState:UIControlStateNormal];
     }
 }
 
@@ -271,16 +366,9 @@
 {
     [self.selectStationButton setTitle:station.nameString forState:UIControlStateNormal];
     self.selectedStation = station;
-
+    self.pickPointButton.hidden = NO;
+    
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)uploadPhotosWithSuccess:(void (^)(NSArray *photoIDs))successBlock
-                          error:(void (^)(NSError *error))errorBlock
-{
-//    [[RequestManager sharedManager] uploadPhotos:self.addedPhotos
-//                                         success:successBlock
-//                                           error:errorBlock];
 }
 
 #pragma mark - Keyboard avoiding
@@ -361,5 +449,12 @@
                      completion:nil];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"pickPoint"]) {
+        MFAPickPointViewController *dest = segue.destinationViewController;
+        dest.station = self.selectedStation;
+    }
+}
 
 @end

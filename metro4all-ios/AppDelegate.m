@@ -9,10 +9,10 @@
 
 #import <Crashlytics/Crashlytics.h>
 #import <MagicalRecord/MagicalRecord.h>
+#import <AFNetworkActivityLogger/AFNetworkActivityLogger.h>
+#import <OHAlertView/OHAlertView.h>
 
 #import "AppDelegate.h"
-
-#import <OHAlertView/OHAlertView.h>
 
 #import "MFAStoryboardProxy.h"
 
@@ -132,6 +132,11 @@
             }
         }
     }
+    
+    [[AFNetworkActivityLogger sharedLogger] startLogging];
+#ifdef DEBUG
+    [AFNetworkActivityLogger sharedLogger].level = AFLoggerLevelDebug;
+#endif
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     

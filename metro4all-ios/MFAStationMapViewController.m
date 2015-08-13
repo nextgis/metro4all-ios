@@ -95,7 +95,6 @@
     
     self.controlsView.layer.cornerRadius = 4.0f;
     
-    
     [[showsMapSignal not] subscribeNext:^(NSNumber *showsScheme) {
         if (showsScheme.boolValue == YES) {
             self.navigationItem.rightBarButtonItem = self.infoButton;
@@ -104,6 +103,11 @@
             self.navigationItem.rightBarButtonItem = nil;
         }
     }];
+}
+
+- (void)dealloc
+{
+    self.schemeScrollView.delegate = nil;
 }
 
 - (void)viewWillAppear:(BOOL)animated

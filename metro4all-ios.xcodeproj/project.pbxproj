@@ -27,6 +27,7 @@
 		586061951AB6C7F700E1F565 /* legend_en.png in Resources */ = {isa = PBXBuildFile; fileRef = 586061921AB6C7F700E1F565 /* legend_en.png */; };
 		586061981AB6C83E00E1F565 /* MFALegendViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 586061971AB6C83E00E1F565 /* MFALegendViewController.m */; };
 		58907D271AB2F91100013A59 /* MFAPortalAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */; };
+		589C6A231B7C9FC5001C1AAA /* MFAPickPointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 589C6A221B7C9FC5001C1AAA /* MFAPickPointViewController.m */; };
 		58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA391AA5F26C0011A4A4 /* MFACityDataParser.m */; };
 		58B0DA3D1AA707C20011A4A4 /* MFAStationsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA3C1AA707C20011A4A4 /* MFAStationsListViewController.m */; };
 		58B0DA421AA709C80011A4A4 /* MFAStationListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B0DA411AA709C80011A4A4 /* MFAStationListTableViewCell.m */; };
@@ -114,6 +115,8 @@
 		586061971AB6C83E00E1F565 /* MFALegendViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFALegendViewController.m; path = controllers/MFALegendViewController.m; sourceTree = "<group>"; };
 		58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPortalAnnotationView.h; sourceTree = "<group>"; };
 		58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAPortalAnnotationView.m; sourceTree = "<group>"; };
+		589C6A211B7C9FC5001C1AAA /* MFAPickPointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAPickPointViewController.h; sourceTree = "<group>"; };
+		589C6A221B7C9FC5001C1AAA /* MFAPickPointViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFAPickPointViewController.m; sourceTree = "<group>"; };
 		58B0DA381AA5F26C0011A4A4 /* MFACityDataParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MFACityDataParser.h; path = models/MFACityDataParser.h; sourceTree = "<group>"; };
 		58B0DA391AA5F26C0011A4A4 /* MFACityDataParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MFACityDataParser.m; path = models/MFACityDataParser.m; sourceTree = "<group>"; };
 		58B0DA3B1AA707C20011A4A4 /* MFAStationsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFAStationsListViewController.h; sourceTree = "<group>"; };
@@ -418,6 +421,8 @@
 				58F95EF31AA49C5B00E22EF6 /* Models */,
 				58CA3DE41AC936EF00205567 /* NSString+Utils.h */,
 				58CA3DE51AC936F000205567 /* NSString+Utils.m */,
+				589C6A211B7C9FC5001C1AAA /* MFAPickPointViewController.h */,
+				589C6A221B7C9FC5001C1AAA /* MFAPickPointViewController.m */,
 			);
 			path = "metro4all-ios";
 			sourceTree = "<group>";
@@ -669,6 +674,7 @@
 				58B0DA3A1AA5F26C0011A4A4 /* MFACityDataParser.m in Sources */,
 				58F8954C1AE946D1001DF1DD /* MFALineColorView.m in Sources */,
 				58F95EF91AA4B2C800E22EF6 /* MFASelectCityViewModel.m in Sources */,
+				589C6A231B7C9FC5001C1AAA /* MFAPickPointViewController.m in Sources */,
 				582409161B77A7D2009BBDF8 /* Buttons.m in Sources */,
 				5823455F1ADED13C00BBBE24 /* MFARouter.m in Sources */,
 				58F895561AE95232001DF1DD /* MFARouteTableViewInterchangeCell.m in Sources */,
