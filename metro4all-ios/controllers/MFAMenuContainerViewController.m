@@ -147,7 +147,7 @@
                 [OHAlertView showAlertWithTitle:@"merto4all.org"
                                         message:NSLocalizedString(@"Do you want to browse \"http://metro4all.org\" in Safari?", nil)
                                    cancelButton:NSLocalizedString(@"No", nil)
-                                       okButton:NSLocalizedString(@"YES", nil)
+                                       okButton:NSLocalizedString(@"Yes", nil)
                                   buttonHandler:^(OHAlertView *alert, NSInteger buttonIndex) {
                                       if (buttonIndex != [(UIAlertView *)alert cancelButtonIndex]) {
                                           [[UIApplication sharedApplication] openURL:infoUrl];
