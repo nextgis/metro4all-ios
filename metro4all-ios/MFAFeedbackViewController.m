@@ -45,6 +45,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectStationButton;
 @property (weak, nonatomic) IBOutlet UIButton *selectCategoryButton;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UITextField *emailTextField;
+@property (weak, nonatomic) IBOutlet UISwitch *rememberEmailSwitch;
 
 @property (nonatomic, strong) MFAStation *selectedStation;
 @property (nonatomic, strong) NSNumber *selectedCategory;
@@ -59,6 +61,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *addMessageLabel;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UILabel *photoslabel;
+@property (weak, nonatomic) IBOutlet UILabel *rememberEmailLabel;
 
 @end
 
@@ -114,13 +117,29 @@
     [self.textView
      setValue:NSLocalizedString(@"Your message here", @"message placeholder") forKey:@"placeholder"];
     
+    self.emailTextField.placeholder = NSLocalizedString(@"To get a reply", @"email field placeholder");
+    self.rememberEmailLabel.text = NSLocalizedString(@"Remember my email", nil);
+    
     self.pickPointButton.hidden = YES;
+    self.selectedCategory = @1;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self observeKeyboard];
+    
+    NSString *email = [[NSUserDefaults standardUserDefaults] objectForKey:@"REPORT_EMAIL"];
+    if (email) {
+        self.emailTextField.text = email;
+        self.rememberEmailSwitch.on = YES;
+    }
+    else {
+        self.rememberEmailSwitch.on = NO;
+    }
+    
+    [self.selectCategoryButton setTitle:self.categoryTitles[self.selectedCategory.unsignedIntegerValue - 1]
+                               forState:UIControlStateNormal];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -143,9 +162,7 @@
     vc.viewModel = vm;
     vc.delegate = self;
     
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
-    
-    [self presentViewController:navController animated:YES completion:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (IBAction)selectCategoryClick:(id)sender
@@ -165,13 +182,9 @@
 }
 
 - (IBAction)doneButtonClick:(id)sender {
-    if (self.selectedCategory == nil) {
-        [[[UIAlertView alloc] initWithTitle:nil
-                                    message:NSLocalizedString(@"Please choose message category", nil)
-                                   delegate:nil
-                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
-                          otherButtonTitles:nil] show];
-        return;
+    if (self.rememberEmailSwitch.on) {
+        [[NSUserDefaults standardUserDefaults] setObject:self.emailTextField.text
+                                                  forKey:@"REPORT_EMAIL"];
     }
     
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://reports.metro4all.org"]];
@@ -187,6 +200,11 @@
                                      @"lang_data" : lang,
                                      @"text" : self.textView.text ?: @"",
                                      @"cat_id" : self.selectedCategory }.mutableCopy;
+    
+    NSString *email = self.emailTextField.text;
+    if (email.length > 0) {
+        params[@"email"] = email;
+    }
     
     if (self.selectedStation) {
         params[@"id_node"] = self.selectedStation.node.nodeId;
@@ -375,7 +393,7 @@
     self.selectedStation = station;
     self.pickPointButton.hidden = NO;
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)pickPointController:(MFAPickPointViewController *)controller didFinishWithImage:(UIImage *)image
