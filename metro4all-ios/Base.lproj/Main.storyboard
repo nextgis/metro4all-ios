@@ -50,7 +50,7 @@
                                     <constraint firstAttribute="width" constant="120" id="82A-9m-mKa"/>
                                     <constraint firstAttribute="height" constant="120" id="H4L-9e-K51"/>
                                 </constraints>
-                                <state key="normal" image="Logo">
+                                <state key="normal" image="logo_en">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1245,10 +1245,10 @@
     </scenes>
     <resources>
         <image name="InfoIcon" width="30" height="30"/>
-        <image name="Logo" width="120" height="120"/>
         <image name="MapIcon" width="22" height="24"/>
         <image name="SchemeIcon" width="21" height="23"/>
         <image name="arrowIcon" width="30" height="30"/>
         <image name="disclosure" width="12" height="8"/>
+        <image name="logo_en" width="225" height="251"/>
     </resources>
 </document>

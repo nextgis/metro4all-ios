@@ -40,6 +40,18 @@
                            forState:UIControlStateNormal];
     [self.feedbackButton setTitle:NSLocalizedString(@"Send feedback", nil)
                            forState:UIControlStateNormal];
+    
+    UIImage *logo = nil;
+    NSString *lang = [NSLocale preferredLanguages].firstObject;
+    if ([lang isEqualToString:@"ru"]) {
+        logo = [UIImage imageNamed:@"logo_ru"];
+    } else if ([lang isEqualToString:@"uk"]) {
+        logo = [UIImage imageNamed:@"logo_ukr"];
+    } else {
+        logo = [UIImage imageNamed:@"logo_en"];
+    }
+
+    [self.logoImageView setImage:logo forState:UIControlStateNormal];
 }
 
 @end
