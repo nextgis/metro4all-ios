@@ -44,7 +44,7 @@
     UIImage *logo = nil;
     NSString *lang = [NSLocale preferredLanguages].firstObject;
     if ([lang isEqualToString:@"ru"]) {
-        logo = [UIImage imageNamed:@"logo_ru"];
+        logo = [UIImage imageNamed:@"logo_rus"];
     } else if ([lang isEqualToString:@"uk"]) {
         logo = [UIImage imageNamed:@"logo_ukr"];
     } else {

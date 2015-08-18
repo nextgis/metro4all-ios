@@ -76,6 +76,9 @@
     [self setupAppearance];
     [self disableIcloudBackup];
     
+    NSURL *baseUrl = [NSURL URLWithString:@"http://metro4all.org/data/v2.7/"];
+    [MFACityManager setSharedManager:[[MFACityManager alloc] initWithDataURL:baseUrl]];
+
     id storeUrl = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"data/metro4all_ios.sqlite"];
     
     if (![NSPersistentStoreCoordinator MR_defaultStoreCoordinator]) {
@@ -172,9 +175,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataUpdatesAvailable:) name:@"MFA_UPDATES_AVAILABLE" object:nil];
-    
-    NSURL *baseUrl = [NSURL URLWithString:@"http://metro4all.org/data/v2.7/"];
-    [MFACityManager setSharedManager:[[MFACityManager alloc] initWithDataURL:baseUrl]];
     [[MFACityManager sharedManager] updateMetaWithSuccess:nil error:nil];
 }
 

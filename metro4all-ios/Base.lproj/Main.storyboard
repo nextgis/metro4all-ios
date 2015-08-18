@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
@@ -58,7 +58,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ODu-Uy-e13">
-                                <rect key="frame" x="32" y="515" width="97" height="29"/>
+                                <rect key="frame" x="32" y="274" width="97" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Выбор города">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -69,7 +69,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNR-ab-IdJ">
-                                <rect key="frame" x="32" y="274" width="152" height="29"/>
+                                <rect key="frame" x="32" y="515" width="152" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Отправить сообщение">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -83,12 +83,12 @@
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Mpv-SB-5mG" firstAttribute="top" secondItem="ODu-Uy-e13" secondAttribute="bottom" constant="24" id="05L-H6-geH"/>
-                            <constraint firstItem="TNR-ab-IdJ" firstAttribute="top" secondItem="y2R-95-7RK" secondAttribute="bottom" constant="8" id="0tW-MC-N26"/>
                             <constraint firstItem="pCO-us-KRZ" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="24" id="2xg-rP-BWM"/>
                             <constraint firstItem="GYd-ZP-fa7" firstAttribute="leading" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="32" id="8Ud-RW-1Nv"/>
                             <constraint firstItem="GYd-ZP-fa7" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="180" id="HaJ-hx-anf"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="TNR-ab-IdJ" secondAttribute="leading" id="QCT-NQ-7oM"/>
+                            <constraint firstItem="ODu-Uy-e13" firstAttribute="top" secondItem="y2R-95-7RK" secondAttribute="bottom" constant="8" id="XA8-ea-fpk"/>
+                            <constraint firstItem="Mpv-SB-5mG" firstAttribute="top" secondItem="TNR-ab-IdJ" secondAttribute="bottom" constant="24" id="aax-7l-XMw"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="ODu-Uy-e13" secondAttribute="leading" id="foP-Z3-0EL"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="top" secondItem="GYd-ZP-fa7" secondAttribute="bottom" constant="8" symbolic="YES" id="hnM-8s-x3p"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="GYd-ZP-fa7" secondAttribute="leading" id="vHh-hy-gEO"/>
@@ -863,9 +863,6 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Ваше сообщение"/>
-                                                </userDefinedRuntimeAttributes>
                                             </textView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Фото" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYH-ul-kjW">
                                                 <rect key="frame" x="16" y="470" width="41.5" height="20.5"/>
