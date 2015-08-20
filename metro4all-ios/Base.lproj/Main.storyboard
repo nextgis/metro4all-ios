@@ -1013,6 +1013,55 @@
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eaX-GU-5aL">
+                                                <rect key="frame" x="88" y="68" width="195.5" height="49.5"/>
+                                                <subviews>
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mYU-bg-n32">
+                                                        <rect key="frame" x="0.0" y="0.0" width="179.5" height="49.5"/>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can pick a point on the station layout" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEW-AM-RG0">
+                                                                <rect key="frame" x="12" y="8" width="155.5" height="33.5"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                        </subviews>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="centerX" secondItem="aEW-AM-RG0" secondAttribute="centerX" id="6fZ-lC-sec"/>
+                                                            <constraint firstItem="aEW-AM-RG0" firstAttribute="top" secondItem="mYU-bg-n32" secondAttribute="top" constant="8" id="758-2u-CsG"/>
+                                                            <constraint firstItem="aEW-AM-RG0" firstAttribute="leading" secondItem="mYU-bg-n32" secondAttribute="leading" constant="12" id="WuD-vm-VAz"/>
+                                                            <constraint firstAttribute="centerY" secondItem="aEW-AM-RG0" secondAttribute="centerY" id="m05-DR-GCD"/>
+                                                        </constraints>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                                <integer key="value" value="4"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </view>
+                                                    <view tag="999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lAG-0w-4hx" userLabel="tip">
+                                                        <rect key="frame" x="171.5" y="17" width="16" height="16"/>
+                                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="16" id="7X8-ye-G7b"/>
+                                                            <constraint firstAttribute="height" constant="16" id="SSg-FR-iEq"/>
+                                                        </constraints>
+                                                    </view>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <gestureRecognizers/>
+                                                <constraints>
+                                                    <constraint firstAttribute="trailing" secondItem="mYU-bg-n32" secondAttribute="trailing" constant="16" id="3e6-p3-rI9"/>
+                                                    <constraint firstAttribute="bottom" secondItem="mYU-bg-n32" secondAttribute="bottom" id="8ju-ec-PUp"/>
+                                                    <constraint firstItem="mYU-bg-n32" firstAttribute="centerY" secondItem="lAG-0w-4hx" secondAttribute="centerY" id="WP1-bt-Zgd"/>
+                                                    <constraint firstItem="mYU-bg-n32" firstAttribute="leading" secondItem="eaX-GU-5aL" secondAttribute="leading" id="XAI-mf-xRT"/>
+                                                    <constraint firstItem="lAG-0w-4hx" firstAttribute="leading" secondItem="mYU-bg-n32" secondAttribute="trailing" constant="-8" id="ecd-GW-Bkf"/>
+                                                    <constraint firstItem="mYU-bg-n32" firstAttribute="top" secondItem="eaX-GU-5aL" secondAttribute="top" id="n5G-ov-Nyi"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="0zF-dU-hZL" appends="YES" id="yf9-Sa-q0T"/>
+                                                </connections>
+                                            </view>
                                         </subviews>
                                         <color key="backgroundColor" red="0.93725490196078431" green="0.93725490196078431" blue="0.95686274509803926" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -1021,8 +1070,10 @@
                                             <constraint firstItem="2Uz-lf-D5a" firstAttribute="centerY" secondItem="3cu-bN-9ZF" secondAttribute="centerY" id="26Q-n1-STH"/>
                                             <constraint firstAttribute="trailing" secondItem="3cu-bN-9ZF" secondAttribute="trailing" constant="16" id="2h4-zB-VPp"/>
                                             <constraint firstItem="zrm-RS-SCH" firstAttribute="leading" secondItem="TYH-ul-kjW" secondAttribute="leading" id="378-Vj-2an"/>
+                                            <constraint firstItem="F2o-Xd-dCg" firstAttribute="leading" secondItem="eaX-GU-5aL" secondAttribute="trailing" constant="-1" id="5dg-lf-dxj"/>
                                             <constraint firstItem="WPU-jR-9cv" firstAttribute="leading" secondItem="aaB-hy-4R1" secondAttribute="leading" id="9T8-1U-Rj4"/>
                                             <constraint firstAttribute="centerX" secondItem="LDK-lo-ItB" secondAttribute="centerX" id="A56-hs-SbI"/>
+                                            <constraint firstItem="eaX-GU-5aL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ul8-TD-bmz" secondAttribute="leading" constant="80" id="AzJ-qh-oIu"/>
                                             <constraint firstItem="TD8-qK-jYD" firstAttribute="top" secondItem="WPU-jR-9cv" secondAttribute="bottom" constant="7.5" id="CsA-GQ-nnB"/>
                                             <constraint firstItem="TD8-qK-jYD" firstAttribute="leading" secondItem="WPU-jR-9cv" secondAttribute="leading" id="DTJ-iP-Fej"/>
                                             <constraint firstItem="TYH-ul-kjW" firstAttribute="top" secondItem="3cu-bN-9ZF" secondAttribute="bottom" constant="12" id="DeR-4S-WAU"/>
@@ -1046,6 +1097,7 @@
                                             <constraint firstItem="LDK-lo-ItB" firstAttribute="leading" secondItem="Ul8-TD-bmz" secondAttribute="leading" constant="16" id="eNQ-gq-qNJ"/>
                                             <constraint firstItem="F2o-Xd-dCg" firstAttribute="leading" secondItem="TD8-qK-jYD" secondAttribute="trailing" constant="16" id="fCv-w4-sFO"/>
                                             <constraint firstItem="9Zv-XY-JGt" firstAttribute="top" secondItem="LDK-lo-ItB" secondAttribute="bottom" constant="12" id="fUv-wg-JVD"/>
+                                            <constraint firstItem="eaX-GU-5aL" firstAttribute="centerY" secondItem="F2o-Xd-dCg" secondAttribute="centerY" constant="0.5" id="itz-4f-1uH"/>
                                             <constraint firstItem="3cu-bN-9ZF" firstAttribute="leading" secondItem="2Uz-lf-D5a" secondAttribute="trailing" constant="8" id="juW-ee-jvC"/>
                                             <constraint firstItem="10n-KF-wWZ" firstAttribute="top" secondItem="dhx-gc-v1R" secondAttribute="bottom" constant="16" id="koq-CI-gno"/>
                                             <constraint firstItem="43q-7c-Uue" firstAttribute="centerY" secondItem="dhx-gc-v1R" secondAttribute="centerY" constant="-0.5" id="lAX-cA-Bq6"/>
@@ -1109,10 +1161,17 @@
                         <outlet property="selectStationLabel" destination="WPU-jR-9cv" id="yBo-ft-o4q"/>
                         <outlet property="sendButton" destination="10n-KF-wWZ" id="Tzh-Ct-KGp"/>
                         <outlet property="textView" destination="LDK-lo-ItB" id="bNh-7p-3Ef"/>
+                        <outlet property="tooltipLabel" destination="aEW-AM-RG0" id="HHP-gA-nEk"/>
+                        <outlet property="tooltipView" destination="eaX-GU-5aL" id="tvv-sI-d6Z"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i2Z-oo-RNT" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="wqe-rg-mzt" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="0zF-dU-hZL">
+                    <connections>
+                        <action selector="tapTooltip:" destination="3u8-uq-M1U" id="dJ5-lG-cv2"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-1" y="-205"/>
         </scene>

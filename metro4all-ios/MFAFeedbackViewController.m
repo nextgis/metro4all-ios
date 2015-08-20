@@ -7,6 +7,8 @@
 //
 
 #import <objc/runtime.h>
+#import <QuartzCore/QuartzCore.h>
+
 #import <OHAlertView/OHAlertView.h>
 #import <AFNetworking/AFNetworking.h>
 #import <SVProgressHUD/SVProgressHUD.h>
@@ -62,6 +64,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UILabel *photoslabel;
 @property (weak, nonatomic) IBOutlet UILabel *rememberEmailLabel;
+
+@property (weak, nonatomic) IBOutlet UIView *tooltipView;
+@property (weak, nonatomic) IBOutlet UILabel *tooltipLabel;
 
 @end
 
@@ -123,6 +128,13 @@
     
     self.pickPointButton.hidden = YES;
     self.selectedCategory = @1;
+    
+    UIView *tip = [self.tooltipView viewWithTag:999];
+    tip.transform = CGAffineTransformMakeRotation(M_PI/4);
+    [self.tooltipView setNeedsDisplay];
+    self.tooltipView.hidden = YES;
+    
+    self.tooltipLabel.text = NSLocalizedString(@"You can pick a point on the station layout", nil);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -152,6 +164,17 @@
 - (IBAction)pickPointClick:(id)sender
 {
     
+}
+
+- (IBAction)tapTooltip:(id)sender {
+    [self.tooltipView removeGestureRecognizer:sender];
+    
+    [UIView animateWithDuration:0.1 animations:^{
+        self.tooltipView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self.tooltipView removeFromSuperview];
+        self.tooltipView = nil;
+    }];
 }
 
 - (IBAction)selectStationClick:(id)sender
@@ -393,6 +416,8 @@
     [self.selectStationButton setTitle:station.nameString forState:UIControlStateNormal];
     self.selectedStation = station;
     self.pickPointButton.hidden = NO;
+    
+    self.tooltipView.hidden = NO;
     
     [self.navigationController popViewControllerAnimated:YES];
 }

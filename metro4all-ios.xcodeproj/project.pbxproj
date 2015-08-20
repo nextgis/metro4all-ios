@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		580FF9971B866C7F00FCE989 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 580FF9961B866C7F00FCE989 /* QuartzCore.framework */; };
 		581091E01ACC6F6500FDCC61 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */; };
 		58136E8A1AA4B4CD00512D29 /* MFASelectCityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */; };
 		581A6DDE1B459A20001D7227 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 581A6DDD1B459A20001D7227 /* Fabric.framework */; };
@@ -80,6 +81,7 @@
 
 /* Begin PBXFileReference section */
 		223B3F0B6D4C0D89442A5B81 /* Pods-metro4all-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-metro4all-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-metro4all-ios/Pods-metro4all-ios.release.xcconfig"; sourceTree = "<group>"; };
+		580FF9961B866C7F00FCE989 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		58136E881AA4B4CD00512D29 /* MFASelectCityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MFASelectCityTableViewCell.h; sourceTree = "<group>"; };
 		58136E891AA4B4CD00512D29 /* MFASelectCityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MFASelectCityTableViewCell.m; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				580FF9971B866C7F00FCE989 /* QuartzCore.framework in Frameworks */,
 				581091E01ACC6F6500FDCC61 /* Crashlytics.framework in Frameworks */,
 				EA07EF5930494CD34D1FF1CB /* libPods-metro4all-ios.a in Frameworks */,
 				581A6DDE1B459A20001D7227 /* Fabric.framework in Frameworks */,
@@ -217,6 +220,7 @@
 		0C4C889D0E040CF79D9A27C0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				580FF9961B866C7F00FCE989 /* QuartzCore.framework */,
 				581A6DDD1B459A20001D7227 /* Fabric.framework */,
 				581091DF1ACC6F6500FDCC61 /* Crashlytics.framework */,
 				650638ADED9348536CB287EB /* libPods-metro4all-ios.a */,
