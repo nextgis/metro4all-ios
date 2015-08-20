@@ -224,6 +224,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		580FF9911B83AC9E00FCE989 /* Annotations */ = {
+			isa = PBXGroup;
+			children = (
+				58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */,
+				58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */,
+				58CA3DB71AC577EA00205567 /* MFAPortalAnnotation.h */,
+				58CA3DB81AC577EA00205567 /* MFAPortalAnnotation.m */,
+			);
+			name = Annotations;
+			sourceTree = "<group>";
+		};
 		58136E8B1AA5F1B600512D29 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,14 +293,11 @@
 		583B48F51AA74B8E00138E1F /* Station Map */ = {
 			isa = PBXGroup;
 			children = (
-				58907D251AB2F91100013A59 /* MFAPortalAnnotationView.h */,
-				58907D261AB2F91100013A59 /* MFAPortalAnnotationView.m */,
+				580FF9911B83AC9E00FCE989 /* Annotations */,
 				583B48F61AA74BA500138E1F /* MFAStationMapViewModel.h */,
 				583B48F71AA74BA500138E1F /* MFAStationMapViewModel.m */,
 				583B48F91AA74BB200138E1F /* MFAStationMapViewController.h */,
 				583B48FA1AA74BB200138E1F /* MFAStationMapViewController.m */,
-				58CA3DB71AC577EA00205567 /* MFAPortalAnnotation.h */,
-				58CA3DB81AC577EA00205567 /* MFAPortalAnnotation.m */,
 			);
 			name = "Station Map";
 			sourceTree = "<group>";
@@ -820,7 +828,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -842,7 +850,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 27;
+				CURRENT_PROJECT_VERSION = 28;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",

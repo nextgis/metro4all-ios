@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GYd-ZP-fa7">
-                                <rect key="frame" x="32" y="200" width="113" height="29"/>
+                                <rect key="frame" x="32" y="188" width="113" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Поиск маршрута">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -30,7 +30,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y2R-95-7RK">
-                                <rect key="frame" x="32" y="237" width="84" height="29"/>
+                                <rect key="frame" x="32" y="225" width="84" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Все станции">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -46,10 +46,6 @@
                             </view>
                             <button opaque="NO" tag="99" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pCO-us-KRZ">
                                 <rect key="frame" x="35" y="44" width="120" height="120"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="120" id="82A-9m-mKa"/>
-                                    <constraint firstAttribute="height" constant="120" id="H4L-9e-K51"/>
-                                </constraints>
                                 <state key="normal" image="logo_en">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -58,7 +54,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ODu-Uy-e13">
-                                <rect key="frame" x="32" y="274" width="97" height="29"/>
+                                <rect key="frame" x="32" y="262" width="97" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <state key="normal" title="Выбор города">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -85,12 +81,12 @@
                         <constraints>
                             <constraint firstItem="pCO-us-KRZ" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="24" id="2xg-rP-BWM"/>
                             <constraint firstItem="GYd-ZP-fa7" firstAttribute="leading" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="32" id="8Ud-RW-1Nv"/>
-                            <constraint firstItem="GYd-ZP-fa7" firstAttribute="top" secondItem="qel-aT-BAf" secondAttribute="bottom" constant="180" id="HaJ-hx-anf"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="TNR-ab-IdJ" secondAttribute="leading" id="QCT-NQ-7oM"/>
                             <constraint firstItem="ODu-Uy-e13" firstAttribute="top" secondItem="y2R-95-7RK" secondAttribute="bottom" constant="8" id="XA8-ea-fpk"/>
                             <constraint firstItem="Mpv-SB-5mG" firstAttribute="top" secondItem="TNR-ab-IdJ" secondAttribute="bottom" constant="24" id="aax-7l-XMw"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="ODu-Uy-e13" secondAttribute="leading" id="foP-Z3-0EL"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="top" secondItem="GYd-ZP-fa7" secondAttribute="bottom" constant="8" symbolic="YES" id="hnM-8s-x3p"/>
+                            <constraint firstItem="GYd-ZP-fa7" firstAttribute="top" secondItem="pCO-us-KRZ" secondAttribute="bottom" constant="24" id="soL-sv-TUI"/>
                             <constraint firstItem="y2R-95-7RK" firstAttribute="leading" secondItem="GYd-ZP-fa7" secondAttribute="leading" id="vHh-hy-gEO"/>
                             <constraint firstItem="pCO-us-KRZ" firstAttribute="leading" secondItem="TVK-iH-LJq" secondAttribute="leading" constant="35" id="zlc-f8-SiP"/>
                         </constraints>
@@ -1246,6 +1242,6 @@
         <image name="SchemeIcon" width="21" height="23"/>
         <image name="arrowIcon" width="30" height="30"/>
         <image name="disclosure" width="12" height="8"/>
-        <image name="logo_en" width="225" height="251"/>
+        <image name="logo_en" width="120" height="120"/>
     </resources>
 </document>
