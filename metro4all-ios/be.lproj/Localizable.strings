@@ -53,7 +53,7 @@
 "Error occured during processing data. Please try again or contact support" = "Здарылася памылка пры апрацоўцы дадзеных. Паспрабуйце яшчэ раз альбо звярніцеся ў службу падтрымкі";
 
 /* No comment provided by engineer. */
-"Error occured while sending the feedback" = "Произошла ошибка при отправке сообщения. Попробуйте еще раз или обратитесь в службу поддержки";
+"Error occured while sending the feedback" = "Адбылася памылка пры адпраўцы паведамлення. Паспрабуйце яшчэ раз або звярніцеся ў службу падтрымкі";
 
 /* No comment provided by engineer. */
 "Exit #%@" = "Выхад #%@";
@@ -110,13 +110,13 @@
 "Photos" = "Фота";
 
 /* No comment provided by engineer. */
-"Please leave us a message" = "Используйте эту форму, чтобы рассказать нам об ошибках на схемах, проблемах с доступом или сообщить новую информацию";
+"Please leave us a message" = "Выкарыстоўвайце гэтую форму, каб расказаць нам пра памылкі на схемах, праблемы з доступам або паведаміць новую інфармацыю";
 
 /* No comment provided by engineer. */
 "Remember my email" = "Запомніць email";
 
 /* No comment provided by engineer. */
-"Report mistake" = "Сообщить об ошибке";
+"Report mistake" = "Паведаміць пра памылку";
 
 /* No comment provided by engineer. */
 "Scheme" = "Макет станцыі";
@@ -164,7 +164,7 @@
 "Updates are available for the following cities: %@" = "Ёсць даступныя абнаўлення для гарадоў: %@";
 
 /* No comment provided by engineer. */
-"Uploading photos" = "Загрузка фото";
+"Uploading photos" = "Загрузка фота";
 
 /* No comment provided by engineer. */
 "Warning" = "Увага!";
