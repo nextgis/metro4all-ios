@@ -163,12 +163,10 @@
 
 - (IBAction)pickPointClick:(id)sender
 {
-    
+    [self tapTooltip:nil];
 }
 
-- (IBAction)tapTooltip:(id)sender {
-    [self.tooltipView removeGestureRecognizer:sender];
-    
+- (IBAction)tapTooltip:(id)sender {    
     [UIView animateWithDuration:0.1 animations:^{
         self.tooltipView.alpha = 0;
     } completion:^(BOOL finished) {
