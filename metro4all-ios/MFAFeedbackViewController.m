@@ -118,7 +118,6 @@
     
     [self.sendButton setTitle:NSLocalizedString(@"Send report", @"") forState:UIControlStateNormal];
     [self.selectStationButton setTitle:NSLocalizedString(@"Select station", nil) forState:UIControlStateNormal];
-    [self.selectCategoryButton setTitle:NSLocalizedString(@"Select category", nil) forState:UIControlStateNormal];
     [self.textView setValue:NSLocalizedString(@"Your message here", @"message placeholder")
                      forKey:@"placeholder"];
     [self.textView setValue:[UIColor lightGrayColor] forKey:@"placeholderColor"];

@@ -5,6 +5,9 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 target 'metro4all-ios' do
 
+pod 'Fabric'
+pod 'Crashlytics'
+
 pod 'PureLayout'
 pod 'AFNetworking'
 pod 'MagicalRecord'
