@@ -804,7 +804,7 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ul8-TD-bmz">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="725.5"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Можете отправить нам сообщение" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="288" translatesAutoresizingMaskIntoConstraints="NO" id="fMq-ww-Dj8">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Можете отправить нам сообщение" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="288" translatesAutoresizingMaskIntoConstraints="NO" id="fMq-ww-Dj8">
                                                 <rect key="frame" x="16" y="16" width="288" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1040,7 +1040,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view tag="999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lAG-0w-4hx" userLabel="tip">
-                                                        <rect key="frame" x="171.5" y="17" width="16" height="16"/>
+                                                        <rect key="frame" x="171" y="17" width="16" height="16"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <constraints>
                                                             <constraint firstAttribute="width" constant="16" id="7X8-ye-G7b"/>
