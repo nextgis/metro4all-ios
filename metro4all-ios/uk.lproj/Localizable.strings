@@ -125,10 +125,10 @@
 "Select station" = "Оберіть станцію";
 
 /* feedback screen title */
-"Send Feedback" = "Надіслати Повідомлення";
+"Send Feedback" = "Надіслати Відгук";
 
 /* No comment provided by engineer. */
-"Send feedback" = "Надіслати повідомлення";
+"Send feedback" = "Надіслати відгук";
 
 /* No comment provided by engineer. */
 "Send report" = "Надіслати";
