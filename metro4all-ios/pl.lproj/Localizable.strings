@@ -32,7 +32,7 @@
 "Choose from library" = "Wybierz istniejące";
 
 /* No comment provided by engineer. */
-"DeletePhoto" = "Do you really want to delete this photo?";
+"DeletePhoto" = "Czy na pewno chcesz usunąć to zdjęcie?";
 
 /* Choose destination station (route screen) */
 "Destination" = "Stacja docelowa";
