@@ -74,14 +74,16 @@ static MFACityManager *sharedManager = nil;
             if (city) {
                 [sorted removeObjectAtIndex:i];
                 
+                NSMutableDictionary *mutableMeta = [meta mutableCopy];
                 if (city.version.unsignedIntegerValue < [meta[@"ver"] unsignedIntegerValue]) {
-                    NSMutableDictionary *mutableMeta = [meta mutableCopy];
                     mutableMeta[@"updateAvailable"] = @YES;
-                    city.updatedMeta = mutableMeta;
-                    
-                    
                     [citiesToUpdate addObject:meta.localizedName];
                 }
+                else {
+                    mutableMeta[@"updateAvailable"] = @NO;
+                }
+                
+                city.updatedMeta = mutableMeta;
             }
         }
         

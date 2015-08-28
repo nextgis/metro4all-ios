@@ -76,7 +76,7 @@
         self.titleLabel.attributedText = title;
         
         
-        if ([viewModel[@"hasUpdate"] boolValue] == YES) {
+        if ([viewModel[@"updateAvailable"] boolValue] == YES) {
             self.updateButton.hidden = NO;
         }
         
