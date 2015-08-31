@@ -61,18 +61,14 @@ static MFACityManager *sharedManager = nil;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:responseObject options:NSJSONWritingPrettyPrinted error:nil];
         [jsonData writeToURL:metaJsonFileURL options:0 error:nil];
         
-        NSMutableArray *sorted = [[responseObject[@"packages"] sortedArrayUsingComparator:^NSComparisonResult(MFACityMeta *city1, MFACityMeta *city2) {
-            return [city1.localizedName compare:city2.localizedName];
-        }] mutableCopy];
-
+        NSMutableSet *citiesSet = [NSMutableSet setWithArray:responseObject[@"packages"]];
         NSMutableArray *citiesToUpdate = [NSMutableArray new];
         
-        for (NSUInteger i = 0; i < sorted.count; i++) {
-            MFACityMeta *meta = sorted[i];
+        for (MFACityMeta *meta in responseObject[@"packages"]) {
             MFACity *city = [MFACity cityWithIdentifier:meta[@"path"]];
 
             if (city) {
-                [sorted removeObjectAtIndex:i];
+                [citiesSet removeObject:meta];
                 
                 NSMutableDictionary *mutableMeta = [meta mutableCopy];
                 if (city.version.unsignedIntegerValue < [meta[@"ver"] unsignedIntegerValue]) {
@@ -86,11 +82,13 @@ static MFACityManager *sharedManager = nil;
                 city.updatedMeta = mutableMeta;
             }
         }
-        
-        self.availableCities = [sorted copy];
+
+        self.availableCities = [[citiesSet allObjects] sortedArrayUsingComparator:^NSComparisonResult(MFACityMeta *city1, MFACityMeta *city2) {
+            return [city1.localizedName compare:city2.localizedName];
+        }];
 
         if (successBlock) {
-            successBlock(sorted);
+            successBlock(self.availableCities);
         }
         else {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"MFA_UPDATES_AVAILABLE" object:nil userInfo:@{ @"cities" : citiesToUpdate }];
