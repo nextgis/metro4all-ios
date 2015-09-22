@@ -42,7 +42,7 @@
                            forState:UIControlStateNormal];
     
     UIImage *logo = nil;
-    NSString *lang = [NSLocale preferredLanguages].firstObject;
+    NSString *lang = [[NSLocale preferredLanguages].firstObject substringToIndex:2];
     if ([lang isEqualToString:@"ru"]) {
         logo = [UIImage imageNamed:@"logo_rus"];
     } else if ([lang isEqualToString:@"uk"]) {

@@ -26,7 +26,7 @@
     UIImage *image = nil;
     
     for (NSString *lang in [NSLocale preferredLanguages]) {
-        NSString *imageName = [@"legend_" stringByAppendingString:lang];
+        NSString *imageName = [@"legend_" stringByAppendingString:[lang substringToIndex:2]];
         
         image = [UIImage imageNamed:imageName];
         

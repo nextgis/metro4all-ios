@@ -14,7 +14,7 @@
 {
     NSString *name = nil;
     for (NSString *lang in [NSLocale preferredLanguages]) {
-        name = self[[@"name_" stringByAppendingString:lang]];
+        name = self[[@"name_" stringByAppendingString:[lang substringToIndex:2]]];
         
         if (name != nil) {
             return name;

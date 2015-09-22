@@ -26,8 +26,9 @@
     NSString *name = nil;
     
     for (NSString *lang in [NSLocale preferredLanguages]) {
-        if (self.name[lang]) {
-            name = self.name[lang];
+        NSString *aLang = [lang substringToIndex:2];
+        if (self.name[aLang]) {
+            name = self.name[aLang];
             break;
         }
     }
