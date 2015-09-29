@@ -36,7 +36,7 @@
     }
     
     if (image == nil) {
-        image = [UIImage imageNamed:@"legend_ru"];
+        image = [UIImage imageNamed:@"legend_en"];
     }
     
     self.legendImage = image;

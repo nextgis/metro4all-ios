@@ -14,7 +14,12 @@
 {
     NSString *name = nil;
     for (NSString *lang in [NSLocale preferredLanguages]) {
-        name = self[[@"name_" stringByAppendingString:[lang substringToIndex:2]]];
+        NSString *aLang = [[lang substringToIndex:2] lowercaseString]; // strip to 2 letters
+        if ([aLang isEqualToString:@"en"]) {
+            return self[@"name"];
+        }
+        
+        name = self[[@"name_" stringByAppendingString:aLang]];
         
         if (name != nil) {
             return name;

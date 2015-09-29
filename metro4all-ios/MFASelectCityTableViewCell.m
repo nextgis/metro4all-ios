@@ -49,7 +49,13 @@
     if (viewModel) {
         NSString *name = nil;
         for (NSString *lang in [NSLocale preferredLanguages]) {
-            name = self.viewModel[[@"name_" stringByAppendingString:[lang substringToIndex:2]]];
+            NSString *aLang = [[lang substringToIndex:2] lowercaseString];
+            if ([aLang isEqualToString:@"en"]) {
+                name = self.viewModel[@"name"];
+                break;
+            }
+            
+            name = self.viewModel[[@"name_" stringByAppendingString:aLang]];
             
             if (name != nil) {
                 self.titleLabel.text = name;
