@@ -59,6 +59,13 @@
 
 - (void)cityChanged:(NSNotification *)note
 {
+    NSIndexPath *selected = [self.tableView indexPathForSelectedRow];
+    if (selected) {
+        [self.tableView deselectRowAtIndexPath:selected animated:NO];
+    }
+    
+    self.selectedIndexPath = nil;
+    
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                           atScrollPosition:UITableViewScrollPositionTop
                                   animated:NO];
