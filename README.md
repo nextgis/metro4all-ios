@@ -17,3 +17,5 @@ Metro4All is a navigation and information app. It provides you with:
 Moscow, Saint-Petersburg, Amsterdam, Lausanne, Glasgow, Kiev, Minsk, Warsaw, Kazan, Ekaterinburg, Samara, Volgograd, Novosibirsk and Nizhny Novgorod subway information is currently available. 
 
 The application has multi-language support (English, Russian, Belarus, Ukranian and Polish languages are supported).
+
+Get from App Store - https://itunes.apple.com/en/app/metro4all/id980535350?ls=1&mt=8
